@@ -1,0 +1,30 @@
+Package: paperboy
+Title: Comprehensive collection of news media scrapers
+Version: 0.0.1.9000
+Date: 2021-07-11
+Authors@R: person("Johannes", "Gruber", email = "j.gruber.1@research.gla.ac.uk",
+  role = c("aut", "cre"))
+Description: A comprehensive collection of webscraping scripts for news media sites.
+Depends:
+    R (>= 3.5.0)
+License: GPL-3
+Imports:
+    curl,
+    dplyr,
+    rlang,
+    tibble,
+    tidyr,
+    tidyselect,
+    urltools
+Suggests:
+    knitr,
+    testthat,
+    covr,
+    spelling,
+    rmarkdown
+URL: https://github.com/JBGruber/paperboy
+Encoding: UTF-8
+BugReports: https://github.com/JBGruber/paperboy/issues
+RoxygenNote: 7.1.1
+VignetteBuilder: knitr
+Language: en-US
