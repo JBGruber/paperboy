@@ -3,3 +3,4 @@
 ^README\.Rmd$
 /tests/local-files
 ^\.github$
+^codecov\.yml$

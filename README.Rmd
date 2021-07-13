@@ -11,13 +11,27 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+
+knit_print.tbl_df = function(x, ...) {
+  res = paste(c("", "", knitr::kable(x)), collapse = "\n")
+  knitr::asis_output(res)
+}
+
+registerS3method(
+  "knit_print", "tbl_df", knit_print.tbl_df,
+  envir = asNamespace("knitr")
+)
 ```
 
 # paperboy
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/JBGruber/paperboy/workflows/R-CMD-check/badge.svg)](https://github.com/JBGruber/paperboy/actions)
+[![Codecov test coverage](https://codecov.io/gh/JBGruber/paperboy/branch/main/graph/badge.svg)](https://codecov.io/gh/JBGruber/paperboy?branch=main)
 <!-- badges: end -->
+
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/JohannesBGruber.svg?style=social&label=Follow%20%40JohannesBGruber)](https://twitter.com/JohannesBGruber)
 
 The philosophy of `paperboy` is that the package is a comprehensive collection of webscraping scripts for news media sites.
 Many data scientist and researchers write their own code when they have to retrieve news media content from websites.
@@ -50,7 +64,7 @@ Notice, that the function had no problem reading the link, even though it was sh
 `paperboy` is an unfinished and even highly experimental package at the moment.
 You will therefore often encounter this warning:
 
-```{r nomethod}
+```{r nomethod, results="hide"}
 deliver(url = "google.com")
 ```
 
@@ -71,19 +85,19 @@ tibble::tribble(
 ```
 
 Since some outlets will give you additional information, the `misc` column was included so these can be retained.
-If you have a scaper you want to contribute, look in the list below if it already exists.
+If you have a scraper you want to contribute, look in the list below if it already exists.
 If it does not yet exist, you can become a co-author of this package by adding it via a pull request.
 
-# Available Scrapers
+## Available Scrapers
 
 ```{r available, echo=FALSE}
 tibble::tribble(
-  ~domain,                ~status, ~author,
-  "theguardian.com",      "Broken",  "Johannes B. Gruber",
-  "huffingtonpost.co.uk", "Broken",  "Johannes B. Gruber",
-  "buzzfeed.com",         "Broken",  "Johannes B. Gruber",
-  "forbes.com",           "Broken",  "Johannes B. Gruber",
-)
+  ~domain,                ~status,   ~author,              ~note,
+  "theguardian.com",      "Broken",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "huffingtonpost.co.uk", "Broken",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "buzzfeed.com",         "Broken",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "forbes.com",           "Broken",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+) 
 ```
 
 - **Gold**: Runs without any issues

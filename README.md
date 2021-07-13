@@ -7,7 +7,12 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/JBGruber/paperboy/workflows/R-CMD-check/badge.svg)](https://github.com/JBGruber/paperboy/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/JBGruber/paperboy/branch/main/graph/badge.svg)](https://codecov.io/gh/JBGruber/paperboy?branch=main)
 <!-- badges: end -->
+
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/JohannesBGruber.svg?style=social&label=Follow%20%40JohannesBGruber)](https://twitter.com/JohannesBGruber)
 
 The philosophy of `paperboy` is that the package is a comprehensive
 collection of webscraping scripts for news media sites. Many data
@@ -39,11 +44,11 @@ links to a media article to the main function, `deliver`:
 library(paperboy)
 df <- deliver("https://tinyurl.com/386e98k5")
 df
-#> # A tibble: 1 x 8
-#>   url   expanded_url domain datetime headline author text  misc            
-#>   <lgl> <lgl>        <lgl>  <lgl>    <lgl>    <lgl>  <lgl> <list>          
-#> 1 NA    NA           NA     NA       NA       NA     NA    <tibble [1 × 1]>
 ```
+
+| url                            | expanded\_url                                                                     | domain              | status | datetime | headline | author | text | misc |
+|:-------------------------------|:----------------------------------------------------------------------------------|:--------------------|:-------|:---------|:---------|:-------|:-----|:-----|
+| <https://tinyurl.com/386e98k5> | <https://www.theguardian.com/tv-and-radio/2021/jul/12/should-marge-divorce-homer> | www.theguardian.com | NA     | NA       | NA       | NA     | NA   | 200  |
 
 The returned `data.frame` contains important meta information about the
 news items and their full text. Notice, that the function had no problem
@@ -55,7 +60,6 @@ therefore often encounter this warning:
 deliver(url = "google.com")
 #> Warning in deliver.default(u, ...): No method for www.google.com yet. Url
 #> ignored.
-#> # A tibble: 0 x 0
 ```
 
 If you enter a vector of multiple URLs, the unsupported ones will be
@@ -67,27 +71,25 @@ column will be different from `200` and contain `NA`s.
 
 Every webscraper should retrieve a `tibble` with the following format:
 
-    #> # A tibble: 2 x 9
-    #>   url     expanded_url domain  status  datetime  headline author text  misc     
-    #>   <chr>   <chr>        <chr>   <chr>   <chr>     <chr>    <chr>  <chr> <chr>    
-    #> 1 charac… character    charac… integer as.POSIX… charact… chara… char… list     
-    #> 2 the or… the full url the do… http s… publicat… the hea… the a… the … all othe…
+| url                                 | expanded\_url | domain     | status           | datetime             | headline     | author     | text          | misc                                                                      |
+|:------------------------------------|:--------------|:-----------|:-----------------|:---------------------|:-------------|:-----------|:--------------|:--------------------------------------------------------------------------|
+| character                           | character     | character  | integer          | as.POSIXct           | character    | character  | character     | list                                                                      |
+| the original url fed to the scraper | the full url  | the domain | http status code | publication datetime | the headline | the author | the full text | all other information that can be consistently found on a specific outlet |
 
 Since some outlets will give you additional information, the `misc`
-column was included so these can be retained. If you have a scaper you
+column was included so these can be retained. If you have a scraper you
 want to contribute, look in the list below if it already exists. If it
 does not yet exist, you can become a co-author of this package by adding
 it via a pull request.
 
-# Available Scrapers
+## Available Scrapers
 
-    #> # A tibble: 4 x 3
-    #>   domain               status author            
-    #>   <chr>                <chr>  <chr>             
-    #> 1 theguardian.com      Broken Johannes B. Gruber
-    #> 2 huffingtonpost.co.uk Broken Johannes B. Gruber
-    #> 3 buzzfeed.com         Broken Johannes B. Gruber
-    #> 4 forbes.com           Broken Johannes B. Gruber
+| domain               | status | author             | note                                                 |
+|:---------------------|:-------|:-------------------|:-----------------------------------------------------|
+| theguardian.com      | Broken | Johannes B. Gruber | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
+| huffingtonpost.co.uk | Broken | Johannes B. Gruber | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
+| buzzfeed.com         | Broken | Johannes B. Gruber | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
+| forbes.com           | Broken | Johannes B. Gruber | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 
 -   **Gold**: Runs without any issues
 -   **Silver**: Runs with some issues
