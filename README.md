@@ -47,8 +47,8 @@ df
 ```
 
 | url                            | expanded\_url                                                                     | domain              | status | datetime | headline | author | text | misc |
-|:-------------------------------|:----------------------------------------------------------------------------------|:--------------------|:-------|:---------|:---------|:-------|:-----|:-----|
-| <https://tinyurl.com/386e98k5> | <https://www.theguardian.com/tv-and-radio/2021/jul/12/should-marge-divorce-homer> | www.theguardian.com | NA     | NA       | NA       | NA     | NA   | 200  |
+|:-------------------------------|:----------------------------------------------------------------------------------|:--------------------|-------:|:---------|:---------|:-------|:-----|:-----|
+| <https://tinyurl.com/386e98k5> | <https://www.theguardian.com/tv-and-radio/2021/jul/12/should-marge-divorce-homer> | www.theguardian.com |    200 | NA       | NA       | NA     | NA   | NULL |
 
 The returned `data.frame` contains important meta information about the
 news items and their full text. Notice, that the function had no problem
@@ -93,4 +93,4 @@ it via a pull request.
 
 -   **Gold**: Runs without any issues
 -   **Silver**: Runs with some issues
--   **Broken**: Currently not working
+-   **Broken**: Currently not working, fix has been requested

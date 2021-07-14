@@ -102,5 +102,5 @@ tibble::tribble(
 
 - **Gold**: Runs without any issues
 - **Silver**: Runs with some issues
-- **Broken**: Currently not working
+- **Broken**: Currently not working, fix has been requested
 

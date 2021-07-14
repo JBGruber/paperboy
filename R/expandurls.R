@@ -28,7 +28,7 @@ expandurls <- function(url,
     function(req) {
       pages[[url]] <<- tibble::tibble(
         expanded_url = req$url,
-        status_code = req$status_code
+        status = req$status_code
       )
     }
   }
@@ -39,7 +39,7 @@ expandurls <- function(url,
     if (i_f) {
       pages[[req$url]] <<- tibble::tibble(
         expanded_url = "connection error",
-        status_code = 503L
+        status = 503L
       )
       return(req)
     } else {

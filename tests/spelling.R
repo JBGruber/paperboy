@@ -5,3 +5,4 @@ if(requireNamespace("spelling", quietly = TRUE)) {
     skip_on_cran = TRUE
   )
 }
+
