@@ -13,6 +13,13 @@ knitr::opts_chunk$set(
 )
 
 knit_print.tbl_df = function(x, ...) {
+  x <- as.data.frame(lapply(x, function(c) {
+    if (is.character(c)) {
+      ifelse(nchar(c) > 25, paste0(substr(c, 1, 25), "..."), c)
+    } else {
+      c
+    }
+  }))
   res = paste(c("", "", knitr::kable(x)), collapse = "\n")
   knitr::asis_output(res)
 }

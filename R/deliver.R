@@ -4,17 +4,19 @@
 #'   and call the appropriate webscraper.
 #'
 #' @param url The URL of the web article.
+#' @param verbose A logical flag indicating whether information should be
+#'   printed to the screen.
 #' @param ... Passed on to respective scraper.
 #'
 #' @return A data.frame (tibble) with media data and full text.
 #' @export
-deliver <- function(url, ...) {
+deliver <- function(url, verbose = TRUE, ...) {
   UseMethod("deliver")
 }
 
 #' @rdname deliver
 #' @export
-deliver.default <- function(url, ...) {
+deliver.default <- function(url, verbose = TRUE, ...) {
   if ("domain" %in% names(url)) {
     warning("No method for ", url$domain[1], " yet. Url ignored.")
     NULL
@@ -25,15 +27,18 @@ deliver.default <- function(url, ...) {
 
 #' @rdname deliver
 #' @export
-deliver.character <- function(url, ...) {
+deliver.character <- function(url, verbose = TRUE, ...) {
 
-  pages <- expandurls(url)
+  pages <- expandurls(url, verbose = verbose)
 
   pages <- split(pages, pages$domain, drop = TRUE)
 
   out <- lapply(pages, function(u) {
-    class(u) <- c(gsub(".", "_", u$domain, fixed = TRUE), class(u))
-    deliver(u, ...)
+    class(u) <- c(
+      gsub(".", "_", utils::head(u$domain, 1), fixed = TRUE),
+      class(u)
+    )
+    deliver(u, verbose = verbose, ...)
   })
 
   return(dplyr::bind_rows(out))
@@ -41,24 +46,12 @@ deliver.character <- function(url, ...) {
 
 #' @rdname deliver
 #' @export
-deliver.www_theguardian_com <- function(url, ...) {
+deliver.www_buzzfeed_com <- function(url, verbose = TRUE, ...) {
   return(normalise_df(url))
 }
 
 #' @rdname deliver
 #' @export
-deliver.www_huffingtonpost_co_uk <- function(url, ...) {
-  return(normalise_df(url))
-}
-
-#' @rdname deliver
-#' @export
-deliver.www_buzzfeed_com <- function(url, ...) {
-  return(normalise_df(url))
-}
-
-#' @rdname deliver
-#' @export
-deliver.www_forbes_com <- function(url, ...) {
+deliver.www_forbes_com <- function(url, verbose = TRUE, ...) {
   return(normalise_df(url))
 }

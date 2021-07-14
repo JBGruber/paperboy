@@ -4,7 +4,7 @@
 \alias{expandurls}
 \title{Expand URLs}
 \usage{
-expandurls(url, timeout = 15, ignore_fails = FALSE, ...)
+expandurls(url, timeout = 15, ignore_fails = FALSE, verbose = FALSE, ...)
 }
 \arguments{
 \item{url}{Character object with URLs.}
@@ -14,6 +14,9 @@ seconds). If the query finishes earlier, results are returned immediately.}
 
 \item{ignore_fails}{normally the function errors when a url can't be reached
 due to connection issues. Setting to TRUE ignores this.}
+
+\item{verbose}{A logical flag indicating whether information should be
+printed to the screen.}
 
 \item{...}{Currently not used}
 }

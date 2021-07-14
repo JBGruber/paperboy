@@ -1,3 +1,15 @@
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`
+
+#
+make_pb <- function(df) {
+  progress::progress_bar$new(
+    format = "[:bar] :percent eta: :eta",
+    total = nrow(df)
+  )
+}
+
 #
 normalise_df <- function(df) {
   df <- tibble::as_tibble(df)
@@ -7,8 +19,8 @@ normalise_df <- function(df) {
     "domain",
     "status",
     "datetime",
-    "headline",
     "author",
+    "headline",
     "text"
   )
   missing_cols <- setdiff(expected_cols, colnames(df))

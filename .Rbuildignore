@@ -4,3 +4,4 @@
 /tests/local-files
 ^\.github$
 ^codecov\.yml$
+Update_package.R

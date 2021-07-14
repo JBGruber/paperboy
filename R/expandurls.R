@@ -5,6 +5,8 @@
 #'   seconds). If the query finishes earlier, results are returned immediately.
 #' @param ignore_fails normally the function errors when a url can't be reached
 #'   due to connection issues. Setting to TRUE ignores this.
+#' @param verbose A logical flag indicating whether information should be
+#'   printed to the screen.
 #' @param ... Currently not used
 #'
 #' @return Character object with full (i.e., unshortened) URLs.
@@ -14,6 +16,7 @@
 expandurls <- function(url,
                        timeout = 15,
                        ignore_fails = FALSE,
+                       verbose = FALSE,
                        ...) {
 
   # prevent duplicates
@@ -24,7 +27,7 @@ expandurls <- function(url,
   pages <- list()
 
   # create different parser function for each request to identify results
-  parse_response <- function(url){
+  parse_response <- function(url) {
     function(req) {
       pages[[url]] <<- tibble::tibble(
         expanded_url = req$url,
@@ -75,6 +78,11 @@ expandurls <- function(url,
       .after = "expanded_url"
     )
   }
+
+  if (verbose) message(length(url),
+                       " links from ",
+                       length(unique(out$domain)),
+                       " domains unshortened.")
 
   return(out)
 }
