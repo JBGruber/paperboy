@@ -61,7 +61,8 @@ therefore often encounter this warning:
 ``` r
 deliver(url = "google.com")
 #> 1 links from 1 domains unshortened.
-#> Warning in deliver.default(u, verbose = verbose, ...): No method for
+#> Warning in deliver.default(u, verbose
+#> = verbose, ...): No method for
 #> www.google.com yet. Url ignored.
 ```
 
@@ -89,8 +90,8 @@ it via a pull request.
 
 | domain               | status | author             | note                            |
 |:---------------------|:-------|:-------------------|:--------------------------------|
-| theguardian.com      | Broken | Johannes B. Gruber | \[\#1\](<https://github.com/J>… |
-| huffingtonpost.co.uk | Broken | Johannes B. Gruber | \[\#1\](<https://github.com/J>… |
+| theguardian.com      | Silver | Johannes B. Gruber | \[\#1\](<https://github.com/J>… |
+| huffingtonpost.co.uk | Silver | Johannes B. Gruber | \[\#1\](<https://github.com/J>… |
 | buzzfeed.com         | Broken | Johannes B. Gruber | \[\#1\](<https://github.com/J>… |
 | forbes.com           | Broken | Johannes B. Gruber | \[\#1\](<https://github.com/J>… |
 
