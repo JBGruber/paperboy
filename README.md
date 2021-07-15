@@ -43,14 +43,12 @@ links to a media article to the main function, `deliver`:
 ``` r
 library(paperboy)
 df <- deliver("https://tinyurl.com/386e98k5")
-#> 1 links from 1 domains unshortened.
-#>  ...fetching theguardian.com articles
 df
 ```
 
-| url                          | expanded\_url                | domain              | status | datetime            | author                       | headline                   | text                       |
-|:-----------------------------|:-----------------------------|:--------------------|-------:|:--------------------|:-----------------------------|:---------------------------|:---------------------------|
-| <https://tinyurl.com/386e9>… | <https://www.theguardian.c>… | www.theguardian.com |    200 | 2021-07-12 12:00:13 | <https://www.theguardian.c>… | ‘A woman trapped in an im… | The Simpson couple have e… |
+| url                            | expanded\_url                                                                     | domain              | status | datetime            | author                                                | headline                | text                     | misc |
+|:-------------------------------|:----------------------------------------------------------------------------------|:--------------------|-------:|:--------------------|:------------------------------------------------------|:------------------------|:-------------------------|:-----|
+| <https://tinyurl.com/386e98k5> | <https://www.theguardian.com/tv-and-radio/2021/jul/12/should-marge-divorce-homer> | www.theguardian.com |    200 | 2021-07-12 12:00:13 | <https://www.theguardian.com/profile/stuart-heritage> | ‘A woman trapped in an… | The Simpson couple have… | NULL |
 
 The returned `data.frame` contains important meta information about the
 news items and their full text. Notice, that the function had no problem
@@ -60,9 +58,8 @@ therefore often encounter this warning:
 
 ``` r
 deliver(url = "google.com")
-#> 1 links from 1 domains unshortened.
-#> Warning in deliver.default(u, verbose
-#> = verbose, ...): No method for
+#> 1 links from 1 domains unshortened. Fetching...
+#> Warning in deliver.default(u, verbose = verbose, ...): No method for
 #> www.google.com yet. Url ignored.
 ```
 
@@ -75,10 +72,10 @@ column will be different from `200` and contain `NA`s.
 
 Every webscraper should retrieve a `tibble` with the following format:
 
-| url                        | expanded\_url | domain     | status           | datetime             | headline     | author     | text          | misc                       |
-|:---------------------------|:--------------|:-----------|:-----------------|:---------------------|:-------------|:-----------|:--------------|:---------------------------|
-| character                  | character     | character  | integer          | as.POSIXct           | character    | character  | character     | list                       |
-| the original url fed to t… | the full url  | the domain | http status code | publication datetime | the headline | the author | the full text | all other information tha… |
+| url                                 | expanded\_url | domain     | status           | datetime             | headline     | author     | text          | misc                                                                      |
+|:------------------------------------|:--------------|:-----------|:-----------------|:---------------------|:-------------|:-----------|:--------------|:--------------------------------------------------------------------------|
+| character                           | character     | character  | integer          | as.POSIXct           | character    | character  | character     | list                                                                      |
+| the original url fed to the scraper | the full url  | the domain | http status code | publication datetime | the headline | the author | the full text | all other information that can be consistently found on a specific outlet |
 
 Since some outlets will give you additional information, the `misc`
 column was included so these can be retained. If you have a scraper you
@@ -88,12 +85,12 @@ it via a pull request.
 
 ## Available Scrapers
 
-| domain               | status | author             | note                            |
-|:---------------------|:-------|:-------------------|:--------------------------------|
-| theguardian.com      | Silver | Johannes B. Gruber | \[\#1\](<https://github.com/J>… |
-| huffingtonpost.co.uk | Silver | Johannes B. Gruber | \[\#1\](<https://github.com/J>… |
-| buzzfeed.com         | Broken | Johannes B. Gruber | \[\#1\](<https://github.com/J>… |
-| forbes.com           | Broken | Johannes B. Gruber | \[\#1\](<https://github.com/J>… |
+| domain               | status                                                                                      | author             | issues                                               |
+|:---------------------|:--------------------------------------------------------------------------------------------|:-------------------|:-----------------------------------------------------|
+| theguardian.com      | Silver ![](https://raw.githubusercontent.com/JBGruber/paperboy/main/man/figures/silver.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| huffingtonpost.co.uk | Silver ![](https://raw.githubusercontent.com/JBGruber/paperboy/main/man/figures/silver.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| buzzfeed.com         | Broken                                                                                      | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| forbes.com           | Broken                                                                                      | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 
 -   **Gold**: Runs without any issues
 -   **Silver**: Runs with some issues
