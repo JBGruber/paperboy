@@ -82,7 +82,7 @@ expandurls <- function(url,
   if (verbose) message(length(url),
                        " links from ",
                        length(unique(out$domain)),
-                       " domains unshortened.")
+                       " domains unshortened. Fetching...")
 
   return(out)
 }

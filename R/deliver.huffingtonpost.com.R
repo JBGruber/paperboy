@@ -7,7 +7,7 @@ deliver.www_huffpost_com <- function(url, verbose = TRUE, ...) {
   if (!"tbl_df" %in% class(url))
     stop("Wrong object passed to internal deliver function: ", class(url))
 
-  if (verbose) message("\t...fetching theguardian.com articles")
+  if (verbose) message("\t...", nrow(url), " articles from huffpost")
 
   pb <- make_pb(url)
 
