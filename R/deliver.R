@@ -3,55 +3,72 @@
 #' @description This function will determine the website of the urls given to it
 #'   and call the appropriate webscraper.
 #'
-#' @param url The URL of the web article.
+#' @param x Either a vector of URLs or a data.frame returned by
+#'   \link{pb_collect}.
 #' @param verbose A logical flag indicating whether information should be
 #'   printed to the screen.
 #' @param ... Passed on to respective scraper.
 #'
 #' @return A data.frame (tibble) with media data and full text.
 #' @export
-deliver <- function(url, verbose = TRUE, ...) {
-  UseMethod("deliver")
+pb_deliver <- function(x, verbose = TRUE, ...) {
+  UseMethod("pb_deliver")
 }
 
-#' @rdname deliver
 #' @export
-deliver.default <- function(url, verbose = TRUE, ...) {
-  if ("domain" %in% names(url)) {
-    warning("No method for ", url$domain[1], " yet. Url ignored.")
-    NULL
-  } else {
-    stop("No method for ", class(url), " yet.")
+pb_deliver.default <- function(x, verbose = TRUE, ...) {
+    stop("No method for class", class(x), ".")
+}
+
+#' @export
+pb_deliver.character <- function(x, verbose = TRUE, ...) {
+
+  pages <- pb_collect(x, verbose = verbose)
+
+  pb_deliver(pages, verbose = verbose, ...)
+
+}
+
+#' @export
+pb_deliver.data.frame <- function(x, verbose = TRUE, ...) {
+
+  if (is.null(attr(x, "paperboy_collected_at"))) {
+    stop("wrong object")
   }
-}
 
-#' @rdname deliver
-#' @export
-deliver.character <- function(url, verbose = TRUE, ...) {
+  bad_status <- x$status != 200L
+  x <- x[!bad_status, ]
 
-  pages <- expandurls(url, verbose = verbose)
+  if (verbose) {
+    if (sum(bad_status) > 0) {
+      message(sum(bad_status), " URLs removed due to bad status.", appendLF = FALSE)
+    }
+    message(" Parsing...")
+  }
 
-  pages <- split(pages, pages$domain, drop = TRUE)
+  domains <- split(x, x$domain, drop = TRUE)
 
-  out <- lapply(pages, function(u) {
+  out <- lapply(domains, function(u) {
+
     class(u) <- c(
       gsub(".", "_", utils::head(u$domain, 1), fixed = TRUE),
       class(u)
     )
-    deliver(u, verbose = verbose, ...)
+
+    pb_deliver_paper(u, verbose = verbose, ...)
+
   })
 
   return(dplyr::bind_rows(out))
+  #return(out)
 }
 
-#' @rdname deliver
-#' @export
-deliver.www_buzzfeed_com <- function(url, verbose = TRUE, ...) {
-  return(normalise_df(url))
+# internal function to deliver specific newspapers
+pb_deliver_paper <- function(x, verbose = FALSE, ...) {
+  UseMethod("pb_deliver_paper")
 }
 
-#' @rdname deliver
-#' @export
-deliver.www_forbes_com <- function(url, verbose = TRUE, ...) {
-  return(normalise_df(url))
+pb_deliver_paper.default <- function(x, verbose = TRUE, ...) {
+  warning("No method for ", x$domain[1], " yet. Url ignored.")
+  NULL
 }

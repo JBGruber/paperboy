@@ -38,11 +38,11 @@ remotes::install_github("JBGruber/paperboy")
 
 Say you have a link to a news media article, for example, from
 [mediacloud.org](https://mediacloud.org/). Simply supply one or multiple
-links to a media article to the main function, `deliver`:
+links to a media article to the main function, `pb_deliver`:
 
 ``` r
 library(paperboy)
-df <- deliver("https://tinyurl.com/386e98k5")
+df <- pb_deliver("https://tinyurl.com/386e98k5")
 df
 ```
 
@@ -53,14 +53,18 @@ df
 The returned `data.frame` contains important meta information about the
 news items and their full text. Notice, that the function had no problem
 reading the link, even though it was shortened. `paperboy` is an
-unfinished and even highly experimental package at the moment. You will
+unfinished and highly experimental package at the moment. You will
 therefore often encounter this warning:
 
 ``` r
-deliver(url = "google.com")
-#> 1 links from 1 domains unshortened. Fetching...
-#> Warning in deliver.default(u, verbose = verbose, ...): No method for
-#> www.google.com yet. Url ignored.
+pb_deliver("google.com")
+#> 1 unique URLs provided...
+#>  ...collecting
+#> 1 pages from 1 domains collected.
+#>  Parsing...
+#> Warning in pb_deliver_paper.default(u, verbose =
+#> verbose, ...): No method for www.google.com yet.
+#> Url ignored.
 ```
 
 If you enter a vector of multiple URLs, the unsupported ones will be
@@ -90,7 +94,7 @@ it via a pull request.
 | theguardian.com      | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 | huffingtonpost.co.uk | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 | buzzfeed.com         | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
-| forbes.com           | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| forbes.com           | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 
 -   ![](https://img.shields.io/badge/status-gold-%23ffd700.svg): Runs
     without any issues

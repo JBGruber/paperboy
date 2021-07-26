@@ -1,19 +1,18 @@
-#' @rdname deliver
-#' @export
-deliver.www_theguardian_com <- function(url, verbose = TRUE, ...) {
 
-  if (!"tbl_df" %in% class(url))
-    stop("Wrong object passed to internal deliver function: ", class(url))
+pb_deliver_paper.www_theguardian_com <- function(x, verbose = TRUE, ...) {
 
-  if (verbose) message("\t...", nrow(url), " articles from theguardian.com")
+  if (!"tbl_df" %in% class(x))
+    stop("Wrong object passed to internal deliver function: ", class(x))
 
-  pb <- make_pb(url)
+  if (verbose) message("\t...", nrow(x), " articles from theguardian.com")
 
-  purrr::map_df(url$expanded_url, function(u) {
+  pb <- make_pb(x)
+
+  purrr::map_df(x$content, function(cont) {
 
     if (verbose) pb$tick()
 
-    html <- rvest::read_html(u)
+    html <- rvest::read_html(cont)
 
     # datetime
     datetime <- html %>%
@@ -42,17 +41,17 @@ deliver.www_theguardian_com <- function(url, verbose = TRUE, ...) {
     # text
     text <- html %>%
       rvest::html_elements("p") %>%
-      rvest::html_text() %>%
-      paste(collapse = "\n\n")
+      rvest::html_text2() %>%
+      paste(collapse = "\n")
 
-    tibble::tibble(
-      datetime,
-      author,
-      headline,
-      text
+    list(
+      datetime = len_check(datetime),
+      author   = len_check(author),
+      headline = len_check(headline),
+      text     = len_check(text)
     )
   }) %>%
-    cbind(url) %>%
+    cbind(x) %>%
     normalise_df() %>%
     return()
 }

@@ -27,8 +27,16 @@ normalise_df <- function(df) {
   for (c in missing_cols) {
     df <- tibble::add_column(df, !!c := NA)
   }
-  not_expected_cols <- setdiff(colnames(df), expected_cols)
+  not_expected_cols <- setdiff(colnames(df), c(expected_cols, "content"))
   df <- tidyr::nest(df, misc = tidyselect::all_of(not_expected_cols))
   expected_cols <- c(expected_cols, "misc")
-  dplyr::relocate(df, !!expected_cols)
+  dplyr::select(df, !!expected_cols)
+}
+
+len_check <- function(x) {
+  if (length(x) == 0L) {
+    return(NA)
+  } else {
+    return(x)
+  }
 }

@@ -1,6 +1,5 @@
-#' @rdname deliver
-#' @export
-deliver.www_huffpost_com <- function(url, verbose = TRUE, ...) {
+
+pb_deliver_paper.www_huffpost_com <- function(url, verbose = TRUE, ...) {
 
   . <- NULL
 
@@ -11,11 +10,11 @@ deliver.www_huffpost_com <- function(url, verbose = TRUE, ...) {
 
   pb <- make_pb(url)
 
-  purrr::map_df(url$expanded_url, function(u) {
+  purrr::map_df(url$content, function(cont) {
 
     if (verbose) pb$tick()
 
-    html <- rvest::read_html(u)
+    html <- rvest::read_html(cont)
 
     # datetime
     datetime <- html %>%
@@ -38,8 +37,8 @@ deliver.www_huffpost_com <- function(url, verbose = TRUE, ...) {
     # text
     text <- html %>%
       rvest::html_elements("p,.entry-video__content__description") %>%
-      rvest::html_text() %>%
-      paste(collapse = "\n\n")
+      rvest::html_text2() %>%
+      paste(collapse = "\n")
 
     type <- html %>%
       rvest::html_elements("article") %>%
@@ -65,7 +64,6 @@ deliver.www_huffpost_com <- function(url, verbose = TRUE, ...) {
     return()
 }
 
-#' @export
-#' @rdname deliver
-deliver.www_huffingtonpost_co_uk <- deliver.www_huffpost_com
+
+pb_deliver_paper.www_huffingtonpost_co_uk <- pb_deliver_paper.www_huffpost_com
 

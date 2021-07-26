@@ -1,11 +1,11 @@
 test_that("expandurls", {
   expect_equal({
-      res <- expandurls(url = "https://httpbin.org/")
+      res <- pb_collect(url = "https://httpbin.org/")
       c(nrow(res), ncol(res))
-    }, c(1, 4))
+    }, c(1, 5))
   expect_warning(
-    expandurls(url = "https://httpbin.org/delay/10", timeout = 1, ignore_fails = TRUE),
-    "1 job(s) did not finish before timeout. Think about increasing the timeout parameter. Enter ?expandurls for help.",
+    pb_collect(url = "https://httpbin.org/delay/10", timeout = 1, ignore_fails = TRUE),
+    "1 job(s) did not finish before timeout. Think about increasing the timeout parameter. Enter ?pb_collect for help.",
     fixed = TRUE
   )
 })
