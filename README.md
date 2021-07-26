@@ -58,13 +58,9 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> 1 unique URLs provided...
-#>  ...collecting
-#> 1 pages from 1 domains collected.
-#>  Parsing...
-#> Warning in pb_deliver_paper.default(u, verbose =
-#> verbose, ...): No method for www.google.com yet.
-#> Url ignored.
+#> Warning in pb_deliver_paper.default(u,
+#> verbose = verbose, ...): No method for
+#> www.google.com yet. Url ignored.
 ```
 
 If you enter a vector of multiple URLs, the unsupported ones will be

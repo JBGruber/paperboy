@@ -4,14 +4,15 @@
 \alias{pb_deliver}
 \title{Deliver online news articles}
 \usage{
-pb_deliver(x, verbose = TRUE, ...)
+pb_deliver(x, verbose = NULL, ...)
 }
 \arguments{
 \item{x}{Either a vector of URLs or a data.frame returned by
 \link{pb_collect}.}
 
 \item{verbose}{A logical flag indicating whether information should be
-printed to the screen.}
+printed to the screen. If \code{NULL} will be determined from
+\code{getOption("paperboy_verbose")}.}
 
 \item{...}{Passed on to respective scraper.}
 }

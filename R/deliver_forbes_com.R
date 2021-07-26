@@ -1,5 +1,7 @@
 
-pb_deliver_paper.www_forbes_com <- function(x, verbose = TRUE, ...) {
+pb_deliver_paper.www_forbes_com <- function(x, verbose = NULL, ...) {
+
+  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
 
   if (!"tbl_df" %in% class(x))
     stop("Wrong object passed to internal deliver function: ", class(x))

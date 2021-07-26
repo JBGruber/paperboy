@@ -4,7 +4,7 @@
 \alias{pb_collect}
 \title{Collect data from supplied URLs}
 \usage{
-pb_collect(url, timeout = 30, ignore_fails = FALSE, verbose = FALSE, ...)
+pb_collect(url, timeout = 30, ignore_fails = FALSE, verbose = NULL, ...)
 }
 \arguments{
 \item{url}{Character object with URLs.}
@@ -16,7 +16,8 @@ seconds). If the query finishes earlier, results are returned immediately.}
 due to connection issues. Setting to TRUE ignores this.}
 
 \item{verbose}{A logical flag indicating whether information should be
-printed to the screen.}
+printed to the screen. If \code{NULL} will be determined from
+\code{getOption("paperboy_verbose")}.}
 
 \item{...}{Currently not used}
 }

@@ -6,22 +6,23 @@
 #' @param x Either a vector of URLs or a data.frame returned by
 #'   \link{pb_collect}.
 #' @param verbose A logical flag indicating whether information should be
-#'   printed to the screen.
+#'   printed to the screen. If \code{NULL} will be determined from
+#'   \code{getOption("paperboy_verbose")}.
 #' @param ... Passed on to respective scraper.
 #'
 #' @return A data.frame (tibble) with media data and full text.
 #' @export
-pb_deliver <- function(x, verbose = TRUE, ...) {
+pb_deliver <- function(x, verbose = NULL, ...) {
   UseMethod("pb_deliver")
 }
 
 #' @export
-pb_deliver.default <- function(x, verbose = TRUE, ...) {
+pb_deliver.default <- function(x, verbose = NULL, ...) {
     stop("No method for class", class(x), ".")
 }
 
 #' @export
-pb_deliver.character <- function(x, verbose = TRUE, ...) {
+pb_deliver.character <- function(x, verbose = NULL, ...) {
 
   pages <- pb_collect(x, verbose = verbose)
 
@@ -30,11 +31,13 @@ pb_deliver.character <- function(x, verbose = TRUE, ...) {
 }
 
 #' @export
-pb_deliver.data.frame <- function(x, verbose = TRUE, ...) {
+pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
 
   if (is.null(attr(x, "paperboy_collected_at"))) {
-    stop("wrong object")
+    stop("x must be a character vector of URLs or a data.frame returned by pb_collect")
   }
+
+  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
 
   bad_status <- x$status != 200L
   x <- x[!bad_status, ]
@@ -64,11 +67,11 @@ pb_deliver.data.frame <- function(x, verbose = TRUE, ...) {
 }
 
 # internal function to deliver specific newspapers
-pb_deliver_paper <- function(x, verbose = FALSE, ...) {
+pb_deliver_paper <- function(x, verbose = NULL, ...) {
   UseMethod("pb_deliver_paper")
 }
 
-pb_deliver_paper.default <- function(x, verbose = TRUE, ...) {
+pb_deliver_paper.default <- function(x, verbose = NULL, ...) {
   warning("No method for ", x$domain[1], " yet. Url ignored.")
   NULL
 }

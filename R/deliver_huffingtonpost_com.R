@@ -1,7 +1,9 @@
 
-pb_deliver_paper.www_huffpost_com <- function(url, verbose = TRUE, ...) {
+pb_deliver_paper.www_huffpost_com <- function(url, verbose = NULL, ...) {
 
   . <- NULL
+
+  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
 
   if (!"tbl_df" %in% class(url))
     stop("Wrong object passed to internal deliver function: ", class(url))

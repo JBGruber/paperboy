@@ -6,7 +6,8 @@
 #' @param ignore_fails normally the function errors when a URL can't be reached
 #'   due to connection issues. Setting to TRUE ignores this.
 #' @param verbose A logical flag indicating whether information should be
-#'   printed to the screen.
+#'   printed to the screen. If \code{NULL} will be determined from
+#'   \code{getOption("paperboy_verbose")}.
 #' @param ... Currently not used
 #'
 #' @return A data.frame (tibble) with url status data and raw media text.
@@ -16,8 +17,10 @@
 pb_collect <- function(url,
                        timeout = 30,
                        ignore_fails = FALSE,
-                       verbose = FALSE,
+                       verbose = NULL,
                        ...) {
+
+  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
 
   # prevent duplicates
   url <- unique(url)
