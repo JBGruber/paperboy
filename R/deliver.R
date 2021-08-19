@@ -33,7 +33,7 @@ pb_deliver.character <- function(x, verbose = NULL, ...) {
 #' @export
 pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
 
-  if (is.null(attr(x, "paperboy_collected_at"))) {
+  if (!"content_raw" %in% colnames(x)) {
     stop("x must be a character vector of URLs or a data.frame returned by pb_collect")
   }
 

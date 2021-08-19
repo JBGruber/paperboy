@@ -27,7 +27,7 @@ normalise_df <- function(df) {
   for (c in missing_cols) {
     df <- tibble::add_column(df, !!c := NA)
   }
-  not_expected_cols <- setdiff(colnames(df), c(expected_cols, "content"))
+  not_expected_cols <- setdiff(colnames(df), c(expected_cols, "content_raw"))
   df <- tidyr::nest(df, misc = tidyselect::all_of(not_expected_cols))
   expected_cols <- c(expected_cols, "misc")
   dplyr::select(df, !!expected_cols)

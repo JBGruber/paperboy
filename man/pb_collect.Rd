@@ -4,10 +4,10 @@
 \alias{pb_collect}
 \title{Collect data from supplied URLs}
 \usage{
-pb_collect(url, timeout = 30, ignore_fails = FALSE, verbose = NULL, ...)
+pb_collect(urls, timeout = 30, ignore_fails = FALSE, verbose = NULL, ...)
 }
 \arguments{
-\item{url}{Character object with URLs.}
+\item{urls}{Character object with URLs.}
 
 \item{timeout}{How long should the function wait for the connection (in
 seconds). If the query finishes earlier, results are returned immediately.}

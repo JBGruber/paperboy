@@ -1,6 +1,6 @@
 #' Collect data from supplied URLs
 #'
-#' @param url Character object with URLs.
+#' @param urls Character object with URLs.
 #' @param timeout How long should the function wait for the connection (in
 #'   seconds). If the query finishes earlier, results are returned immediately.
 #' @param ignore_fails normally the function errors when a URL can't be reached
@@ -14,7 +14,7 @@
 #' @export
 #'
 #' @importFrom rlang :=
-pb_collect <- function(url,
+pb_collect <- function(urls,
                        timeout = 30,
                        ignore_fails = FALSE,
                        verbose = NULL,
@@ -23,32 +23,32 @@ pb_collect <- function(url,
   if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
 
   # prevent duplicates
-  url <- unique(url)
+  urls <- unique(urls)
 
-  if (verbose) message(length(url), " unique URLs provided...")
+  if (verbose) message(length(urls), " unique URLs provided...")
 
   # setup for async curl call
   pool <- curl::new_pool()
   pages <- list()
 
   # create different parser function for each request to identify results
-  parse_response <- function(url) {
+  parse_response <- function(urls) {
     function(req) {
-      pages[[url]] <<- list(
+      pages[[urls]] <<- list(
         expanded_url = req$url,
         status = req$status_code,
-        content = readBin(req$content, character())
+        content_raw = readBin(req$content, character())
       )
     }
   }
 
-  parse_fail <- function(url) {
+  parse_fail <- function(urls) {
     function(req, i_f = ignore_fails) {
       if (i_f) {
-        pages[[url]] <<- list(
+        pages[[urls]] <<- list(
           expanded_url = "connection error",
           status = 503L,
-          content = NA
+          content_raw = NA
         )
       } else {
         stop("Connection error. Set `ignore_fails = TRUE` to ignore.")
@@ -56,14 +56,14 @@ pb_collect <- function(url,
     }
   }
 
-  response_parser <- lapply(url, parse_response)
-  names(response_parser) <- url
-  fail_parser <- lapply(url, parse_fail)
-  names(fail_parser) <- url
+  response_parser <- lapply(urls, parse_response)
+  names(response_parser) <- urls
+  fail_parser <- lapply(urls, parse_fail)
+  names(fail_parser) <- urls
 
   # setup async call
   invisible(lapply(
-    url, function(u) {
+    urls, function(u) {
       curl::curl_fetch_multi(
         u,
         done = response_parser[[u]],
@@ -83,14 +83,15 @@ pb_collect <- function(url,
     "Enter ?pb_collect for help."
   )
 
-  out <- dplyr::bind_rows(pages, .id = "url")
+  out <- dplyr::bind_rows(pages, .id = "urls")
 
   if (nrow(out) > 0) {
     out <- tibble::add_column(
       out,
       domain = urltools::domain(out$expanded_url),
       .after = "expanded_url"
-    )
+    ) %>%
+      dplyr::rename(url = urls)
   }
 
   if (verbose) {

@@ -10,7 +10,7 @@ pb_deliver_paper.www_forbes_com <- function(x, verbose = NULL, ...) {
 
   pb <- make_pb(x)
 
-  purrr::map_df(x$content, function(cont) {
+  purrr::map_df(x$content_raw, function(cont) {
 
     if (verbose) pb$tick()
 
