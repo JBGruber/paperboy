@@ -117,7 +117,10 @@ tibble::tribble(
   "huffingtonpost.co.uk", "![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
   "buzzfeed.com",         "![](https://img.shields.io/badge/status-broken-%23D8634C)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
   "forbes.com",           "![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "dailymail.co.uk",           "![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "newsweek.com",           "![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
 ) %>% 
+  arrange(domain) %>% 
   knitr::kable(escape = FALSE)
 ```
 

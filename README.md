@@ -86,10 +86,12 @@ it via a pull request.
 
 | domain               | status                                                        | author             | issues                                               |
 |:---------------------|:--------------------------------------------------------------|:-------------------|:-----------------------------------------------------|
-| theguardian.com      | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
-| huffingtonpost.co.uk | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 | buzzfeed.com         | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| dailymail.co.uk      | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 | forbes.com           | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| huffingtonpost.co.uk | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| newsweek.com         | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| theguardian.com      | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 
 -   ![](https://img.shields.io/badge/status-gold-%23ffd700.svg): Runs
     without any issues
