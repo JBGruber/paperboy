@@ -113,18 +113,24 @@ If it does not yet exist, you can become a co-author of this package by adding i
 ```{r available, echo=FALSE}
 tibble::tribble(
   ~domain,                ~status,   ~author,              ~issues,
-  "theguardian.com",      "![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
-  "huffingtonpost.co.uk", "![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "theguardian.com",      "![](https://img.shields.io/badge/status-gold-%23ffd700.svg)",  "Johannes B. Gruber", "",
+  "huffingtonpost.co.uk", "![](https://img.shields.io/badge/status-gold-%23ffd700.svg)",  "Johannes B. Gruber", "",
   "buzzfeed.com",         "![](https://img.shields.io/badge/status-broken-%23D8634C)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
-  "forbes.com",           "![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
-  "dailymail.co.uk",           "![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
-  "newsweek.com",           "![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "forbes.com",           "![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)",  "Johannes B. Gruber", "[#2](https://github.com/JBGruber/paperboy/issues/2)",
+  "dailymail.co.uk",           "![](https://img.shields.io/badge/status-gold-%23ffd700.svg)",  "Johannes B. Gruber", "",
+  "newsweek.com",           "![](https://img.shields.io/badge/status-gold-%23ffd700.svg)",  "Johannes B. Gruber", "",
+  "marketwatch.com",         "![](https://img.shields.io/badge/status-broken-%23D8634C)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "wsj.com",         "![](https://img.shields.io/badge/status-broken-%23D8634C)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "nytimes.com",         "![](https://img.shields.io/badge/status-broken-%23D8634C)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "nypost.com",         "![](https://img.shields.io/badge/status-broken-%23D8634C)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "edition.cnn.com",         "![](https://img.shields.io/badge/status-broken-%23D8634C)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
+  "washingtonpost.com",         "![](https://img.shields.io/badge/status-broken-%23D8634C)",  "Johannes B. Gruber", "[#1](https://github.com/JBGruber/paperboy/issues/1)",
 ) %>% 
   arrange(domain) %>% 
   knitr::kable(escape = FALSE)
 ```
 
-- ![](https://img.shields.io/badge/status-gold-%23ffd700.svg): Runs without any issues
+- ![](https://img.shields.io/badge/status-gold-%23ffd700.svg): Runs without known issues
 - ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg): Runs with some issues
 - ![](https://img.shields.io/badge/status-broken-%23D8634C): Currently not working, fix has been requested
 

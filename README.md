@@ -58,8 +58,8 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> Warning in pb_deliver_paper.default(u, verbose =
-#> verbose, ...): No method for www.google.com yet. Url ignored.
+#> Warning in pb_deliver_paper.default(u, verbose = verbose, ...): No method for
+#> www.google.com yet. Url ignored.
 ```
 
 If you enter a vector of multiple URLs, the unsupported ones will be
@@ -87,14 +87,20 @@ it via a pull request.
 | domain               | status                                                        | author             | issues                                               |
 |:---------------------|:--------------------------------------------------------------|:-------------------|:-----------------------------------------------------|
 | buzzfeed.com         | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
-| dailymail.co.uk      | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
-| forbes.com           | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
-| huffingtonpost.co.uk | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
-| newsweek.com         | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
-| theguardian.com      | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| dailymail.co.uk      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| edition.cnn.com      | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| forbes.com           | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#2](https://github.com/JBGruber/paperboy/issues/2) |
+| huffingtonpost.co.uk | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| marketwatch.com      | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| newsweek.com         | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| nypost.com           | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| nytimes.com          | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| theguardian.com      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| washingtonpost.com   | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| wsj.com              | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 
 -   ![](https://img.shields.io/badge/status-gold-%23ffd700.svg): Runs
-    without any issues
+    without known issues
 -   ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg): Runs
     with some issues
 -   ![](https://img.shields.io/badge/status-broken-%23D8634C): Currently
