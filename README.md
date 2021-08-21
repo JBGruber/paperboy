@@ -16,14 +16,15 @@ coverage](https://codecov.io/gh/JBGruber/paperboy/branch/main/graph/badge.svg)](
 
 The philosophy of `paperboy` is that the package is a comprehensive
 collection of webscraping scripts for news media sites. Many data
-scientist and researchers write their own code when they have to
+scientists and researchers write their own code when they have to
 retrieve news media content from websites. At the end of research
 projects, this code is often collecting digital dust on researchers hard
 drives instead of being made public for others to use. `paperboy` offers
 writers of webscraping scripts a clear path to publish their code and
 earn co-authorship on the package. For users, the promise is simple:
 `paperboy` delivers news media data from many websites in a consistent
-format.
+format. [Check which websites are already
+supported.](#available-scrapers)
 
 ## Installation
 
@@ -58,8 +59,9 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> Warning in pb_deliver_paper.default(u, verbose = verbose, ...): No method for
-#> www.google.com yet. Url ignored.
+#> Warning in pb_deliver_paper.default(u, verbose =
+#> verbose, ...): No method for www.google.com yet.
+#> Url ignored.
 ```
 
 If you enter a vector of multiple URLs, the unsupported ones will be
@@ -91,7 +93,7 @@ it via a pull request.
 | edition.cnn.com      | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 | forbes.com           | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#2](https://github.com/JBGruber/paperboy/issues/2) |
 | huffingtonpost.co.uk | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
-| marketwatch.com      | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| marketwatch.com      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
 | newsweek.com         | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
 | nypost.com           | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 | nytimes.com          | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
