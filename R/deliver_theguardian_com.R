@@ -6,7 +6,7 @@ pb_deliver_paper.www_theguardian_com <- function(x, verbose = NULL, ...) {
 
   if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
 
-  if (verbose) message("\t...", nrow(x), " articles from theguardian.com")
+  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
 
   pb <- make_pb(x)
 

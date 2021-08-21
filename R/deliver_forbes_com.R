@@ -6,7 +6,7 @@ pb_deliver_paper.www_forbes_com <- function(x, verbose = NULL, ...) {
   if (!"tbl_df" %in% class(x))
     stop("Wrong object passed to internal deliver function: ", class(x))
 
-  if (verbose) message("\t...", nrow(x), " articles from forbes.com")
+  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
 
   pb <- make_pb(x)
 
