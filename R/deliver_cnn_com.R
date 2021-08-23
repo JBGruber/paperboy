@@ -1,5 +1,5 @@
 
-pb_deliver_paper.www_wsj_com <- function(x, verbose = NULL, ...) {
+pb_deliver_paper.edition_cnn_com <- function(x, verbose = NULL, ...) {
 
   . <- NULL
 
@@ -15,19 +15,18 @@ pb_deliver_paper.www_wsj_com <- function(x, verbose = NULL, ...) {
   purrr::map_df(x$content_raw, function(cont) {
 
     if (verbose) pb$tick()
-
     html <- rvest::read_html(cont)
 
     # datetime
     datetime <- html %>%
-      rvest::html_elements("[name=\"article.published\"]") %>%
+      rvest::html_elements("[name=\"pubdate\"]") %>%
       rvest::html_attr("content") %>%
       lubridate::as_datetime()
 
     # headline
     headline <- html %>%
-      rvest::html_elements("title") %>%
-      rvest::html_text()
+      rvest::html_elements(".pg-headline,.headline>h1,[id*=\"video-headline\"]") %>%
+      rvest::html_text2()
 
     # author
     author <- html %>%
@@ -37,15 +36,37 @@ pb_deliver_paper.www_wsj_com <- function(x, verbose = NULL, ...) {
 
     # text
     text <- html %>%
-      rvest::html_elements("p:not([id|=\"footer\"])") %>%
+      rvest::html_elements("[class=\"zn-body__read-all\"]") %>%
       rvest::html_text2() %>%
       paste(collapse = "\n")
+
+    if (nchar(text) == 0) {
+      text <- html %>%
+        rvest::html_elements("article") %>%
+        rvest::html_text2() %>%
+        paste(collapse = "\n")
+    }
+
+    # type
+    type <- html %>%
+      rvest::html_element("[property=\"og:title\"]") %>%
+      rvest::html_attr("content") %>%
+      toString() %>% {
+        x <- .
+        dplyr::case_when(
+          grepl("Live", x, ignore.case = TRUE) ~ "live",
+          grepl("Video", x, ignore.case = TRUE) ~ "video",
+          TRUE ~ "article"
+        )
+      }
+
 
     tibble::tibble(
       datetime,
       author,
       headline,
-      text
+      text,
+      type
     )
   }) %>%
     cbind(x) %>%
