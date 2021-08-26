@@ -1,4 +1,5 @@
 
+#' @keywords internal
 pb_deliver_paper.www_washingtonpost_com <- function(x, verbose = NULL, ...) {
 
   . <- NULL
@@ -14,12 +15,16 @@ pb_deliver_paper.www_washingtonpost_com <- function(x, verbose = NULL, ...) {
 
   purrr::map_df(seq_along(x$url), function(i) {
     if (basename(x$expanded_url[i]) == x$domain[i]) {
+
+      if (verbose) pb$tick()
+
       tibble::tibble(
         datetime  = NA,
         author    = NA,
         headline  = NA,
         text      = NA
       )
+
     } else {
 
       cont <- x$content_raw[i]
@@ -41,7 +46,6 @@ pb_deliver_paper.www_washingtonpost_com <- function(x, verbose = NULL, ...) {
           rvest::html_text() %>%
           strptime(format = "%B %d, %Y | %I:%M %p")
       }
-
 
       # headline
       headline <- html %>%
