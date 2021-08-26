@@ -66,7 +66,11 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
   #return(out)
 }
 
-# internal function to deliver specific newspapers
+#' internal function to deliver specific newspapers
+#' @param x A data.frame returned by  \link{pb_collect} with an additional class
+#'   indicating the domain of all links.
+#' @inheritParams pb_deliver
+#' @keywords internal
 pb_deliver_paper <- function(x, verbose = NULL, ...) {
   UseMethod("pb_deliver_paper")
 }
