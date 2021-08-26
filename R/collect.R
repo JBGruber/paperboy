@@ -94,6 +94,14 @@ pb_collect <- function(urls,
       dplyr::rename(url = urls)
   }
 
+  # see issue #3
+  if (any(out$domain == "www.washingtonpost.com")) {
+    if (any(grepl("gdpr-consent", out$expanded_url, fixed = TRUE))) {
+      warning("www.washingtonpost.com requests GDPR consent instead of showing the article.",
+              " See https://github.com/JBGruber/paperboy/issues/3")
+    }
+  }
+
   if (verbose) {
     if (any(out$status != 200L)) {
       msg <- paste0(
