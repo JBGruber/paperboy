@@ -59,8 +59,9 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> Warning in pb_deliver_paper.default(u, verbose = verbose, ...): No method for www.google.com
-#> yet. Url ignored.
+#> Warning in pb_deliver_paper.default(u, verbose =
+#> verbose, ...): No method for www.google.com yet.
+#> Url ignored.
 ```
 
 If you enter a vector of multiple URLs, the unsupported ones will be
@@ -85,20 +86,42 @@ it via a pull request.
 
 ## Available Scrapers
 
-| domain               | status                                                        | author             | issues                                               |
-|:---------------------|:--------------------------------------------------------------|:-------------------|:-----------------------------------------------------|
-| buzzfeed.com         | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
-| dailymail.co.uk      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
-| edition.cnn.com      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
-| forbes.com           | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#2](https://github.com/JBGruber/paperboy/issues/2) |
-| huffingtonpost.co.uk | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
-| marketwatch.com      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
-| newsweek.com         | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
-| nytimes.com          | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
-| nytimes.com          | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
-| theguardian.com      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
-| washingtonpost.com   | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#2](https://github.com/JBGruber/paperboy/issues/3) |
-| wsj.com              | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| domain                            | status                                                        | author             | issues                                               |
+|:----------------------------------|:--------------------------------------------------------------|:-------------------|:-----------------------------------------------------|
+| buzzfeed.com                      | ![](https://img.shields.io/badge/status-broken-%23D8634C.svg) | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| cbslnk.cbsileads.com              | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| dailymail.co.uk                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| decider.com                       | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| edition.cnn.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| eu.usatoday.com                   | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| forbes.com                        | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#2](https://github.com/JBGruber/paperboy/issues/2) |
+| fortune.com                       | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| ftw.usatoday.com                  | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| huffingtonpost.co.uk              | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| lnk.techrepublic.com              | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| marketwatch.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| newsweek.com                      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| nypost.com                        | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| nytimes.com                       | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| pagesix.com                       | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| theguardian.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| time.com                          | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| us.cnn.com                        | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| washingtonpost.com                | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | Johannes B. Gruber | [#2](https://github.com/JBGruber/paperboy/issues/3) |
+| wsj.com                           | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
+| www.boston.com                    | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.bostonglobe.com               | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.cbsnews.com                   | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.cnet.com                      | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.foxbusiness.com               | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.foxnews.com                   | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.latimes.com                   | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.msnbc.com                     | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.sfgate.com                    | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.telegraph.co.uk               | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.thelily.com                   | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.thismorningwithgordondeal.com | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.tribpub.com                   | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 
 -   ![](https://img.shields.io/badge/status-gold-%23ffd700.svg): Runs
     without known issues
