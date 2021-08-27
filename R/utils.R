@@ -2,7 +2,24 @@
 #' @export
 magrittr::`%>%`
 
-#
+#' Show available scrapers
+#'
+#' @return A character vector of supported domains.
+#' @export
+#'
+#' @examples
+#' pb_available()
+pb_available <- function() {
+  . <- NULL
+  utils::lsf.str(envir = asNamespace("paperboy"), all = TRUE) %>%
+    unclass() %>%
+    grep("pb_deliver_paper.", ., value = TRUE) %>%
+    gsub("pb_deliver_paper.", "", ., fixed = TRUE) %>%
+    .[. != "default"] %>%
+    gsub("_", ".", ., fixed = TRUE)
+}
+
+#' @keywords internal
 make_pb <- function(df) {
   progress::progress_bar$new(
     format = "[:bar] :percent eta: :eta",
@@ -10,7 +27,16 @@ make_pb <- function(df) {
   )
 }
 
-#
+#' @keywords internal
+len_check <- function(x) {
+  if (length(x) == 0L) {
+    return(NA)
+  } else {
+    return(x)
+  }
+}
+
+#' @keywords internal
 normalise_df <- function(df) {
   df <- tibble::as_tibble(df)
   expected_cols <- c(
@@ -31,12 +57,4 @@ normalise_df <- function(df) {
   df <- tidyr::nest(df, misc = tidyselect::all_of(not_expected_cols))
   expected_cols <- c(expected_cols, "misc")
   dplyr::select(df, !!expected_cols)
-}
-
-len_check <- function(x) {
-  if (length(x) == 0L) {
-    return(NA)
-  } else {
-    return(x)
-  }
 }

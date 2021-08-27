@@ -50,7 +50,7 @@ Many data scientists and researchers write their own code when they have to retr
 At the end of research projects, this code is often collecting digital dust on researchers hard drives instead of being made public for others to use.
 `paperboy` offers writers of webscraping scripts a clear path to publish their code and earn co-authorship on the package.
 For users, the promise is simple: `paperboy` delivers news media data from many websites in a consistent format.
-[Check which websites are already supported.](#available-scrapers)
+Check which domains are already supported in [the table below](#available-scrapers) or with the command `pb_available()`.
 
 ## Installation
 

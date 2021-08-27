@@ -23,8 +23,8 @@ drives instead of being made public for others to use. `paperboy` offers
 writers of webscraping scripts a clear path to publish their code and
 earn co-authorship on the package. For users, the promise is simple:
 `paperboy` delivers news media data from many websites in a consistent
-format. [Check which websites are already
-supported.](#available-scrapers)
+format. Check which domains are already supported in [the table
+below](#available-scrapers) or with the command `pb_available()`.
 
 ## Installation
 
@@ -59,9 +59,8 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> Warning in pb_deliver_paper.default(u, verbose =
-#> verbose, ...): No method for www.google.com yet.
-#> Url ignored.
+#> Warning in pb_deliver_paper.default(u, verbose = verbose, ...): No method for
+#> www.google.com yet. Url ignored.
 ```
 
 If you enter a vector of multiple URLs, the unsupported ones will be
