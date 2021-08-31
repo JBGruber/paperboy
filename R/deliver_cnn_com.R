@@ -48,7 +48,7 @@ pb_deliver_paper.edition_cnn_com <- function(x, verbose = NULL, ...) {
     }
 
     # type
-    type <- html %>%
+    content_type <- html %>%
       rvest::html_element("[property=\"og:title\"]") %>%
       rvest::html_attr("content") %>%
       toString() %>% {
@@ -66,7 +66,7 @@ pb_deliver_paper.edition_cnn_com <- function(x, verbose = NULL, ...) {
       author,
       headline,
       text,
-      type
+      content_type
     )
   }) %>%
     cbind(x) %>%
