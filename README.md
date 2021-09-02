@@ -59,8 +59,9 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> Warning in pb_deliver_paper.default(u,
-#> verbose = verbose, ...): No method for
+#> Warning in
+#> pb_deliver_paper.default(u, verbose
+#> = verbose, ...): No method for
 #> www.google.com yet. Url ignored.
 ```
 
@@ -115,7 +116,7 @@ it via a pull request.
 | www.cnet.com                      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
 | www.foxbusiness.com               | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
 | www.foxnews.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
-| www.latimes.com                   | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.latimes.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
 | www.msnbc.com                     | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 | www.sfgate.com                    | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | Johannes B. Gruber |                                                      |
 | www.telegraph.co.uk               | ![](https://img.shields.io/badge/status-broken-%23D8634C)     | Johannes B. Gruber | [#1](https://github.com/JBGruber/paperboy/issues/1) |
