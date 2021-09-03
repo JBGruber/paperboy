@@ -19,20 +19,21 @@ pb_deliver_paper.edition_cnn_com <- function(x, verbose = NULL, ...) {
 
     # datetime
     datetime <- html %>%
-      rvest::html_elements("[name=\"pubdate\"]") %>%
+      rvest::html_elements("[name=\"pubdate\"],[name=\"parsely-pub-date\"]") %>%
       rvest::html_attr("content") %>%
       lubridate::as_datetime()
 
     # headline
     headline <- html %>%
-      rvest::html_elements(".pg-headline,.headline>h1,[id*=\"video-headline\"]") %>%
+      rvest::html_elements(".pg-headline,.headline>h1,[id*=\"video-headline\"],.headline__text") %>%
       rvest::html_text2()
 
     # author
     author <- html %>%
       rvest::html_elements("[name=\"author\"]") %>%
       rvest::html_attr("content") %>%
-      toString()
+      toString() %>%
+      gsub("^By\\s", "", .)
 
     # text
     text <- html %>%
@@ -42,7 +43,8 @@ pb_deliver_paper.edition_cnn_com <- function(x, verbose = NULL, ...) {
 
     if (nchar(text) == 0) {
       text <- html %>%
-        rvest::html_elements("article") %>%
+        rvest::html_elements("article,.article__main") %>%
+        rvest::html_elements("p") %>%
         rvest::html_text2() %>%
         paste(collapse = "\n")
     }
@@ -73,3 +75,5 @@ pb_deliver_paper.edition_cnn_com <- function(x, verbose = NULL, ...) {
     normalise_df() %>%
     return()
 }
+
+pb_deliver_paper.us_cnn_com <- pb_deliver_paper.edition_cnn_com
