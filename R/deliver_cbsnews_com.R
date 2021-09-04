@@ -48,10 +48,10 @@ pb_deliver_paper.www_cbsnews_com <- function(x, verbose = NULL, ...) {
       rvest::html_text2() %>%
       paste(collapse = "\n")
 
-    tibble::tibble(
-      datetime = len_check(datetime),
+    s_n_list(
+      datetime,
       author,
-      headline = len_check(headline),
+      headline,
       text,
       content_type
     )

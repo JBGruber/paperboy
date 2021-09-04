@@ -27,13 +27,26 @@ make_pb <- function(df) {
   )
 }
 
+#' force length 1
 #' @keywords internal
 len_check <- function(x) {
   if (length(x) == 0L) {
     return(NA)
+  } else if (length(x) > 1L) {
+    return(list(x))
   } else {
     return(x)
   }
+}
+
+#' safe make named list from objects
+#' @keywords internal
+s_n_list <- function(...) {
+  nms <- sapply(as.list(substitute(list(...))), deparse)[-1]
+
+  out <- lapply(list(...), len_check)
+
+  stats::setNames(out, nms)
 }
 
 #' @keywords internal

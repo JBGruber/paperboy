@@ -40,11 +40,11 @@ pb_deliver_paper.www_forbes_com <- function(x, verbose = NULL, ...) {
       rvest::html_text2() %>%
       paste(collapse = "\n")
 
-    list(
-      datetime = len_check(datetime),
-      author   = len_check(author),
-      headline = len_check(headline),
-      text     = len_check(text)
+    s_n_list(
+      datetime,
+      author,
+      headline,
+      text
     )
   }) %>%
     cbind(x) %>%

@@ -53,7 +53,7 @@ pb_deliver_paper.www_huffpost_com <- function(x, verbose = NULL, ...) {
       TRUE ~ "unknown"
     )
 
-    tibble::tibble(
+    s_n_list(
       datetime,
       author,
       headline,

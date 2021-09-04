@@ -15,3 +15,45 @@ test_that("pb_available works", {
     c("character", "TRUE")
   )
 })
+
+test_that("Test safe named list making", {
+  expect_equal(
+    {
+      text <- "hello world"
+      author <- "Max Mustermann"
+      headline <- "lorem ipsum"
+      datetime <- character()
+
+      paperboy:::s_n_list(
+        text,
+        author,
+        headline,
+        datetime
+      )
+    },
+    list(text = "hello world",
+         author = "Max Mustermann",
+         headline = "lorem ipsum",
+         datetime = NA)
+  )
+  expect_equal(
+    {
+      text <- "hello world"
+      author <- c("Max Mustermann", "Erika Mustermann")
+      headline <- "lorem ipsum"
+      datetime <- character()
+
+      paperboy:::s_n_list(
+        text,
+        author,
+        headline,
+        datetime
+      )
+    },
+    list(text = "hello world",
+         author = list(c("Max Mustermann", "Erika Mustermann")),
+         headline = "lorem ipsum",
+         datetime = NA)
+  )
+})
+

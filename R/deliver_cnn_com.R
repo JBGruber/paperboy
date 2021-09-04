@@ -63,7 +63,7 @@ pb_deliver_paper.edition_cnn_com <- function(x, verbose = NULL, ...) {
       }
 
 
-    tibble::tibble(
+    s_n_list(
       datetime,
       author,
       headline,

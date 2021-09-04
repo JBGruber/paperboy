@@ -41,7 +41,7 @@ pb_deliver_paper.www_wsj_com <- function(x, verbose = NULL, ...) {
       rvest::html_text2() %>%
       paste(collapse = "\n")
 
-    tibble::tibble(
+    s_n_list(
       datetime,
       author,
       headline,

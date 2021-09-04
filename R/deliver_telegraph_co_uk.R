@@ -52,7 +52,7 @@ pb_deliver_paper.www_telegraph_co_uk <- function(x, verbose = NULL, ...) {
       rvest::html_element("[property=\"og:type\"]") %>%
       rvest::html_attr("content")
 
-    tibble::tibble(
+    s_n_list(
       datetime,
       author,
       headline,

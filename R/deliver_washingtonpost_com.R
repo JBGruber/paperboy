@@ -74,7 +74,7 @@ pb_deliver_paper.www_washingtonpost_com <- function(x, verbose = NULL, ...) {
           paste(collapse = "\n")
       }
 
-      tibble::tibble(
+      s_n_list(
         datetime,
         author,
         headline,
