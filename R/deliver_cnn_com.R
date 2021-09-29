@@ -36,10 +36,16 @@ pb_deliver_paper.edition_cnn_com <- function(x, verbose = NULL, ...) {
       gsub("^By\\s", "", .)
 
     # text
+    script <- html %>%
+      rvest::html_elements("script")
+    xml2::xml_remove(script)
+
     text <- html %>%
-      rvest::html_elements("[class=\"zn-body__read-all\"]") %>%
+      rvest::html_elements("[class*=\"zn-body-text\"]") %>%
+      #rvest::html_elements("") %>%
       rvest::html_text2() %>%
       paste(collapse = "\n")
+    writeLines(as.character(text), "test2.html")
 
     if (nchar(text) == 0) {
       text <- html %>%

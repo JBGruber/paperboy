@@ -20,13 +20,13 @@ pb_deliver_paper.www_cnet_com <- function(x, verbose = NULL, ...) {
 
     # datetime
     datetime <- html %>%
-      rvest::html_elements("time") %>%
+      rvest::html_element("time") %>%
       rvest::html_attr("datetime") %>%
       lubridate::as_datetime()
 
     if (is.na(datetime)) {
       datetime <- html %>%
-        rvest::html_elements("time") %>%
+        rvest::html_element("time") %>%
         rvest::html_text2() %>%
         lubridate::mdy() %>%
         as.POSIXct()
