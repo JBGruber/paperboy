@@ -13,12 +13,14 @@ cnn
 com
 dailymail
 datetime
+doctype
 eu
 forbes
 foxbusiness
 foxnews
 ftw
 huffingtonpost
+itemscope
 jul
 latimes
 lnk
@@ -50,3 +52,4 @@ webscraper
 webscraping
 wsj
 www
+’A

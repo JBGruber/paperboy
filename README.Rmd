@@ -82,7 +82,7 @@ df %>%
 
 The returned `data.frame` contains important meta information about the news items and their full text.
 Notice, that the function had no problem reading the link, even though it was shortened.
-`paperboy` is an unfinished and highly experimental package at the moment.
+***`paperboy` is an unfinished and highly experimental package at the moment.***
 You will therefore often encounter this warning:
 
 ```{r nomethod, results="hide"}
@@ -92,6 +92,22 @@ pb_deliver("google.com")
 If you enter a vector of multiple URLs, the unsupported ones will be ignored with a `warning`.
 The other URLs will be processed normally though.
 If you have a dead link in your `url` vector, the `status` column will be different from `200` and contain `NA`s.
+
+But even if the article you want to download is not supported yet, you can still use the second function from the package to download raw html code from arbitrary urls:
+
+```{r examplecollect, eval=FALSE}
+pb_collect("google.com")
+```
+
+```{r examplecollectback, echo=FALSE, message=FALSE}
+df <- pb_collect("google.com")
+df %>% 
+  mutate(across(expanded_url:status, ~ trim(.x, 30)),
+         content_raw = paste0(strtrim(content_raw, width = 30), "..."))
+```
+
+`pb_collect` uses concurrent requests to download many pages at the same time, making the function very quick to collect large amounts of data.
+You can then experiment with `rvest` or another package to extract the information you want.
 
 ## For developers
 

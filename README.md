@@ -47,23 +47,22 @@ df <- pb_deliver("https://tinyurl.com/386e98k5")
 df
 ```
 
-| url                            | expanded\_url                                                                     | domain              | status | datetime            | author                                                | headline                | text                     | misc |
+| url                            | expanded_url                                                                      | domain              | status | datetime            | author                                                | headline                | text                     | misc |
 |:-------------------------------|:----------------------------------------------------------------------------------|:--------------------|-------:|:--------------------|:------------------------------------------------------|:------------------------|:-------------------------|:-----|
-| <https://tinyurl.com/386e98k5> | <https://www.theguardian.com/tv-and-radio/2021/jul/12/should-marge-divorce-homer> | www.theguardian.com |    200 | 2021-07-12 12:00:13 | <https://www.theguardian.com/profile/stuart-heritage> | ‘A woman trapped in an… | The Simpson couple have… | NULL |
+| <https://tinyurl.com/386e98k5> | <https://www.theguardian.com/tv-and-radio/2021/jul/12/should-marge-divorce-homer> | www.theguardian.com |    200 | 2021-07-12 12:00:13 | <https://www.theguardian.com/profile/stuart-heritage> | ’A woman trapped in an… | The Simpson couple have… | NULL |
 
 The returned `data.frame` contains important meta information about the
 news items and their full text. Notice, that the function had no problem
-reading the link, even though it was shortened. `paperboy` is an
-unfinished and highly experimental package at the moment. You will
+reading the link, even though it was shortened. ***`paperboy` is an
+unfinished and highly experimental package at the moment.*** You will
 therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
 #> Warning in
-#> pb_deliver_paper.default(u,
-#> verbose = verbose, ...): No
-#> method for www.google.com yet.
-#> Url ignored.
+#> pb_deliver_paper.default(u, verbose
+#> = verbose, ...): No method for
+#> www.google.com yet. Url ignored.
 ```
 
 If you enter a vector of multiple URLs, the unsupported ones will be
@@ -71,14 +70,31 @@ ignored with a `warning`. The other URLs will be processed normally
 though. If you have a dead link in your `url` vector, the `status`
 column will be different from `200` and contain `NA`s.
 
+But even if the article you want to download is not supported yet, you
+can still use the second function from the package to download raw html
+code from arbitrary urls:
+
+``` r
+pb_collect("google.com")
+```
+
+| url        | expanded_url             | domain         | status | content_raw                        |
+|:-----------|:-------------------------|:---------------|-------:|:-----------------------------------|
+| google.com | <http://www.google.com/> | www.google.com |    200 | \<!doctype html\>\<html itemscope… |
+
+`pb_collect` uses concurrent requests to download many pages at the same
+time, making the function very quick to collect large amounts of data.
+You can then experiment with `rvest` or another package to extract the
+information you want.
+
 ## For developers
 
 Every webscraper should retrieve a `tibble` with the following format:
 
-| url                                 | expanded\_url | domain     | status           | datetime             | headline     | author     | text          | misc                                                                      |
-|:------------------------------------|:--------------|:-----------|:-----------------|:---------------------|:-------------|:-----------|:--------------|:--------------------------------------------------------------------------|
-| character                           | character     | character  | integer          | as.POSIXct           | character    | character  | character     | list                                                                      |
-| the original url fed to the scraper | the full url  | the domain | http status code | publication datetime | the headline | the author | the full text | all other information that can be consistently found on a specific outlet |
+| url                                 | expanded_url | domain     | status           | datetime             | headline     | author     | text          | misc                                                                      |
+|:------------------------------------|:-------------|:-----------|:-----------------|:---------------------|:-------------|:-----------|:--------------|:--------------------------------------------------------------------------|
+| character                           | character    | character  | integer          | as.POSIXct           | character    | character  | character     | list                                                                      |
+| the original url fed to the scraper | the full url | the domain | http status code | publication datetime | the headline | the author | the full text | all other information that can be consistently found on a specific outlet |
 
 Since some outlets will give you additional information, the `misc`
 column was included so these can be retained. If you have a scraper you
