@@ -35,7 +35,7 @@ registerS3method(
 )
 ```
 
-# paperboy
+# paperboy <img src="man/figures/logo.svg" align="right" height="150" />
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
@@ -47,8 +47,8 @@ registerS3method(
 
 The philosophy of `paperboy` is that the package is a comprehensive collection of webscraping scripts for news media sites.
 Many data scientists and researchers write their own code when they have to retrieve news media content from websites.
-At the end of research projects, this code is often collecting digital dust on researchers hard drives instead of being made public for others to use.
-`paperboy` offers writers of webscraping scripts a clear path to publish their code and earn co-authorship on the package.
+At the end of research projects, this code is often collecting digital dust on researchers hard drives instead of being made public for others to employ.
+`paperboy` offers writers of webscraping scripts a clear path to publish their code and earn co-authorship on the package (see [For developers](#for-developers) Section).
 For users, the promise is simple: `paperboy` delivers news media data from many websites in a consistent format.
 Check which domains are already supported in [the table below](#available-scrapers) or with the command `pb_available()`.
 
@@ -111,6 +111,11 @@ You can then experiment with `rvest` or another package to extract the informati
 
 ## For developers
 
+If there is no scraper for a news site and you want to contribute one to this project, you can become a co-author of this package by adding it via a pull request.
+First check [availabe scrapers](#available-scrapers) and open [issues](https://github.com/JBGruber/paperboy/issues) and [pull requests](https://github.com/JBGruber/paperboy/pulls).
+Open a new issue or comment on an existing one to communicate that you are working on a scraper (so that work isn't done twice).
+Then start by pulling a few articles with `pb_collect` and start to parse the html code in the `content_raw` column (preferably with `rvest`).
+
 Every webscraper should retrieve a `tibble` with the following format:
 
 ```{r format, echo=FALSE}
@@ -122,8 +127,6 @@ tibble::tribble(
 ```
 
 Since some outlets will give you additional information, the `misc` column was included so these can be retained.
-If you have a scraper you want to contribute, look in the list below if it already exists.
-If it does not yet exist, you can become a co-author of this package by adding it via a pull request.
 
 ## Available Scrapers
 

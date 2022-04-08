@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# paperboy
+# paperboy <img src="man/figures/logo.svg" align="right" height="150" />
 
 <!-- badges: start -->
 
@@ -19,9 +19,10 @@ collection of webscraping scripts for news media sites. Many data
 scientists and researchers write their own code when they have to
 retrieve news media content from websites. At the end of research
 projects, this code is often collecting digital dust on researchers hard
-drives instead of being made public for others to use. `paperboy` offers
-writers of webscraping scripts a clear path to publish their code and
-earn co-authorship on the package. For users, the promise is simple:
+drives instead of being made public for others to employ. `paperboy`
+offers writers of webscraping scripts a clear path to publish their code
+and earn co-authorship on the package (see [For
+developers](#for-developers) Section). For users, the promise is simple:
 `paperboy` delivers news media data from many websites in a consistent
 format. Check which domains are already supported in [the table
 below](#available-scrapers) or with the command `pb_available()`.
@@ -59,10 +60,9 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> Warning in
-#> pb_deliver_paper.default(u, verbose
-#> = verbose, ...): No method for
-#> www.google.com yet. Url ignored.
+#> Warning in pb_deliver_paper.default(u, verbose
+#> = verbose, ...): No method for www.google.com
+#> yet. Url ignored.
 ```
 
 If you enter a vector of multiple URLs, the unsupported ones will be
@@ -89,6 +89,16 @@ information you want.
 
 ## For developers
 
+If there is no scraper for a news site and you want to contribute one to
+this project, you can become a co-author of this package by adding it
+via a pull request. First check [availabe scrapers](#available-scrapers)
+and open [issues](https://github.com/JBGruber/paperboy/issues) and [pull
+requests](https://github.com/JBGruber/paperboy/pulls). Open a new issue
+or comment on an existing one to communicate that you are working on a
+scraper (so that work isn’t done twice). Then start by pulling a few
+articles with `pb_collect` and start to parse the html code in the
+`content_raw` column (preferably with `rvest`).
+
 Every webscraper should retrieve a `tibble` with the following format:
 
 | url                                 | expanded_url | domain     | status           | datetime             | headline     | author     | text          | misc                                                                      |
@@ -97,10 +107,7 @@ Every webscraper should retrieve a `tibble` with the following format:
 | the original url fed to the scraper | the full url | the domain | http status code | publication datetime | the headline | the author | the full text | all other information that can be consistently found on a specific outlet |
 
 Since some outlets will give you additional information, the `misc`
-column was included so these can be retained. If you have a scraper you
-want to contribute, look in the list below if it already exists. If it
-does not yet exist, you can become a co-author of this package by adding
-it via a pull request.
+column was included so these can be retained.
 
 ## Available Scrapers
 
