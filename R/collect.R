@@ -5,6 +5,9 @@
 #'   seconds). If the query finishes earlier, results are returned immediately.
 #' @param ignore_fails normally the function errors when a URL can't be reached
 #'   due to connection issues. Setting to TRUE ignores this.
+#' @param connections max total concurrent connections.
+#' @param host_con max concurrent connections per host.
+#' @param cookies list of named cookie values.
 #' @param verbose A logical flag indicating whether information should be
 #'   printed to the screen. If \code{NULL} will be determined from
 #'   \code{getOption("paperboy_verbose")}.
@@ -17,6 +20,9 @@
 pb_collect <- function(urls,
                        timeout = 30,
                        ignore_fails = FALSE,
+                       connections = 100L,
+                       host_con = 6L,
+                       cookies = list(),
                        verbose = NULL,
                        ...) {
 
@@ -28,7 +34,8 @@ pb_collect <- function(urls,
   if (verbose) message(length(urls), " unique URLs provided...")
 
   # setup for async curl call
-  pool <- curl::new_pool()
+  pool <- curl::new_pool(total_con = connections,
+                         host_con = host_con)
   pages <- list()
 
   # create different parser function for each request to identify results
@@ -61,6 +68,20 @@ pb_collect <- function(urls,
   fail_parser <- lapply(urls, parse_fail)
   names(fail_parser) <- urls
 
+  # setup handle (copied from https://github.com/r-lib/httr/blob/main/R/cookies.r)
+
+  pb_handle <- function(cookies) {
+    if (is.null(names(cookies)) & length(cookies) > 0) {
+      stop("cookies must be provided in name = value pairs.",
+           " For example, cookies = list(a = 1, b = 2)")
+    }
+    cookies_str <- vapply(cookies, curl::curl_escape, FUN.VALUE = character(1))
+
+    cookie <- paste(names(cookies), cookies_str, sep = "=", collapse = ";")
+
+    curl::handle_setopt(curl::new_handle(), cookie = cookie)
+  }
+
   # setup async call
   invisible(lapply(
     urls, function(u) {
@@ -68,7 +89,8 @@ pb_collect <- function(urls,
         u,
         done = response_parser[[u]],
         fail = fail_parser[[u]],
-        pool = pool
+        pool = pool,
+        handle = pb_handle(cookies)
       )
     }
   ))
@@ -97,8 +119,8 @@ pb_collect <- function(urls,
   # see issue #3
   if (any(out$domain == "www.washingtonpost.com")) {
     if (any(grepl("gdpr-consent", out$expanded_url, fixed = TRUE))) {
-      warning("www.washingtonpost.com requests GDPR consent instead of showing the article.",
-              " See https://github.com/JBGruber/paperboy/issues/3")
+      warning("www.washingtonpost.com requests GDPR consent instead of showing",
+              " the article. See https://github.com/JBGruber/paperboy/issues/3")
     }
   }
 

@@ -4,7 +4,16 @@
 \alias{pb_collect}
 \title{Collect data from supplied URLs}
 \usage{
-pb_collect(urls, timeout = 30, ignore_fails = FALSE, verbose = NULL, ...)
+pb_collect(
+  urls,
+  timeout = 30,
+  ignore_fails = FALSE,
+  connections = 100L,
+  host_con = 6L,
+  cookies = list(),
+  verbose = NULL,
+  ...
+)
 }
 \arguments{
 \item{urls}{Character object with URLs.}
@@ -14,6 +23,12 @@ seconds). If the query finishes earlier, results are returned immediately.}
 
 \item{ignore_fails}{normally the function errors when a URL can't be reached
 due to connection issues. Setting to TRUE ignores this.}
+
+\item{connections}{max total concurrent connections.}
+
+\item{host_con}{max concurrent connections per host.}
+
+\item{cookies}{list of named cookie values.}
 
 \item{verbose}{A logical flag indicating whether information should be
 printed to the screen. If \code{NULL} will be determined from
