@@ -60,9 +60,8 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> Warning in pb_deliver_paper.default(u, verbose
-#> = verbose, ...): No method for www.google.com
-#> yet. Url ignored.
+#> Warning in pb_deliver_paper.default(u, verbose = verbose, ...):
+#> No method for www.google.com yet. Url ignored.
 ```
 
 If you enter a vector of multiple URLs, the unsupported ones will be
@@ -91,8 +90,9 @@ information you want.
 
 If there is no scraper for a news site and you want to contribute one to
 this project, you can become a co-author of this package by adding it
-via a pull request. First check [availabe scrapers](#available-scrapers)
-and open [issues](https://github.com/JBGruber/paperboy/issues) and [pull
+via a pull request. First check [available
+scrapers](#available-scrapers) and open
+[issues](https://github.com/JBGruber/paperboy/issues) and [pull
 requests](https://github.com/JBGruber/paperboy/pulls). Open a new issue
 or comment on an existing one to communicate that you are working on a
 scraper (so that work isn’t done twice). Then start by pulling a few

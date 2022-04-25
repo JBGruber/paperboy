@@ -7,8 +7,7 @@ test_that("normalise_df works", {
 })
 
 test_that("pb_available works", {
-  expect_equal(
-    {
+  expect_equal({
       out <- pb_available()
       c(class(out), length(out) > 10)
     },
@@ -17,8 +16,7 @@ test_that("pb_available works", {
 })
 
 test_that("Test safe named list making", {
-  expect_equal(
-    {
+  expect_equal({
       text <- "hello world"
       author <- "Max Mustermann"
       headline <- "lorem ipsum"
@@ -36,8 +34,7 @@ test_that("Test safe named list making", {
          headline = "lorem ipsum",
          datetime = NA)
   )
-  expect_equal(
-    {
+  expect_equal({
       text <- "hello world"
       author <- c("Max Mustermann", "Erika Mustermann")
       headline <- "lorem ipsum"
@@ -56,4 +53,3 @@ test_that("Test safe named list making", {
          datetime = NA)
   )
 })
-

@@ -112,7 +112,7 @@ You can then experiment with `rvest` or another package to extract the informati
 ## For developers
 
 If there is no scraper for a news site and you want to contribute one to this project, you can become a co-author of this package by adding it via a pull request.
-First check [availabe scrapers](#available-scrapers) and open [issues](https://github.com/JBGruber/paperboy/issues) and [pull requests](https://github.com/JBGruber/paperboy/pulls).
+First check [available scrapers](#available-scrapers) and open [issues](https://github.com/JBGruber/paperboy/issues) and [pull requests](https://github.com/JBGruber/paperboy/pulls).
 Open a new issue or comment on an existing one to communicate that you are working on a scraper (so that work isn't done twice).
 Then start by pulling a few articles with `pb_collect` and start to parse the html code in the `content_raw` column (preferably with `rvest`).
 
