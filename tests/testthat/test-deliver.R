@@ -19,6 +19,10 @@ test_that("Test infrascture", {
     pb_deliver(pb_collect("https://httpbin.org/status/404", verbose = FALSE)),
     "1 URLs removed due to bad status."
   )
+  expect_message(
+    pb_deliver(pb_collect("https://httpbin.org/status/200", verbose = FALSE)),
+    "Parsing..."
+  )
 })
 
 test_that("Test theguardian scraper", {

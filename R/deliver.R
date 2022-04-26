@@ -82,3 +82,8 @@ pb_deliver_paper.default <- function(x, verbose = NULL, ...) {
   warning("No method for ", x$domain[1], " yet. Url ignored.")
   NULL
 }
+
+# used for testing
+pb_deliver_paper.httpbin_org <- function(...) {
+
+}
