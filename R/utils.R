@@ -15,7 +15,7 @@ pb_available <- function() {
     unclass() %>%
     grep("pb_deliver_paper.", ., value = TRUE) %>%
     gsub("pb_deliver_paper.", "", ., fixed = TRUE) %>%
-    .[. != "default"] %>%
+    .[!. %in% c("default", "httpbin_org")] %>%
     gsub("_", ".", ., fixed = TRUE)
 }
 
