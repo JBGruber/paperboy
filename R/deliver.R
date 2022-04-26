@@ -18,7 +18,7 @@ pb_deliver <- function(x, verbose = NULL, ...) {
 
 #' @export
 pb_deliver.default <- function(x, verbose = NULL, ...) {
-    stop("No method for class", class(x), ".")
+    stop("No method for class ", class(x), ".")
 }
 
 #' @export
@@ -34,7 +34,8 @@ pb_deliver.character <- function(x, verbose = NULL, ...) {
 pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
 
   if (!"content_raw" %in% colnames(x)) {
-    stop("x must be a character vector of URLs or a data.frame returned by pb_collect")
+    stop("x must be a character vector of URLs or a data.frame",
+         " returned by pb_collect.")
   }
 
   if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
@@ -46,7 +47,9 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     if (sum(bad_status) > 0) {
       message(sum(bad_status), " URLs removed due to bad status.", appendLF = FALSE)
     }
-    message(" Parsing...")
+    if (sum(!bad_status) > 0) {
+      message(" Parsing...")
+    }
   }
 
   domains <- split(x, x$domain, drop = TRUE)

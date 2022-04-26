@@ -7,6 +7,18 @@ test_that("Test infrascture", {
       out <- suppressWarnings(pb_deliver("google.com", verbose = FALSE))
       c(class(out), ncol(out), nrow(out))
     }, c("tbl_df", "tbl", "data.frame", "0", "0"))
+  expect_error(
+    pb_deliver(list("google.com"), verbose = FALSE),
+    "No method for class list."
+  )
+  expect_error(
+    pb_deliver(data.frame(test = "google.com"), verbose = FALSE),
+    "x must be a character vector of URLs or a data.frame returned by pb_collect."
+  )
+  expect_message(
+    pb_deliver(pb_collect("https://httpbin.org/status/404", verbose = FALSE)),
+    "1 URLs removed due to bad status."
+  )
 })
 
 test_that("Test theguardian scraper", {

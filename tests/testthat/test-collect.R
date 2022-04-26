@@ -1,3 +1,10 @@
+test_that("status", {
+  expect_message(
+    pb_collect("https://httpbin.org/status/404"),
+    "1 pages from 1 domains collected. 1 links had issues.\n"
+  )
+})
+
 test_that("expandurls", {
   expect_equal({
       res <- pb_collect(urls = "https://httpbin.org/")
