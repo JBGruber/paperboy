@@ -47,6 +47,10 @@ pb_deliver_paper.www_washingtonpost_com <- function(x, verbose = NULL, ...) {
           strptime(format = "%B %d, %Y | %I:%M %p")
       }
 
+      if (length(datetime) > 1) {
+        datetime <- datetime[1]
+      }
+
       # headline
       headline <- html %>%
         rvest::html_elements("[property=\"og:title\"]") %>%

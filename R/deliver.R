@@ -66,7 +66,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
   })
 
   return(dplyr::bind_rows(out))
-  #return(out)
+
 }
 
 #' internal function to deliver specific newspapers
