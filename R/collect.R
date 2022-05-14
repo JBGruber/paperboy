@@ -7,7 +7,8 @@
 #'   due to connection issues. Setting to TRUE ignores this.
 #' @param connections max total concurrent connections.
 #' @param host_con max concurrent connections per host.
-#' @param cookies list of named cookie values.
+#' @param cookies list or vector of named cookie values.
+#' @param useragent String to be sent in the User-Agent header.
 #' @param verbose A logical flag indicating whether information should be
 #'   printed to the screen. If \code{NULL} will be determined from
 #'   \code{getOption("paperboy_verbose")}.
@@ -23,6 +24,7 @@ pb_collect <- function(urls,
                        connections = 100L,
                        host_con = 6L,
                        cookies = list(),
+                       useragent = "paperboy",
                        verbose = NULL,
                        ...) {
 
@@ -79,7 +81,12 @@ pb_collect <- function(urls,
 
     cookie <- paste(names(cookies), cookies_str, sep = "=", collapse = ";")
 
-    curl::handle_setopt(curl::new_handle(), cookie = cookie)
+
+    curl::handle_setopt(
+      curl::new_handle(),
+      cookie = cookie,
+      useragent = "httr2/0.2.0 r-curl/4.3.2 libcurl/7.83.1"
+    )
   }
 
   # setup async call
