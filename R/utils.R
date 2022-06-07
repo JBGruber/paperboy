@@ -80,3 +80,10 @@ normalise_df <- function(df) {
   dplyr::select(df, !!expected_cols)
 
 }
+
+#' base R version of stringi::stri_replace_all()
+#' @keywords internal
+replace_all <- function(str, pattern, replacement, fixed = TRUE) {
+  for(i in seq_along(pattern)) str <- gsub(pattern[i], replacement[i], str, fixed = fixed)
+  return(str)
+}
