@@ -138,5 +138,5 @@ read.csv("./inst/status.csv") %>%
 
 - ![](https://img.shields.io/badge/status-gold-%23ffd700.svg): Runs without known issues
 - ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg): Runs with some issues
-- ![](https://img.shields.io/badge/status-broken-%23D8634C): Currently not working, fix has been requested
+- ![](https://img.shields.io/badge/status-broken-%23D8634C)![](https://img.shields.io/badge/status-requested-lightgrey): Currently not working, fix has been requested
 
