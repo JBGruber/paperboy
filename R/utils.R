@@ -2,6 +2,28 @@
 #' @export
 magrittr::`%>%`
 
+#' Create new scraper
+#'
+#' @param np domain of the newspaper this scraper is for.
+#'
+#' @examples
+#' \dontrun{paperboy:::pb_new(np = "https://www.buzzfeed.com/")}
+pb_new <- function(np) {
+
+  np <- urltools::domain(np) |>
+    sub("www.", "", x = _, fixed = TRUE) |>
+    gsub(".", "_",  x = _, fixed = TRUE)
+
+  template <- system.file("templates", "deliver_.R", package = "paperboy") |>
+    readLines() |>
+    gsub("{{newspaper}}", np, x = _, fixed = TRUE)
+
+  p <- ifelse(basename(getwd()) == "paperboy", "./R/", "")
+  f <- paste0(p, "deliver_", np, ".R")
+  writeLines(template, f)
+  utils::file.edit(f)
+}
+
 #' Show available scrapers
 #'
 #' @return A character vector of supported domains.
