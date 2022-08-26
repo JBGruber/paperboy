@@ -24,6 +24,13 @@ pb_new <- function(np) {
   utils::file.edit(f)
 }
 
+
+class_test <- function(x) {
+  # A small test to check if x is really a tibble.
+  if (methods::is(x, "tbl_df"))
+    stop("Wrong object passed to internal deliver function: ", class(x))
+}
+
 #' Show available scrapers
 #'
 #' @return A character vector of supported domains.

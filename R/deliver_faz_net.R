@@ -6,8 +6,7 @@ pb_deliver_paper.www_faz_net <- function(x, verbose = NULL, ...) {
 
   if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
 
-  if (!"tbl_df" %in% class(x))
-    stop("Wrong object passed to internal deliver function: ", class(x))
+  class_test(x)
 
   if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
 
