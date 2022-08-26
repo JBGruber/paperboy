@@ -70,10 +70,11 @@ pb_collect <- function(urls,
   fail_parser <- lapply(urls, parse_fail)
   names(fail_parser) <- urls
 
-  # setup handle (copied from https://github.com/r-lib/httr/blob/main/R/cookies.r)
+  # setup handle (copied from
+  # https://github.com/r-lib/httr/blob/main/R/cookies.r)
 
   pb_handle <- function(cookies) {
-    if (is.null(names(cookies)) & length(cookies) > 0) {
+    if (is.null(names(cookies)) && length(cookies) > 0) {
       stop("cookies must be provided in name = value pairs.",
            " For example, cookies = list(a = 1, b = 2)")
     }

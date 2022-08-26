@@ -1,12 +1,8 @@
 test_that("Test infrascture", {
   expect_warning(
-    pb_deliver("google.com", verbose = FALSE),
-    "No method for www.google.com yet. Url ignored."
+    pb_deliver("google.com", verbose = TRUE),
+    "...No method for domain yet, attempting generic approach"
   )
-  expect_equal({
-      out <- suppressWarnings(pb_deliver("google.com", verbose = FALSE))
-      c(class(out), ncol(out), nrow(out))
-    }, c("tbl_df", "tbl", "data.frame", "0", "0"))
   expect_error(
     pb_deliver(list("google.com"), verbose = FALSE),
     "No method for class list."

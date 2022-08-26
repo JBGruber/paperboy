@@ -6,6 +6,7 @@ magrittr::`%>%`
 #'
 #' @param np domain of the newspaper this scraper is for.
 #'
+#' @keywords internal
 #' @examples
 #' \dontrun{paperboy:::pb_new(np = "https://www.buzzfeed.com/")}
 pb_new <- function(np) {

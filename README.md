@@ -1,6 +1,4 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # paperboy <img src="man/figures/logo.svg" align="right" height="139" />
 
 <!-- badges: start -->
@@ -60,19 +58,16 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> Warning in pb_deliver_paper.default(u,
-#> verbose = verbose, ...): No method for
-#> www.google.com yet. Url ignored.
 ```
 
-If you enter a vector of multiple URLs, the unsupported ones will be
-ignored with a `warning`. The other URLs will be processed normally
-though. If you have a dead link in your `url` vector, the `status`
-column will be different from `200` and contain `NA`s.
+The function still returns a data.frame, but important information is
+missing — in this case because it isn’t there. The other URLs will be
+processed normally though. If you have a dead link in your `url` vector,
+the `status` column will be different from `200` and contain `NA`s.
 
-But even if the article you want to download is not supported yet, you
-can still use the second function from the package to download raw html
-code from arbitrary urls:
+If you are unhappy with results from the generic approach, you can still
+use the second function from the package to download raw html code and
+later parse it yourself:
 
 ``` r
 pb_collect("google.com")
@@ -85,7 +80,7 @@ pb_collect("google.com")
 `pb_collect` uses concurrent requests to download many pages at the same
 time, making the function very quick to collect large amounts of data.
 You can then experiment with `rvest` or another package to extract the
-information you want.
+information you want from `df$content_raw`.
 
 ## For developers
 
@@ -150,9 +145,9 @@ column was included so these can be retained.
 | www.thismorningwithgordondeal.com | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 | www.tribpub.com                   | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 
--   ![](https://img.shields.io/badge/status-gold-%23ffd700.svg): Runs
-    without known issues
--   ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg): Runs
-    with some issues
--   ![](https://img.shields.io/badge/status-broken-%23D8634C)![](https://img.shields.io/badge/status-requested-lightgrey):
-    Currently not working, fix has been requested
+- ![](https://img.shields.io/badge/status-gold-%23ffd700.svg): Runs
+  without known issues
+- ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg): Runs
+  with some issues
+- ![](https://img.shields.io/badge/status-broken-%23D8634C)![](https://img.shields.io/badge/status-requested-lightgrey):
+  Currently not working, fix has been requested

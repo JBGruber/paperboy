@@ -3,5 +3,5 @@ bibentry(bibtype = "Manual",
          author = as.person("Johannes Gruber"),
          year = format(Sys.Date(), "%Y"),
          url = "https://github.com/JBGruber/paperboy",
-         note = "R package version 0.0.2.9000"
+         note = "R package version 0.0.3.9000"
 )

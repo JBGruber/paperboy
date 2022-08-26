@@ -15,3 +15,4 @@ Create new scraper
 \examples{
 \dontrun{paperboy:::pb_new(np = "https://www.buzzfeed.com/")}
 }
+\keyword{internal}
