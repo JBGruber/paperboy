@@ -44,8 +44,7 @@ pb_deliver_paper.www_cnet_com <- function(x, verbose = NULL, ...) {
 
     # text
     text <- html %>%
-      rvest::html_elements("[class*=\"c-CmsContent\"]") %>%
-      rvest::html_elements("p") %>%
+      rvest::html_elements(".c-CmsContent>p,.article-main-body>p") %>%
       rvest::html_text2() %>%
       paste(collapse = "\n")
 
