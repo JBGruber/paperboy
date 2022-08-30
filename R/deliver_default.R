@@ -12,8 +12,8 @@ pb_deliver_paper.default <- function(x, verbose = NULL, ...) {
 
   if (verbose) {
     message("\t...", nrow(x), " articles from ", x$domain[1])
-    warning("\t...No method for domain yet, attempting generic approach")
   }
+  warning("\t...No method for domain ", x$domain[1], " yet, attempting generic approach")
 
   # helper function to make progress bar
   pb <- make_pb(x)

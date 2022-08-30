@@ -83,7 +83,7 @@ Notice, that the function had no problem reading the link, even though it was sh
 ***`paperboy` is an unfinished and highly experimental package at the moment.***
 You will therefore often encounter this warning:
 
-```{r nomethod, results="hide"}
+```{r nomethod}
 pb_deliver("google.com")
 ```
 

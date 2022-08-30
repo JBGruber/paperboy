@@ -58,7 +58,15 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
+#> Warning in pb_deliver_paper.default(u,
+#> verbose = verbose, ...): ...No method
+#> for domain www.google.com yet, attempting
+#> generic approach
 ```
+
+| url        | expanded_url             | domain         | status | datetime | author | headline | text                                               | misc |
+|:-----------|:-------------------------|:---------------|-------:|:---------|:-------|:---------|:---------------------------------------------------|:-----|
+| google.com | <http://www.google.com/> | www.google.com |    200 | NA       | NA     | Google   | © 2022 - Datenschutzerklrung - Nutzungsbedingungen | NULL |
 
 The function still returns a data.frame, but important information is
 missing — in this case because it isn’t there. The other URLs will be

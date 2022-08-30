@@ -1,7 +1,7 @@
 test_that("Test infrascture", {
   expect_warning(
     pb_deliver("google.com", verbose = TRUE),
-    "...No method for domain yet, attempting generic approach"
+    "...No method for domain www.google.com yet, attempting generic approach"
   )
   expect_error(
     pb_deliver(list("google.com"), verbose = FALSE),
