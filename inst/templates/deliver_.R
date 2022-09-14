@@ -16,9 +16,9 @@ pb_deliver_paper.{{newspaper}} <- function(x, verbose = NULL, ...) {
   pb <- make_pb(x)
 
   # iterate over all URLs and normalise data.frame
-  purrr::map_df(x$content_raw, parse_{{newspaper}}) |>
-    cbind(x) |>
-    normalise_df() |>
+  purrr::map_df(x$content_raw, parse_{{newspaper}}) %>%
+    cbind(x) %>%
+    normalise_df() %>%
     return()
 
 }
@@ -31,25 +31,25 @@ parse_{{newspaper}} <- function(html) {
   if (verbose) pb$tick()
 
   # datetime
-  datetime <- html |>
-    rvest::html_elements("") |>
-    rvest::html_attr("") |>
+  datetime <- html %>%
+    rvest::html_elements("") %>%
+    rvest::html_attr("") %>%
     lubridate::as_datetime()
 
   # headline
-  headline <- html |>
-    rvest::html_elements("") |>
+  headline <- html %>%
+    rvest::html_elements("") %>%
     rvest::html_attr("")
 
   # author
-  author <- html |>
-    rvest::html_elements("")  |>
-    rvest::html_text2() |>
+  author <- html %>%
+    rvest::html_elements("")  %>%
+    rvest::html_text2() %>%
     toString()
 
   # text
-  text <- html |>
-    rvest::html_elements("") |>
+  text <- html %>%
+    rvest::html_elements("") %>%
     rvest::html_text2()
 
   # the helper function safely creates a named list from objects

@@ -66,7 +66,7 @@ pb_deliver("google.com")
 
 | url        | expanded_url             | domain         | status | datetime | author | headline | text                                               | misc |
 |:-----------|:-------------------------|:---------------|-------:|:---------|:-------|:---------|:---------------------------------------------------|:-----|
-| google.com | <http://www.google.com/> | www.google.com |    200 | NA       | NA     | Google   | © 2022 - Datenschutzerklrung - Nutzungsbedingungen | NULL |
+| google.com | <http://www.google.com/> | www.google.com |    200 | NA       | NA     | Google   |  | NULL |
 
 The function still returns a data.frame, but important information is
 missing — in this case because it isn’t there. The other URLs will be

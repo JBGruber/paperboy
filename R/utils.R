@@ -10,14 +10,14 @@ magrittr::`%>%`
 #' @examples
 #' \dontrun{paperboy:::pb_new(np = "https://www.buzzfeed.com/")}
 pb_new <- function(np) {
+  . <- NULL
+  np <- urltools::domain(np) %>%
+    sub("www", "", x = ., fixed = TRUE) %>%
+    gsub(".", "_",  x = ., fixed = TRUE)
 
-  np <- urltools::domain(np) |>
-    sub("www.", "", x = _, fixed = TRUE) |>
-    gsub(".", "_",  x = _, fixed = TRUE)
-
-  template <- system.file("templates", "deliver_.R", package = "paperboy") |>
-    readLines() |>
-    gsub("{{newspaper}}", np, x = _, fixed = TRUE)
+  template <- system.file("templates", "deliver_.R", package = "paperboy") %>%
+    readLines() %>%
+    gsub("{{newspaper}}", np, x = ., fixed = TRUE)
 
   p <- ifelse(basename(getwd()) == "paperboy", "./R/", "")
   f <- paste0(p, "deliver_", np, ".R")
