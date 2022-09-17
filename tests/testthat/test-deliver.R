@@ -1,22 +1,22 @@
 test_that("Test infrascture", {
   expect_warning(
-    pb_deliver("google.com", verbose = TRUE),
+    x <- pb_deliver("google.com", verbose = TRUE),
     "...No method for domain.*?yet, attempting generic approach"
   )
   expect_error(
-    pb_deliver(list("google.com"), verbose = FALSE),
+    x <- pb_deliver(list("google.com"), verbose = FALSE),
     "No method for class list."
   )
   expect_error(
-    pb_deliver(data.frame(test = "google.com"), verbose = FALSE),
+    x <- pb_deliver(data.frame(test = "google.com"), verbose = FALSE),
     "x must be a character vector of URLs or a data.frame returned by pb_collect."
   )
   expect_message(
-    pb_deliver(pb_collect("https://httpbin.org/status/404", verbose = FALSE)),
+    x <- pb_deliver(pb_collect("https://httpbin.org/status/404", verbose = FALSE)),
     "1 URLs removed due to bad status."
   )
   expect_message(
-    pb_deliver(pb_collect("https://httpbin.org/status/200", verbose = FALSE)),
+    x <- pb_deliver(pb_collect("https://httpbin.org/status/200", verbose = FALSE)),
     "Parsing..."
   )
 })
