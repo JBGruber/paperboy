@@ -117,3 +117,9 @@ replace_all <- function(str, pattern, replacement, fixed = TRUE) {
   for(i in seq_along(pattern)) str <- gsub(pattern[i], replacement[i], str, fixed = fixed)
   return(str)
 }
+
+#' base R version of stringi::stri_extract()
+#' @keywords internal
+extract <- function(str, pattern) {
+  regmatches(str, regexpr(pattern, str, perl = TRUE))
+}

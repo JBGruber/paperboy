@@ -46,8 +46,9 @@ parse_default <- function(html, verbose, pb) {
       "[name=\"ga-publishDate\"]",
       "[name=\"dcterms.created\"]",
       "[name=\"sailthru.date\"]",
-      "[name=\"parsely-pub-date\"]"
-    ), attributes = c("content", "datetime")) %>%
+      "[name=\"parsely-pub-date\"]",
+      "lit-timestamp"
+    ), attributes = c("content", "datetime", "publishdate")) %>%
     lubridate::as_datetime()
 
   # headline

@@ -59,7 +59,7 @@ Install via `remotes` (first install `remotes` via `install.packages("remotes")`
 remotes::install_github("JBGruber/paperboy")
 ```
 
-## For users
+## For Users
 
 Say you have a link to a news media article, for example, from [mediacloud.org](https://mediacloud.org/).
 Simply supply one or multiple links to a media article to the main function, `pb_deliver`:
