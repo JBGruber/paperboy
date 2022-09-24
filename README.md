@@ -58,9 +58,9 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> Warning in pb_deliver_paper.default(u, verbose =
-#> verbose, ...): ...No method for domain www.google.com
-#> yet, attempting generic approach
+#> Warning in pb_deliver_paper.default(u, verbose
+#> = verbose, ...): ...No method for domain
+#> www.google.com yet, attempting generic approach
 ```
 
 | url        | expanded_url             | domain         | status | datetime | author | headline | text                                               | misc |
@@ -114,66 +114,44 @@ column was included so these can be retained.
 
 ## Available Scrapers
 
-| domain               | status                                                       | author                                      | issues                                               |
-|:---------------------|:-------------------------------------------------------------|:--------------------------------------------|:-----------------------------------------------------|
-| buzzfeed.com         | ![](https://img.shields.io/badge/status-requested-lightgrey) |                                             | [#1](https://github.com/JBGruber/paperboy/issues/1) |
-| cbslnk.cbsileads.com | ![](https://img.shields.io/badge/status-requested-lightgrey) |                                             | [#1](https://github.com/JBGruber/paperboy/issues/1) |
-| dailymail.co.uk      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)  | [@JBGruber](https://github.com/JBGruber/)   |                                                      |
-| decider.com          | ![](https://img.shields.io/badge/status-requested-lightgrey) |                                             | [#1](https://github.com/JBGruber/paperboy/issues/1) |
-| edition.cnn.com      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)  | [@JBGruber](https://github.com/JBGruber/)   |                                                      |
-| eu.usatoday.com      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)) | [@JBGruber](https://github.com/JBGruber/),” |                                                      |
-
-faz.net,![](https://img.shields.io/badge/status-gold-%23ffd700.svg),[@JBGruber](https://github.com/JBGruber/),”
-forbes.com,![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg),[@JBGruber](https://github.com/JBGruber/),[#2](https://github.com/JBGruber/paperboy/issues/2)
-fortune.com,![](https://img.shields.io/badge/status-requested-lightgrey),“,[#1](https://github.com/JBGruber/paperboy/issues/1)
-ftw.usatoday.com,![](https://img.shields.io/badge/status-requested-lightgrey),”,[#1](https://github.com/JBGruber/paperboy/issues/1)
-huffingtonpost.co.uk,![](https://img.shields.io/badge/status-gold-%23ffd700.svg),[@JBGruber](https://github.com/JBGruber/),”
-lnk.techrepublic.com,![](https://img.shields.io/badge/status-requested-lightgrey),“,[#1](https://github.com/JBGruber/paperboy/issues/1)
-marketwatch.com,![](https://img.shields.io/badge/status-gold-%23ffd700.svg),[@JBGruber](https://github.com/JBGruber/),”
-newsweek.com,![](https://img.shields.io/badge/status-gold-%23ffd700.svg),[@JBGruber](https://github.com/JBGruber/),”
-nytimes.com,![](https://img.shields.io/badge/status-gold-%23ffd700.svg),[@JBGruber](https://github.com/JBGruber/),”
-nypost.com,![](https://img.shields.io/badge/status-gold-%23ffd700.svg),[@JBGruber](https://github.com/JBGruber/),”
-pagesix.com,![](https://img.shields.io/badge/status-requested-lightgrey),“,[#1](https://github.com/JBGruber/paperboy/issues/1)
-theguardian.com,![](https://img.shields.io/badge/status-gold-%23ffd700.svg),[@JBGruber](https://github.com/JBGruber/),”
-time.com,![](https://img.shields.io/badge/status-requested-lightgrey),“,[#1](https://github.com/JBGruber/paperboy/issues/1)
-us.cnn.com,![](https://img.shields.io/badge/status-gold-%23ffd700.svg),[@JBGruber](https://github.com/JBGruber/),”
-usatoday.com,![](https://img.shields.io/badge/status-gold-%23ffd700.svg)),[@JBGruber](https://github.com/JBGruber/)
-\| \| \|washingtonpost.com
-\|![](https://img.shields.io/badge/status-gold-%23ffd700.svg)
-\|[@JBGruber](https://github.com/JBGruber/) \| \| \|wsj.com
-\|![](https://img.shields.io/badge/status-gold-%23ffd700.svg)
-\|[@JBGruber](https://github.com/JBGruber/) \| \| \|www.boston.com
-\|![](https://img.shields.io/badge/status-requested-lightgrey) \|
-\|[#1](https://github.com/JBGruber/paperboy/issues/1) \|
-\|www.bostonglobe.com
-\|![](https://img.shields.io/badge/status-requested-lightgrey) \|
-\|[#1](https://github.com/JBGruber/paperboy/issues/1) \|
-\|www.cbsnews.com
-\|![](https://img.shields.io/badge/status-gold-%23ffd700.svg)
-\|[@JBGruber](https://github.com/JBGruber/) \| \| \|www.cnet.com
-\|![](https://img.shields.io/badge/status-gold-%23ffd700.svg)
-\|[@JBGruber](https://github.com/JBGruber/) \| \| \|www.foxbusiness.com
-\|![](https://img.shields.io/badge/status-gold-%23ffd700.svg)
-\|[@JBGruber](https://github.com/JBGruber/) \| \| \|www.foxnews.com
-\|![](https://img.shields.io/badge/status-gold-%23ffd700.svg)
-\|[@JBGruber](https://github.com/JBGruber/) \| \| \|www.latimes.com
-\|![](https://img.shields.io/badge/status-gold-%23ffd700.svg)
-\|[@JBGruber](https://github.com/JBGruber/) \| \| \|www.msnbc.com
-\|![](https://img.shields.io/badge/status-requested-lightgrey) \|
-\|[#1](https://github.com/JBGruber/paperboy/issues/1) \|
-\|www.sfgate.com
-\|![](https://img.shields.io/badge/status-gold-%23ffd700.svg)
-\|[@JBGruber](https://github.com/JBGruber/) \| \| \|www.telegraph.co.uk
-\|![](https://img.shields.io/badge/status-gold-%23ffd700.svg)
-\|[@JBGruber](https://github.com/JBGruber/) \| \| \|www.thelily.com
-\|![](https://img.shields.io/badge/status-requested-lightgrey) \|
-\|[#1](https://github.com/JBGruber/paperboy/issues/1) \|
-\|www.thismorningwithgordondeal.com
-\|![](https://img.shields.io/badge/status-requested-lightgrey) \|
-\|[#1](https://github.com/JBGruber/paperboy/issues/1) \|
-\|www.tribpub.com
-\|![](https://img.shields.io/badge/status-requested-lightgrey) \|
-\|[#1](https://github.com/JBGruber/paperboy/issues/1) \|
+| domain                            | status                                                        | author                                    | issues                                               |
+|:----------------------------------|:--------------------------------------------------------------|:------------------------------------------|:-----------------------------------------------------|
+| buzzfeed.com                      | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| cbslnk.cbsileads.com              | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| dailymail.co.uk                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| decider.com                       | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| edition.cnn.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| eu.usatoday.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| faz.net                           | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| forbes.com                        | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | [@JBGruber](https://github.com/JBGruber/) | [#2](https://github.com/JBGruber/paperboy/issues/2) |
+| fortune.com                       | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| ftw.usatoday.com                  | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| huffingtonpost.co.uk              | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| lnk.techrepublic.com              | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| marketwatch.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| newsweek.com                      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| nypost.com                        | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| nytimes.com                       | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| pagesix.com                       | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| theguardian.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| time.com                          | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| us.cnn.com                        | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| usatoday.com                      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| washingtonpost.com                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| wsj.com                           | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| www.boston.com                    | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.bostonglobe.com               | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.cbsnews.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| www.cnet.com                      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| www.foxbusiness.com               | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| www.foxnews.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| www.latimes.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| www.msnbc.com                     | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.sfgate.com                    | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| www.telegraph.co.uk               | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| www.thelily.com                   | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.thismorningwithgordondeal.com | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
+| www.tribpub.com                   | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [#1](https://github.com/JBGruber/paperboy/issues/1) |
 
 - ![](https://img.shields.io/badge/status-gold-%23ffd700.svg): Runs
   without known issues
