@@ -16,7 +16,7 @@ pb_deliver_paper.{{newspaper}} <- function(x, verbose = NULL, ...) {
   pb <- make_pb(x)
 
   # iterate over all URLs and normalise data.frame
-  purrr::map_df(x$content_raw, parse_{{newspaper}}) %>%
+  purrr::map_df(x$content_raw, parse_{{newspaper}}, verbose, pb) %>%
     cbind(x) %>%
     normalise_df() %>%
     return()
@@ -24,7 +24,7 @@ pb_deliver_paper.{{newspaper}} <- function(x, verbose = NULL, ...) {
 }
 
 # define parsing function to iterate over the URLs
-parse_{{newspaper}} <- function(html) {
+parse_{{newspaper}} <- function(html, verbose, pb) {
 
   # raw html is stored in column content_raw
   html <- rvest::read_html(html)
@@ -50,7 +50,8 @@ parse_{{newspaper}} <- function(html) {
   # text
   text <- html %>%
     rvest::html_elements("") %>%
-    rvest::html_text2()
+    rvest::html_text2() %>%
+    paste(collapse = "\n")
 
   # the helper function safely creates a named list from objects
   s_n_list(
