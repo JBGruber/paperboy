@@ -14,7 +14,7 @@ pb_deliver(x, verbose = NULL, ...)
 printed to the screen. If \code{NULL} will be determined from
 \code{getOption("paperboy_verbose")}.}
 
-\item{...}{Passed on to respective scraper.}
+\item{...}{Passed on to \link{pb_collect}.}
 }
 \value{
 A data.frame (tibble) with media data and full text.

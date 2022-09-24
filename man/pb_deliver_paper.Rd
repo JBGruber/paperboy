@@ -14,7 +14,7 @@ indicating the domain of all links.}
 printed to the screen. If \code{NULL} will be determined from
 \code{getOption("paperboy_verbose")}.}
 
-\item{...}{Passed on to respective scraper.}
+\item{...}{Passed on to \link{pb_collect}.}
 }
 \description{
 internal function to deliver specific newspapers

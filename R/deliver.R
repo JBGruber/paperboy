@@ -8,7 +8,7 @@
 #' @param verbose A logical flag indicating whether information should be
 #'   printed to the screen. If \code{NULL} will be determined from
 #'   \code{getOption("paperboy_verbose")}.
-#' @param ... Passed on to respective scraper.
+#' @param ... Passed on to \link{pb_collect}.
 #'
 #' @return A data.frame (tibble) with media data and full text.
 #' @export
@@ -24,9 +24,9 @@ pb_deliver.default <- function(x, verbose = NULL, ...) {
 #' @export
 pb_deliver.character <- function(x, verbose = NULL, ...) {
 
-  pages <- pb_collect(x, verbose = verbose)
+  pages <- pb_collect(x, verbose = verbose, ...)
 
-  pb_deliver(pages, verbose = verbose, ...)
+  pb_deliver(pages, verbose = verbose)
 
 }
 
@@ -57,7 +57,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
   out <- lapply(domains, function(u) {
 
     class(u) <- c(
-      gsub(".", "_", utils::head(u$domain, 1), fixed = TRUE),
+      replace_all(utils::head(u$domain, 1), c(".", "-"), rep("_", 2L), fixed = TRUE),
       class(u)
     )
 

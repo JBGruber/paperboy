@@ -110,7 +110,7 @@ pb_collect <- function(urls,
     status$pending,
     " job(s) did not finish before timeout. ",
     "Think about increasing the timeout parameter. ",
-    "Enter ?pb_collect for help."
+    "Enter ?pb_collect for help.\n"
   )
 
   out <- dplyr::bind_rows(pages, .id = "urls")
