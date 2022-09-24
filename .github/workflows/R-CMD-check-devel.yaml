@@ -10,10 +10,10 @@ on:
       - main
       - master
 
-name: R-CMD-check
+name: R-CMD-check-devel
 
 jobs:
-  R-CMD-check:
+  R-CMD-check-devel:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
