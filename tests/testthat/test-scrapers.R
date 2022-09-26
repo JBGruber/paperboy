@@ -10,10 +10,16 @@ for (scrp in scrapers) {
   )
 }
 
-# example
-# test_that("Test infrascture", {
-#   expect_error(
-#     paperboy:::pb_deliver_paper.nypost_com(""),
-#     "Wrong object passed to internal deliver function: character"
-#   )
-# })
+test_that("Test parsers", {
+  skip_if_offline()
+  for (url in readLines("test-urls")) {
+    expect_false({
+      message(url)
+      df <- pb_deliver(url, verbose = FALSE, timeout = 90L)
+      any(c(is.na(df$datetime), df$author == "", nchar(df$headline) < 10, nchar(df$text) < 10))
+    })
+  }
+})
+
+
+

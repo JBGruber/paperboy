@@ -38,7 +38,7 @@ pb_deliver_paper.www_cnet_com <- function(x, verbose = NULL, ...) {
 
     # author
     author <- html %>%
-      rvest::html_elements("[class*=\"c-globalAuthor_link\"]")  %>%
+      rvest::html_elements(".c-globalAuthor_link,.author")  %>%
       rvest::html_text2() %>%
       toString()
 

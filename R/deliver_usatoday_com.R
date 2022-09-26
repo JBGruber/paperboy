@@ -32,14 +32,18 @@ parse_usatoday_com <- function(html, verbose, pb) {
 
   # datetime
   datetime <- html %>%
-    rvest::html_element("lit-timestamp,story-timestamp") %>%
-    rvest::html_attr("publishdate") %>%
+    html_search(selectors = c(
+      "lit-timestamp",
+      "story-timestamp",
+      "[property=\"article:published_time\"]"
+    ), attributes = c("content", "publishdate")) %>%
     lubridate::as_datetime()
 
   # author
   author <- html %>%
-    rvest::html_elements(".authors")  %>%
+    rvest::html_elements(".authors,[itemprop=\"author\"]")  %>%
     rvest::html_text2() %>%
+    unique() %>%
     toString()
 
   if (is.na(datetime)) {
@@ -57,7 +61,7 @@ parse_usatoday_com <- function(html, verbose, pb) {
 
   # text
   text <- html %>%
-    rvest::html_elements("article>p,.exclude-from-newsgate,.detail-text") %>%
+    rvest::html_elements("article>p,.articleBody>p,.exclude-from-newsgate,.detail-text") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 

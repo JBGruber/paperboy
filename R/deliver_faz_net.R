@@ -70,7 +70,7 @@ pb_deliver_paper.www_faz_net <- function(x, verbose = NULL, ...) {
 
       # text
       text <- html %>%
-        rvest::html_elements("[class=\"atc-IntroText\"],[class=\"atc-TextParagraph\"]") %>%
+        rvest::html_elements(".atc-IntroText,.atc-TextParagraph,.single-entry-content") %>%
         rvest::html_text2() %>%
         paste(collapse = "\n")
 
