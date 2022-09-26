@@ -39,7 +39,7 @@ pb_deliver_paper.www_latimes_com <- function(x, verbose = NULL, ...) {
 
     # text
     text <- html %>%
-      rvest::html_elements(".page-article-container>p") %>%
+      rvest::html_elements(".page-article-container>p,.rich-text-body>p") %>%
       rvest::html_text2() %>%
       paste(collapse = "\n")
 

@@ -12,14 +12,16 @@ for (scrp in scrapers) {
 
 test_that("Test parsers", {
   skip_if_offline()
-  for (url in readLines("test-urls")) {
-    expect_false({
-      message(url)
-      df <- pb_deliver(url, verbose = FALSE, timeout = 90L)
-      any(c(is.na(df$datetime), df$author == "", nchar(df$headline) < 10, nchar(df$text) < 10))
-    })
-  }
+  expect_message({
+    df <- pb_deliver(readLines("test-urls"), verbose = FALSE, timeout = 90L)
+    # flag if any of the conditions is TRUE
+    misbehaving <- with(
+      df,
+      is.na(datetime) |
+        author == "" |
+        nchar(headline) < 10 |
+        nchar(text) < 10
+    )
+    message("Problems with: ", urltools::domain(df$expanded_url[misbehaving]), appendLF = FALSE)
+  }, "^Problems with: $")
 })
-
-
-
