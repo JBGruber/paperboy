@@ -1,6 +1,8 @@
 #' Collect data from supplied URLs
 #'
 #' @param urls Character object with URLs.
+#' @param collect_rss If one of the URLs contains an RSS feed, should it be
+#'   parsed.
 #' @param timeout How long should the function wait for the connection (in
 #'   seconds). If the query finishes earlier, results are returned immediately.
 #' @param ignore_fails normally the function errors when a URL can't be reached
@@ -19,6 +21,7 @@
 #'
 #' @importFrom rlang :=
 pb_collect <- function(urls,
+                       collect_rss = TRUE,
                        timeout = 30,
                        ignore_fails = FALSE,
                        connections = 100L,
@@ -86,7 +89,7 @@ pb_collect <- function(urls,
     curl::handle_setopt(
       curl::new_handle(),
       cookie = cookie,
-      useragent = "httr2/0.2.0 r-curl/4.3.2 libcurl/7.83.1"
+      useragent = useragent
     )
   }
 
@@ -120,7 +123,6 @@ pb_collect <- function(urls,
   )
 
   out <- dplyr::bind_rows(pages, .id = "urls")
-
   if (nrow(out) > 0) {
     out <- tibble::add_column(
       out,
@@ -128,6 +130,24 @@ pb_collect <- function(urls,
       .after = "expanded_url"
     ) %>%
       dplyr::rename(url = urls)
+  }
+
+  if (collect_rss) {
+    if (verbose) message("\t...parsing RSS feeds")
+    rss <- grepl("<rss.+>", out$content_raw)
+    rss_out <- collect_rss(
+      out[rss, ],
+      collect_rss = FALSE,
+      timeout = timeout,
+      ignore_fails = ignore_fails,
+      connections = connections,
+      host_con = host_con,
+      cookies = cookies,
+      useragent = useragent,
+      verbose = FALSE,
+      ...
+    )
+    out <- dplyr::bind_rows(out[!rss, ], rss_out)
   }
 
   # see issue #3
@@ -160,4 +180,16 @@ pb_collect <- function(urls,
   attr(out, "paperboy_collected_at") <- Sys.time()
 
   return(out)
+}
+
+collect_rss <- function(x, ...) {
+
+  links <- x$content_raw %>%
+    xml2::read_xml() %>%
+    xml2::xml_find_all("//*[name()='item']") %>%
+    xml2::as_list() %>%
+    purrr::map("link") %>%
+    unlist()
+
+  pb_collect(links, ...)
 }
