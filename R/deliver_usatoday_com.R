@@ -1,34 +1,14 @@
 #' internal function to deliver specific newspapers
 #' @param x A data.frame returned by  \link{pb_collect} with an additional class
 #'   indicating the domain of all links.
+#' @param pb a progress bar object.
 #' @inheritParams pb_deliver
 #' @keywords internal
-pb_deliver_paper.usatoday_com <- function(x, verbose = NULL, ...) {
-
-  # If verbose is not explicitly defined, use package default stored in options.
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
-
-  class_test(x)
-
-  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
-
-  # helper function to make progress bar
-  pb <- make_pb(x)
-
-  # iterate over all URLs and normalise data.frame
-  purrr::map_df(x$content_raw, parse_usatoday_com, verbose, pb) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
-
-}
-
-# define parsing function to iterate over the URLs
-parse_usatoday_com <- function(html, verbose, pb) {
+pb_deliver_paper.usatoday_com <- function(x, verbose, pb, ...) {
 
   # raw html is stored in column content_raw
-  html <- rvest::read_html(html)
-  if (verbose) pb$tick()
+  html <- rvest::read_html(x$content_raw)
+  if (verbose) pb$tick(tokens = list(what = x$domain[1]))
 
   # datetime
   datetime <- html %>%
@@ -52,7 +32,8 @@ parse_usatoday_com <- function(html, verbose, pb) {
       rvest::html_text() %>%
       extract("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z") %>%
       unique() %>%
-      lubridate::as_datetime()
+      lubridate::as_datetime() |>
+      head(1L)
   }
 
   # headline

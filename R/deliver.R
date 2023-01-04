@@ -38,6 +38,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
          " returned by pb_collect.")
   }
 
+  # If verbose is not explicitly defined, use package default stored in options.
   if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
 
   bad_status <- x$status != 200L
@@ -54,18 +55,25 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
 
   domains <- split(x, x$domain, drop = TRUE)
 
-  out <- lapply(domains, function(u) {
+  # helper function to make progress bar
+  pb <- make_pb(x)
+
+  purrr::map_df(domains, function(u) {
 
     class(u) <- c(
       replace_all(utils::head(u$domain, 1), c(".", "-"), rep("_", 2L), fixed = TRUE),
       class(u)
     )
 
-    pb_deliver_paper(u, verbose = verbose, ...)
+    class_test(u)
+
+    # iterate over all URLs and normalise data.frame
+    purrr::map_df(seq_along(u$url), function(i) pb_deliver_paper(u[i, ], verbose, pb)) %>%
+      cbind(u) %>%
+      normalise_df() %>%
+      return()
 
   })
-
-  return(dplyr::bind_rows(out))
 
 }
 

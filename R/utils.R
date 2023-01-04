@@ -52,7 +52,7 @@ pb_available <- function() {
 #' @keywords internal
 make_pb <- function(df) {
   progress::progress_bar$new(
-    format = "[:bar] :percent eta: :eta",
+    format = "parsing :what [:bar] :percent eta: :eta",
     total = nrow(df)
   )
 }
