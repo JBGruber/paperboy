@@ -53,28 +53,25 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     }
   }
 
+  class_test(x)
   domains <- split(x, x$domain, drop = TRUE)
 
   # helper function to make progress bar
-  pb <- make_pb(x)
+  if (verbose) pb <- make_pb(x) else pb <- NULL
 
-  purrr::map_df(domains, function(u) {
+  out <- purrr::map_df(domains, function(u) {
 
     class(u) <- c(
       replace_all(utils::head(u$domain, 1), c(".", "-"), rep("_", 2L), fixed = TRUE),
       class(u)
     )
 
-    class_test(u)
-
-    # iterate over all URLs and normalise data.frame
-    purrr::map_df(seq_along(u$url), function(i) pb_deliver_paper(u[i, ], verbose, pb)) %>%
-      cbind(u) %>%
-      normalise_df() %>%
-      return()
+    # iterate over all URLs
+    purrr::map(seq_along(u$url), function(i) pb_deliver_paper(u[i, ], verbose, pb))
 
   })
 
+  return(normalise_df(cbind(out, x)))
 }
 
 #' internal function to deliver specific newspapers
