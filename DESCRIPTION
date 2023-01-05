@@ -33,6 +33,6 @@ Suggests:
 URL: https://github.com/JBGruber/paperboy
 Encoding: UTF-8
 BugReports: https://github.com/JBGruber/paperboy/issues
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Language: en-GB
