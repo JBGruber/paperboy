@@ -11,13 +11,14 @@ License: GPL-3
 Imports:
     curl,
     dplyr,
+    httpuv,
+    lubridate,
     magrittr,
     methods,
     progress,
-    lubridate,
     purrr,
-    rvest,
     rlang,
+    rvest,
     tibble,
     tidyr,
     tidyselect,
@@ -25,11 +26,12 @@ Imports:
     utils,
     xml2
 Suggests:
-    knitr,
-    testthat,
     covr,
+    knitr,
+    rmarkdown,
+    rstudioapi,
     spelling,
-    rmarkdown
+    testthat
 URL: https://github.com/JBGruber/paperboy
 Encoding: UTF-8
 BugReports: https://github.com/JBGruber/paperboy/issues
