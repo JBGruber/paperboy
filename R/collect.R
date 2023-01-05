@@ -91,20 +91,26 @@ pb_collect <- function(urls,
   }
 
   # setup async call
-  invisible(lapply(
-    urls, function(u) {
-      curl::curl_fetch_multi(
-        u,
-        done = response_parser[[u]],
-        fail = fail_parser[[u]],
-        pool = pool,
-        handle = pb_handle(cookies)
-      )
-    }
-  ))
-
   if (verbose) message("\t...collecting")
-  status <- curl::multi_run(timeout = timeout, pool = pool)
+  # it seems manual pagination is necessary as more than 1000 requests cause
+  # 'Unrecoverable error in select/poll'
+  url_batches <- split(urls, ceiling(seq_along(urls) / 1000))
+  for (i in seq_along(url_batches)) {
+    invisible(lapply(
+      url_batches[[i]], function(u) {
+        curl::curl_fetch_multi(
+          u,
+          done = response_parser[[u]],
+          fail = fail_parser[[u]],
+          pool = pool,
+          handle = pb_handle(cookies)
+        )
+      }
+    ))
+
+    status <- curl::multi_run(timeout = timeout, pool = pool)
+  }
+
 
   if (status$pending > 0) warning(
     status$pending,

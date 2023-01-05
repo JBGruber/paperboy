@@ -18,7 +18,7 @@ pb_deliver_paper.edition_cnn_com <- function(x, verbose = NULL, ...) {
 
     # datetime
     datetime <- html %>%
-      rvest::html_elements("[name=\"pubdate\"],[name=\"parsely-pub-date\"]") %>%
+      rvest::html_elements("[name=\"pubdate\"],[name=\"parsely-pub-date\"],[property=\"article:published_time\"]") %>%
       rvest::html_attr("content") %>%
       lubridate::as_datetime()
 
