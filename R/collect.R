@@ -54,6 +54,7 @@ pb_collect <- function(urls,
     }
   }
 
+
   parse_fail <- function(urls) {
     function(req, i_f = ignore_fails) {
       if (i_f) {
@@ -73,43 +74,21 @@ pb_collect <- function(urls,
   fail_parser <- lapply(urls, parse_fail)
   names(fail_parser) <- urls
 
-  # setup handle (copied from
-  # https://github.com/r-lib/httr/blob/main/R/cookies.r)
-
-  pb_handle <- function(cookies) {
-    if (is.null(names(cookies)) && length(cookies) > 0) {
-      stop("cookies must be provided in name = value pairs.",
-           " For example, cookies = list(a = 1, b = 2)")
-    }
-    cookies_str <- vapply(cookies, curl::curl_escape, FUN.VALUE = character(1))
-
-    cookie <- paste(names(cookies), cookies_str, sep = "=", collapse = ";")
-
-
-    curl::handle_setopt(
-      curl::new_handle(),
-      cookie = cookie,
-      useragent = useragent
-    )
-  }
-
-  # setup async call
   if (verbose) message("\t...collecting")
   # it seems manual pagination is necessary as more than 1000 requests cause
   # 'Unrecoverable error in select/poll'
   url_batches <- split(urls, ceiling(seq_along(urls) / 1000))
   for (i in seq_along(url_batches)) {
-    invisible(lapply(
-      url_batches[[i]], function(u) {
-        curl::curl_fetch_multi(
-          u,
-          done = response_parser[[u]],
-          fail = fail_parser[[u]],
-          pool = pool,
-          handle = pb_handle(cookies)
-        )
-      }
-    ))
+
+    invisible(lapply(url_batches[[i]], function(u) {
+      curl::curl_fetch_multi(
+        u,
+        done = response_parser[[u]],
+        fail = fail_parser[[u]],
+        pool = pool,
+        handle = pb_handle(u, cookies, useragent)
+      )
+    }))
 
     status <- curl::multi_run(timeout = timeout, pool = pool)
   }
@@ -124,63 +103,87 @@ pb_collect <- function(urls,
 
   out <- dplyr::bind_rows(pages, .id = "urls")
   if (nrow(out) > 0) {
+
     out <- tibble::add_column(
       out,
       domain = urltools::domain(out$expanded_url),
       .after = "expanded_url"
     ) %>%
       dplyr::rename(url = urls)
-  }
 
-  if (collect_rss) {
-    if (verbose) message("\t...parsing RSS feeds")
-    rss <- grepl("<rss.+>", out$content_raw)
-    rss_out <- collect_rss(
-      out[rss, ],
-      collect_rss = FALSE,
-      timeout = timeout,
-      ignore_fails = ignore_fails,
-      connections = connections,
-      host_con = host_con,
-      cookies = cookies,
-      useragent = useragent,
-      verbose = FALSE,
-      ...
-    )
-    out <- dplyr::bind_rows(out[!rss, ], rss_out)
-  }
-
-  # see issue #3
-  if (any(out$domain == "www.washingtonpost.com")) {
-    if (any(grepl("gdpr-consent", out$expanded_url, fixed = TRUE))) {
-      warning("www.washingtonpost.com requests GDPR consent instead of showing",
-              " the article. See https://github.com/JBGruber/paperboy/issues/3")
+    if (collect_rss) {
+      if (verbose) message("\t...parsing RSS feeds")
+      rss <- grepl("<rss.+>", out$content_raw)
+      if (any(rss)) {
+        rss_out <- collect_rss(
+          out[rss, ],
+          collect_rss = FALSE,
+          timeout = timeout,
+          ignore_fails = ignore_fails,
+          connections = connections,
+          host_con = host_con,
+          cookies = cookies,
+          useragent = useragent,
+          verbose = FALSE,
+          ...
+        )
+        out <- dplyr::bind_rows(out[!rss, ], rss_out)
+      }
     }
-  }
 
-  if (verbose) {
-    if (any(out$status != 200L)) {
-      msg <- paste0(
-        " ",
-        sum(out$status != 200L),
-        " links had issues."
+    # see issue #3
+    if (any(out$domain == "www.washingtonpost.com")) {
+      if (any(grepl("gdpr-consent", out$expanded_url, fixed = TRUE))) {
+        warning("www.washingtonpost.com requests GDPR consent instead of showing",
+                " the article. See https://github.com/JBGruber/paperboy/issues/3")
+      }
+    }
+
+    if (verbose) {
+      if (any(out$status != 200L)) {
+        msg <- paste0(
+          " ",
+          sum(out$status != 200L),
+          " links had issues."
+        )
+      } else {
+        msg <- ""
+      }
+      message(
+        nrow(out),
+        " pages from ",
+        length(unique(out$domain)),
+        " domains collected.",
+        msg
       )
-    } else {
-      msg <- ""
     }
-    message(
-      nrow(out),
-      " pages from ",
-      length(unique(out$domain)),
-      " domains collected.",
-      msg
-    )
   }
-
   attr(out, "paperboy_collected_at") <- Sys.time()
 
   return(out)
 }
+
+
+# setup handle (copied from
+# https://github.com/r-lib/httr/blob/main/R/cookies.r)
+pb_handle <- function(url, cookies, useragent) {
+  if (is.null(names(cookies)) && length(cookies) > 0) {
+    stop("cookies must be provided in name = value pairs.",
+         " For example, cookies = list(a = 1, b = 2)")
+  }
+  # for sending only correct cookies, not yet used
+  domain <- urltools::domain(url)
+  cookies_str <- vapply(cookies, curl::curl_escape, FUN.VALUE = character(1))
+
+  cookie <- paste(names(cookies), cookies_str, sep = "=", collapse = ";")
+
+  curl::handle_setopt(
+    curl::new_handle(),
+    cookie = cookie,
+    useragent = useragent
+  )
+}
+
 
 collect_rss <- function(x, ...) {
 
