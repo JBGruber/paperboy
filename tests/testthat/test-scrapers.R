@@ -3,13 +3,6 @@ scrapers <- paste0(
   gsub(".", "_", pb_available(), fixed = TRUE)
 )
 
-for (scrp in scrapers) {
-  expect_error(
-    do.call(eval(parse(text = scrp)), list(x = "")),
-    "Wrong object passed to internal deliver function: character"
-  )
-}
-
 test_that("Test parsers", {
   skip_if_offline()
   skip_on_cran()

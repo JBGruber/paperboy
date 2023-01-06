@@ -1,9 +1,3 @@
-#' internal function to deliver specific newspapers
-#' @param x A data.frame returned by  \link{pb_collect} with an additional class
-#'   indicating the domain of all links.
-#' @param pb a progress bar object.
-#' @inheritParams pb_deliver
-#' @keywords internal
 pb_deliver_paper.usatoday_com <- function(x, verbose, pb, ...) {
 
   # raw html is stored in column content_raw

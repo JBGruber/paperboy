@@ -53,7 +53,6 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     }
   }
 
-  class_test(x)
   domains <- split(x, x$domain, drop = TRUE)
 
   # helper function to make progress bar
@@ -67,7 +66,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     )
 
     # iterate over all URLs
-    purrr::map(seq_along(u$url), function(i) pb_deliver_paper(u[i, ], verbose, pb))
+    purrr::map_df(seq_along(u$url), function(i) pb_deliver_paper(u[i, ], verbose, pb))
 
   })
 
@@ -75,11 +74,10 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
 }
 
 #' internal function to deliver specific newspapers
-#' @param x A data.frame returned by  \link{pb_collect} with an additional class
-#'   indicating the domain of all links.
+#' @param pb a progress bar object.
 #' @inheritParams pb_deliver
 #' @keywords internal
-pb_deliver_paper <- function(x, verbose = NULL, ...) {
+pb_deliver_paper <- function(x, verbose, pb, ...) {
   UseMethod("pb_deliver_paper")
 }
 
@@ -90,5 +88,10 @@ pb_deliver_paper <- function(x, verbose = NULL, ...) {
 
 # used for testing
 pb_deliver_paper.httpbin_org <- function(...) {
-
+  return(tibble::tibble(
+    datetime = NA,
+    author = NA,
+    headline = NA,
+    text = NA
+  ))
 }

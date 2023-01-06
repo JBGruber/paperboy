@@ -1,39 +1,9 @@
-#' internal function to deliver specific newspapers
-#' @param x A data.frame returned by  \link{pb_collect} with an additional class
-#'   indicating the domain of all links.
-#' @inheritParams pb_deliver
-#' @keywords internal
-pb_deliver_paper.default <- function(x, verbose = NULL, ...) {
-
-  # If verbose is not explicitly defined, use package default stored in options.
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
-
-  class_test(x)
-
-  if (verbose) {
-    message("\t...", nrow(x), " articles from ", x$domain[1])
-  }
-  warning("\t...No method for domain ", x$domain[1], " yet, attempting generic approach")
-
-  # helper function to make progress bar
-  pb <- make_pb(x)
-
-  # iterate over all URLs and normalise data.frame
-  purrr::map_df(x$content_raw, parse_default, verbose, pb) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
-
-}
-
-# define parsing function iterate over the URLs
-parse_default <- function(html, verbose, pb) {
-
-  . <- NULL
+pb_deliver_paper.default <- function(x, verbose, pb, ...) {
 
   # raw html is stored in column content_raw
-  html <- rvest::read_html(html)
-  if (verbose) pb$tick()
+  html <- rvest::read_html(x$content_raw)
+  if (verbose) pb$tick(tokens = list(what = x$domain[1]))
+  warning("\t...No method for domain ", x$domain[1], " yet, attempting generic approach")
 
   # datetime
   datetime <- html %>%

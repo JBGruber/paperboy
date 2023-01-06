@@ -24,5 +24,5 @@ html_search <- function(html, selectors, attributes = NULL, n = 1L) {
 
   if (want_text) out <- c(out, rvest::html_text2(res))
 
-  utils::head(out, n)
+  ifelse(is.null(out), NA_character_, utils::head(out, n))
 }
