@@ -37,7 +37,8 @@ parse_usatoday_com <- function(html, verbose, pb) {
       "story-timestamp",
       "[property=\"article:published_time\"]"
     ), attributes = c("content", "publishdate")) %>%
-    lubridate::as_datetime()
+    lubridate::as_datetime() %>%
+    head(1)
 
   # author
   author <- html %>%
@@ -52,7 +53,8 @@ parse_usatoday_com <- function(html, verbose, pb) {
       rvest::html_text() %>%
       extract("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z") %>%
       unique() %>%
-      lubridate::as_datetime()
+      lubridate::as_datetime() %>%
+      head(1)
   }
 
   # headline
