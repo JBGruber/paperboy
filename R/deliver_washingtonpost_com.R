@@ -1,11 +1,9 @@
 pb_deliver_paper.www_washingtonpost_com <- function(x, verbose, pb, ...) {
 
-  if (verbose) pb$tick(tokens = list(what = x$domain[1]))
+  pb_tick(x, verbose, pb)
 
   # sometimes redirects to home page
-  if (basename(x$expanded_url[i]) != x$domain[i]) {
-
-    if (verbose) pb$tick()
+  if (basename(x$expanded_url) == x$domain) {
 
     return(tibble::tibble(
       datetime  = NA,
@@ -19,13 +17,15 @@ pb_deliver_paper.www_washingtonpost_com <- function(x, verbose, pb, ...) {
     html <- rvest::read_html(x$content_raw)
 
     # datetime
-    datetime <- html %>%
-      html_search(selectors = c(
-        "[property=\"article:published_time\"]",
-        "[itemprop*=\"datePublished\"]",
-        "[name=\"ga-publishDate\"]"
-      ), attributes = "content",) %>%
-      lubridate::as_datetime()
+    suppressWarnings(
+      datetime <- html %>%
+        html_search(selectors = c(
+          "[property=\"article:published_time\"]",
+          "[itemprop*=\"datePublished\"]",
+          "[name=\"ga-publishDate\"]"
+        ), attributes = "content",) %>%
+        lubridate::as_datetime()
+    )
 
     if (length(datetime) < 1) {
       datetime <- html %>%

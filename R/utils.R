@@ -52,9 +52,17 @@ pb_available <- function() {
 #' @keywords internal
 make_pb <- function(df) {
   progress::progress_bar$new(
-    format = "parsing :what [:bar] :percent eta: :eta",
+    format = "[:bar] :percent eta: :eta (:what)",
     total = nrow(df)
   )
+}
+
+pb_tick <- function(x, verbose, pb) {
+  if (verbose > 1) {
+    message(x$expanded_url)
+  } else if (verbose > 0) {
+    pb$tick(tokens = list(what = x$domain[1]))
+  }
 }
 
 #' force length 1

@@ -5,8 +5,9 @@
 #'
 #' @param x Either a vector of URLs or a data.frame returned by
 #'   \link{pb_collect}.
-#' @param verbose A logical flag indicating whether information should be
-#'   printed to the screen. If \code{NULL} will be determined from
+#' @param verbose \code{FALSE} turns deliver silent. \code{TRUE} prints status
+#'   messages and a progress bar on the screen. \code{2L} turns on debug mode.
+#'   If \code{NULL} will be determined from
 #'   \code{getOption("paperboy_verbose")}.
 #' @param ... Passed on to \link{pb_collect}.
 #'
@@ -66,7 +67,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     )
 
     # iterate over all URLs
-    purrr::map_df(seq_along(u$url), function(i) pb_deliver_paper(u[i, ], verbose, pb))
+    purrr::map_df(seq_along(u$url), function(i) pb_deliver_paper(x = u[i, ], verbose, pb))
 
   })
 

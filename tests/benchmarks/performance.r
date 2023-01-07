@@ -27,22 +27,26 @@ if (!file.exists("tests/local-files/bench_data_collected.rds")) {
 }
 
 bench_data_collected <- readRDS("tests/local-files/bench_data_collected.rds")
+nrow(bench_data_collected)
 
-bench_data_collected <- bench_data_collected |>
-  filter(domain == "eu.usatoday.com")
+bench_data_collected <- bench_data_collected
 
 res <- bench::mark(
-  pb_deliver(bench_data_collected),
+  pb_deliver(x = bench_data_collected),
   iterations = 10
 )
 
 res$expression <- paste0("pb_deliver:", packageVersion("paperboy"))
-res$comment <- "removed second map_df"
+res$comment <- ""
 
-res_all <- readRDS("tests/local-files/pb_deliver_bench.rds") |>
-  bind_rows(res)
+if (file.exists("tests/local-files/pb_deliver_bench.rds")) {
+  res_all <- readRDS("tests/local-files/pb_deliver_bench.rds") |>
+    bind_rows(res)
+} else {
+  res_all <- res
+}
 
-saveRDS(res_all, "pb_deliver_bench.rds")
+saveRDS(res_all, "tests/local-files/pb_deliver_bench.rds")
 
 summary(res_all)
 summary(res_all, relative = TRUE)

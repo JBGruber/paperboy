@@ -2,7 +2,7 @@ pb_deliver_paper.www_nytimes_com <- function(x, verbose, pb, ...) {
 
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
-  if (verbose) pb$tick(tokens = list(what = x$domain[1]))
+  pb_tick(x, verbose, pb)
 
   # datetime
   datetime <- html %>%
