@@ -26,14 +26,21 @@ if (!file.exists("tests/local-files/bench_data_collected.rds")) {
   saveRDS(bench_data_collected, "tests/local-files/bench_data_collected.rds")
 }
 
-bench_data_collected <- readRDS("tests/local-files/bench_data_collected.rds")
+set.seed(1)
+bench_data_collected <- readRDS("tests/local-files/bench_data_collected.rds") |>
+  sample_n(5000)
 nrow(bench_data_collected)
 
-bench_data_collected <- bench_data_collected
+bench_data_collected <- bench_data_collected |>
+  filter(domain %in% c("www.nytimes.com",
+                       "www.washingtonpost.com",
+                       "usatodayhss.com",
+                       "eu.usatoday.com"))
 
+#x <- pb_deliver(x = sample_n(bench_data_collected, 200))
 res <- bench::mark(
   pb_deliver(x = bench_data_collected),
-  iterations = 10
+  iterations = 5
 )
 
 res$expression <- paste0("pb_deliver:", packageVersion("paperboy"))
