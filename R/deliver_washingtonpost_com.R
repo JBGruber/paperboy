@@ -23,7 +23,7 @@ pb_deliver_paper.www_washingtonpost_com <- function(x, verbose, pb, ...) {
           "[property=\"article:published_time\"]",
           "[itemprop*=\"datePublished\"]",
           "[name=\"ga-publishDate\"]"
-        ), attributes = "content",) %>%
+        ), attributes = "content") %>%
         lubridate::as_datetime()
     )
 
@@ -33,13 +33,6 @@ pb_deliver_paper.www_washingtonpost_com <- function(x, verbose, pb, ...) {
         rvest::html_text() %>%
         strptime(format = "%B %d, %Y | %I:%M %p")
     }
-
-    # author
-    author <- html %>%
-      rvest::html_elements(".authors,[itemprop=\"author\"],.gnt_ar_by_a,.gnt_ar_by")  %>%
-      rvest::html_text2() %>%
-      unique() %>%
-      toString()
 
     if (!isFALSE(is.na(datetime))) {
       datetime <- html %>%
@@ -58,25 +51,15 @@ pb_deliver_paper.www_washingtonpost_com <- function(x, verbose, pb, ...) {
 
     # author
     author <- html %>%
-      rvest::html_elements("[data-qa=\"author-name\"],[class*=\"author-name \"]")  %>%
+      rvest::html_elements("[data-qa=\"author-name\"],[class*=\"author-name \"],.video-info")  %>%
       rvest::html_text2() %>%
       toString()
 
     # text
-    text_temp <- html %>%
-      rvest::html_elements("[class=\"article-body\"]")
-
-    if (length(text_temp) > 0) {
-      text <- text_temp %>%
-        rvest::html_elements("p") %>%
-        rvest::html_text2() %>%
-        paste(collapse = "\n")
-    } else {
-      text <- html %>%
-        rvest::html_elements("p") %>%
-        rvest::html_text2() %>%
-        paste(collapse = "\n")
-    }
+    text <- html %>%
+      rvest::html_elements(".article-body>p,p") %>%
+      rvest::html_text2() %>%
+      paste(collapse = "\n")
 
     # the helper function safely creates a named list from objects
     return(s_n_list(
