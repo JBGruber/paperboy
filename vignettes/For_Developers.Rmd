@@ -10,7 +10,8 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = FALSE
 )
 ```
 
@@ -49,7 +50,7 @@ Instead, `paperboy` comes with a function to inspect the code in your browser:
 pb_inspect(articles_raw, 1L)
 ```
 
-![view of a collected site with pb_inspect]()
+![view of a collected site with pb_inspect](inspect.png)
 
 From here we want to identify at least the headline, article text, publication date and time, and the author(s).
 Use the tools you are most comfortable with, I usually just right-click and inspect in chrome and then look for a suitable CSS tag.
@@ -103,7 +104,7 @@ This selects all paragraphs on a site, which often also includes irrelevant data
 So it is usably suggested to do something like this instead:
 
 ```{r}
-text2 <- html  %>%
+text <- html  %>%
   rvest::html_elements(".article-body>p") |> 
   rvest::html_text2() %>%
   paste(collapse = "\n")
@@ -114,7 +115,7 @@ However, not all articles on the website have this class, for which case you wan
 `html_search()` can do this:
 
 ```{r}
-text3 <- html %>%
+text <- html %>%
   html_search(selectors = c(".article-body>p", "p"), 
               attributes = "text", 
               all = FALSE, # only the first non-empty match is used
@@ -125,7 +126,7 @@ text3 <- html %>%
 Another notable helper function is `s_n_list` (for safe named list), which combines multiple R objects into a named list in which all elements have the length 1.
 The returned value of `s_n_list` should be the output of all parsers:
 
-```{r}
+```{r eval=TRUE}
 a <- 1:10 # longer objects are put in a list
 b <- NULL # NULL is turned into NA
 c <- NA
@@ -141,7 +142,6 @@ Once you think the parser is ready for a test drive, use the raw html data from 
 
 ```{r}
 articles <- pb_deliver(x = articles_raw, verbose = 2L)
-articles
 ```
 
 Look through the articles to see if anything is missing that should be there.
@@ -151,7 +151,6 @@ Finally, you should check the new parser against the entire test data from above
 
 ```{r}
 articles <- pb_deliver(x = test_data$url)
-articles
 ```
 
 If it works well here too, the parser is ready for serious duty :)

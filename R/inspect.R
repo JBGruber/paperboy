@@ -14,6 +14,8 @@ pb_inspect <- function(x,
                        host_ip = "127.0.0.1",
                        port = httpuv::randomPort()) {
 
+  rlang::check_installed("httpuv")
+
   if (!"content_raw" %in% names(x))
     stop("Only works with output from pb_collect()")
 
@@ -33,12 +35,6 @@ pb_inspect <- function(x,
     )
   )
 
-  address <- paste0("http://", host_ip, ":", port)
-
-  if (require("rstudioapi")) {
-    rstudioapi::viewer(address)
-  } else {
-    utils::browseURL(paste0("http://", host_ip, ":", port))
-  }
+  utils::browseURL(paste0("http://", host_ip, ":", port))
 
 }
