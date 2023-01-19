@@ -1,7 +1,7 @@
 pb_deliver_paper.{{newspaper}} <- function(x, verbose = NULL, ...) {
 
   # raw html is stored in column content_raw
-  html <- rvest::read_html(html)
+  html <- rvest::read_html(x$content_raw)
   if (verbose) pb$tick()
 
   # datetime
