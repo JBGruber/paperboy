@@ -11,9 +11,7 @@ magrittr::`%>%`
 #' \dontrun{paperboy:::pb_new(np = "https://www.buzzfeed.com/")}
 pb_new <- function(np) {
   . <- NULL
-  np <- urltools::domain(np) %>%
-    sub("www", "", x = ., fixed = TRUE) %>%
-    gsub(".", "_",  x = ., fixed = TRUE)
+  np <- replace_all(utils::head(urltools::domain(np)), c(".", "-"), rep("_", 2L), fixed = TRUE)
 
   template <- system.file("templates", "deliver_.R", package = "paperboy") %>%
     readLines() %>%
