@@ -66,7 +66,7 @@ paperboy:::pb_new(np = "http://huffpost.com/")
 
 If you are familiar with `rvest`, you should have no problem making the parser work in minutes.
 Feel free to look at the available parsers for inspiration.
-To make the process even easier, `paperboy` adds the function `html_search` which can search through multiple CSS indetifiers and node attributes at once.
+To make the process even easier, `paperboy` adds the function `html_search` which can search through multiple CSS identifiers and node attributes at once.
 As an example, have a look at the default parser, which is designed to grab data from many different sites:
 
 ```{r eval=FALSE}
@@ -138,7 +138,8 @@ You should still make sure though that the objects headline, article, datetime, 
 You can also include additional fields in your parser if this makes sense in a specific case.
 The huffpost, for example, also distributes videos, so the type field is constructed and will be moved to the `misc` column automatically.
 
-Once you think the parser is ready for a test drive, use the raw html data from above and turn on debugging mode (with `verbose = 2L`) to see where the parser might still fail: 
+Once you think the parser is ready for a test drive, use the raw html data from above and turn on debugging mode (with `verbose = 2L`) to see where the parser might still fail.
+To run the function through `pb_deliver` you just load your new function into the global environment and it should be picked up (since the template uses unexported functions, you should also run `devtools::load_all()`, so `R` can find them): 
 
 ```{r}
 articles <- pb_deliver(x = articles_raw, verbose = 2L)
@@ -156,3 +157,4 @@ articles <- pb_deliver(x = test_data$url)
 If it works well here too, the parser is ready for serious duty :)
 
 <!-- TODO: add description how to write tests -->
+<!-- registerS3method("pb_deliver", "www_huffpost_com", pb_deliver_paper.www_huffpost_com) -->

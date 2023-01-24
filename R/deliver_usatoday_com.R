@@ -59,4 +59,6 @@ pb_deliver_paper.mmajunkie_usatoday_com <-
   pb_deliver_paper.eu_democratandchronicle_com <-
   pb_deliver_paper.eu_courier_journal_com <-
   pb_deliver_paper.eu_usatoday_com <-
+  pb_deliver_paper.ftw_usatoday_com <-
+  pb_deliver_paper.eu_tennessean_com <-
   pb_deliver_paper.usatoday_com

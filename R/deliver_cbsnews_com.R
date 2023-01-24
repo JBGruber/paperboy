@@ -1,61 +1,43 @@
+pb_deliver_paper.www_cbsnews_com <- function(x, verbose = NULL, pb, ...) {
 
-pb_deliver_paper.www_cbsnews_com <- function(x, verbose = NULL, ...) {
+  # raw html is stored in column content_raw
+  html <- rvest::read_html(x$content_raw)
+  pb_tick(x, verbose, pb)
 
-  . <- NULL
+  # datetime
+  datetime <- html %>%
+    rvest::html_elements("time") %>%
+    rvest::html_attr("datetime") %>%
+    lubridate::as_datetime()
 
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
+  # headline
+  headline <- html %>%
+    rvest::html_elements("[property=\"og:title\"]") %>%
+    rvest::html_attr("content")
 
-  class_test(x)
+  # author
+  author <- html %>%
+    rvest::html_element("[class*=\"content__meta--byline\"]") %>%
+    rvest::html_text() %>%
+    gsub("By\\b\\s+|\n", "", .) %>%
+    trimws()
 
-  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
+  # text
+  text <- html %>%
+    rvest::html_elements(".content__body>p") %>%
+    rvest::html_text2() %>%
+    paste(collapse = "\n")
 
-  pb <- make_pb(x)
+  content_type <- x$expanded_url %>%
+    gsub(".*cbsnews.com/(.+?)/.*", "\\1", ., perl = TRUE)
 
-  purrr::map_df(seq_along(x$expanded_url), function(i) {
+  # the helper function safely creates a named list from objects
+  s_n_list(
+    datetime,
+    author,
+    headline,
+    text,
+    content_type
+  )
 
-    content_type <- x$expanded_url[i] %>%
-      gsub(".*cbsnews.com/", "", .) %>%
-      gsub("/.*", "", .)
-
-    cont <- x$content_raw[i]
-
-    if (verbose) pb$tick()
-
-    html <- rvest::read_html(cont)
-
-    # datetime
-    datetime <- html %>%
-      rvest::html_elements("time") %>%
-      rvest::html_attr("datetime") %>%
-      lubridate::as_datetime()
-
-    # headline
-    headline <- html %>%
-      rvest::html_elements("[property=\"og:title\"]") %>%
-      rvest::html_attr("content")
-
-    # author
-    author <- html %>%
-      rvest::html_element("[class*=\"content__meta--byline\"]") %>%
-      rvest::html_text() %>%
-      gsub("By\\b\\s+|\n", "", .) %>%
-      trimws()
-
-    # text
-    text <- html %>%
-      rvest::html_elements(".content__body") %>%
-      rvest::html_text2() %>%
-      paste(collapse = "\n")
-
-    s_n_list(
-      datetime,
-      author,
-      headline,
-      text,
-      content_type
-    )
-  }) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
 }

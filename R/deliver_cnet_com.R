@@ -1,61 +1,46 @@
 
-pb_deliver_paper.www_cnet_com <- function(x, verbose = NULL, ...) {
+pb_deliver_paper.www_cnet_com <- function(x, verbose = NULL, pb, ...) {
 
-  . <- NULL
+  # raw html is stored in column content_raw
+  html <- rvest::read_html(x$content_raw)
+  pb_tick(x, verbose, pb)
 
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
+  # datetime
+  datetime <- html %>%
+    rvest::html_element("time") %>%
+    rvest::html_attr("datetime") %>%
+    lubridate::as_datetime()
 
-  class_test(x)
-
-  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
-
-  pb <- make_pb(x)
-
-  purrr::map_df(x$content_raw, function(cont) {
-
-    if (verbose) pb$tick()
-
-    html <- rvest::read_html(cont)
-
-    # datetime
+  if (is.na(datetime)) {
     datetime <- html %>%
       rvest::html_element("time") %>%
-      rvest::html_attr("datetime") %>%
-      lubridate::as_datetime()
-
-    if (is.na(datetime)) {
-      datetime <- html %>%
-        rvest::html_element("time") %>%
-        rvest::html_text2() %>%
-        lubridate::mdy() %>%
-        as.POSIXct()
-    }
-
-    # headline
-    headline <- html %>%
-      rvest::html_elements("[property=\"og:title\"]") %>%
-      rvest::html_attr("content")
-
-    # author
-    author <- html %>%
-      rvest::html_elements(".c-globalAuthor_link,.author")  %>%
       rvest::html_text2() %>%
-      toString()
+      lubridate::mdy() %>%
+      as.POSIXct()
+  }
 
-    # text
-    text <- html %>%
-      rvest::html_elements(".c-CmsContent>p,.article-main-body>p") %>%
-      rvest::html_text2() %>%
-      paste(collapse = "\n")
+  # headline
+  headline <- html %>%
+    rvest::html_elements("[property=\"og:title\"]") %>%
+    rvest::html_attr("content")
 
-    s_n_list(
-      datetime,
-      author,
-      headline,
-      text
-    )
-  }) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
+  # author
+  author <- html %>%
+    rvest::html_elements(".c-globalAuthor_link,.author")  %>%
+    rvest::html_text2() %>%
+    toString()
+
+  # text
+  text <- html %>%
+    rvest::html_elements(".c-CmsContent>p,.article-main-body>p") %>%
+    rvest::html_text2() %>%
+    paste(collapse = "\n")
+
+  s_n_list(
+    datetime,
+    author,
+    headline,
+    text
+  )
+
 }

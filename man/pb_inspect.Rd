@@ -4,7 +4,7 @@
 \alias{pb_inspect}
 \title{Inspect content collected with pb_collect}
 \usage{
-pb_inspect(x, i = 1L, host_ip = "127.0.0.1", port = httpuv::randomPort(), ...)
+pb_inspect(x, i = 1L, host_ip = "127.0.0.1", port = httpuv::randomPort())
 }
 \arguments{
 \item{x}{a data.frame returned by \link{pb_collect}.}
@@ -13,8 +13,6 @@ pb_inspect(x, i = 1L, host_ip = "127.0.0.1", port = httpuv::randomPort(), ...)
 
 \item{host_ip, port}{host IP and port to create the temporary web server that
 shows the content.}
-
-\item{...}{not used.}
 }
 \description{
 Opens a browser to display the content saved in a row of a data.frame created

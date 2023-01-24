@@ -1,91 +1,68 @@
+pb_deliver_paper.www_faz_net <- function(x, verbose = NULL, pb, ...) {
 
-#' @keywords internal
-pb_deliver_paper.www_faz_net <- function(x, verbose = NULL, ...) {
+  # raw html is stored in column content_raw
+  html <- rvest::read_html(x$content_raw)
+  pb_tick(x, verbose, pb)
 
-  . <- NULL
+  if (basename(x$expanded_url) == x$domain) {
 
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
+    return(list(
+      datetime  = NA,
+      author    = NA,
+      headline  = NA,
+      text      = NA
+    ))
 
-  class_test(x)
+  }
 
-  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
+  # datetime
+  datetime <- html %>%
+    html_search(c(".atc-MetaTime", ".tsr-Base_ContentMetaTime", "Datum", ".entry-date"),
+                c("datetime", "text")) %>%
+    lubridate::as_datetime()
 
-  pb <- make_pb(x)
+  if (length(datetime) < 1) {
 
-  purrr::map_df(seq_along(x$url), function(i) {
-    if (basename(x$expanded_url[i]) == x$domain[i]) {
+    # should be moved somewhere else
+    monate <- c("Januar", "Februar", "M\U00E4rz", "April", "Mai",
+                "Juni", "Juli", "August", "September", "Oktober",
+                "November", "Dezember")
+    replacement <- paste0(seq_along(monate), ".")
 
-      if (verbose) pb$tick()
+    datetime <- html %>%
+      rvest::html_elements(".Datum,.entry-date") %>%
+      rvest::html_text() %>%
+      gsub("[[:space:]]", "", .) %>%
+      replace_all(monate, replacement) %>%
+      strptime(format = "%d.%m.%Y") %>%
+      head(1L)
+  }
 
-      tibble::tibble(
-        datetime  = NA,
-        author    = NA,
-        headline  = NA,
-        text      = NA
-      )
+  # headline
+  headline <- html %>%
+    rvest::html_elements("title") %>%
+    rvest::html_text("content")
 
-    } else {
+  # author
+  author <- html %>%
+    rvest::html_elements(".atc-MetaAuthorLink,.entry-author")  %>%
+    rvest::html_text() %>%
+    toString()
 
-      cont <- x$content_raw[i]
-      if (verbose) pb$tick()
+  # text
+  text <- html %>%
+    rvest::html_elements(".atc-IntroText,.atc-TextParagraph,.single-entry-content") %>%
+    rvest::html_text2() %>%
+    paste(collapse = "\n")
 
-      html <- rvest::read_html(cont)
+  # the helper function safely creates a named list from objects
+  s_n_list(
+    datetime,
+    author,
+    headline,
+    text
+  )
 
-      # datetime
-      datetime <- html %>%
-        rvest::html_elements(".atc-MetaTime") %>%
-        rvest::html_attr("datetime") %>%
-        lubridate::as_datetime()
-
-      if (length(datetime) < 1) {
-
-        # should be moved somewhere else
-        monate <- c("Januar", "Februar", "M\U00E4rz", "April", "Mai",
-                   "Juni", "Juli", "August", "September", "Oktober",
-                   "November", "Dezember")
-        replacement <- paste0(seq_along(monate), ".")
-
-        datetime <- html %>%
-          rvest::html_elements(".Datum,.entry-date") %>%
-          rvest::html_text() %>%
-          gsub("[[:space:]]", "", .) %>%
-          replace_all(monate, replacement) %>%
-          strptime(format = "%d.%m.%Y")
-      }
-
-      if (length(datetime) > 1) {
-        datetime <- datetime[1]
-      }
-
-      # headline
-      headline <- html %>%
-        rvest::html_elements("title") %>%
-        rvest::html_text("content")
-
-      # author
-      author <- html %>%
-        rvest::html_elements(".atc-MetaAuthorLink,.entry-author")  %>%
-        rvest::html_text() %>%
-        toString()
-
-      # text
-      text <- html %>%
-        rvest::html_elements(".atc-IntroText,.atc-TextParagraph,.single-entry-content") %>%
-        rvest::html_text2() %>%
-        paste(collapse = "\n")
-
-      s_n_list(
-        datetime,
-        author,
-        headline,
-        text
-      )
-    }
-  }) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
 }
 
 pb_deliver_paper.blogs_faz_net <- pb_deliver_paper.www_faz_net
-
