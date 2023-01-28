@@ -111,6 +111,12 @@ normalise_df <- function(df) {
     df <- tibble::add_column(df, !!c := NA)
   }
 
+  for (e in expected_cols) {
+    if(is.list(df[[e]]) || length(df[[e]]) != 1L)
+      cli::cli_abort(c("{e} needs to have a length of 1 for each URL. Current value for {df$url} is:",
+                       "{class(df[[e]])}: {toString(df[[e]])}"))
+  }
+
   not_expected_cols <- setdiff(colnames(df), c(expected_cols, "content_raw"))
 
   df <- tidyr::nest(df, misc = tidyselect::all_of(not_expected_cols))

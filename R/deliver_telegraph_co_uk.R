@@ -1,65 +1,44 @@
+pb_deliver_paper.www_telegraph_co_uk <- function(x, verbose = NULL, pb, ...) {
 
-pb_deliver_paper.www_telegraph_co_uk <- function(x, verbose = NULL, ...) {
+  # raw html is stored in column content_raw
+  html <- rvest::read_html(x$content_raw)
+  pb_tick(x, verbose, pb)
 
-  . <- NULL
+  # datetime
+  datetime <- html %>%
+    html_search("[itemprop=\"datePublished\"]",
+                c("content", "datetime")) %>%
+    as.POSIXct(format = "%Y-%m-%dT%H:%M%z") %>%
+    head(1L)
 
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
+  # headline
+  headline <- html %>%
+    rvest::html_elements("[property=\"og:title\"]") %>%
+    rvest::html_attr("content")
 
-  class_test(x)
+  # author
+  author <- html %>%
+    rvest::html_elements("[class*=\"byline__author\"]") %>%
+    rvest::html_attr("content") %>%
+    toString() %>%
+    gsub("^By\\s", "", .)
 
-  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
+  # text
+  text <- html %>%
+    rvest::html_elements("[class*=\"article-body-text\"]") %>%
+    rvest::html_text2() %>%
+    paste(collapse = "\n")
 
-  pb <- make_pb(x)
+  # type
+  content_type <- html %>%
+    rvest::html_element("[property=\"og:type\"]") %>%
+    rvest::html_attr("content")
 
-  purrr::map_df(x$content_raw, function(cont) {
-
-  if (verbose) pb$tick()
-    html <- rvest::read_html(cont)
-
-    # datetime
-    datetime <- html %>%
-      rvest::html_element("[itemprop=\"datePublished\"]") %>%
-      {
-        out <- rvest::html_attr(., "content")
-        if (is.na(out)) {
-          out <- rvest::html_attr(., "datetime")
-        }
-        out
-      } %>%
-      as.POSIXct(format = "%Y-%m-%dT%H:%M%z")
-
-    # headline
-    headline <- html %>%
-      rvest::html_elements("[property=\"og:title\"]") %>%
-      rvest::html_attr("content")
-
-    # author
-    author <- html %>%
-      rvest::html_elements("[class*=\"byline__author\"]") %>%
-      rvest::html_attr("content") %>%
-      toString() %>%
-      gsub("^By\\s", "", .)
-
-    # text
-    text <- html %>%
-      rvest::html_elements("[class*=\"article-body-text\"]") %>%
-      rvest::html_text2() %>%
-      paste(collapse = "\n")
-
-    # type
-    content_type <- html %>%
-      rvest::html_element("[property=\"og:type\"]") %>%
-      rvest::html_attr("content")
-
-    s_n_list(
-      datetime,
-      author,
-      headline,
-      text,
-      content_type
-    )
-  }) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
+  s_n_list(
+    datetime,
+    author,
+    headline,
+    text,
+    content_type
+  )
 }

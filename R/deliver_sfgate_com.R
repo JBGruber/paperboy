@@ -1,52 +1,37 @@
+pb_deliver_paper.www_sfgate_com <- function(x, verbose = NULL, pb, ...) {
 
-pb_deliver_paper.www_sfgate_com <- function(x, verbose = NULL, ...) {
+  # raw html is stored in column content_raw
+  html <- rvest::read_html(x$content_raw)
+  pb_tick(x, verbose, pb)
 
-  . <- NULL
+  # datetime
+  datetime <- html %>%
+    rvest::html_elements("[name=\"sailthru.date\"]") %>%
+    rvest::html_attr("content") %>%
+    lubridate::as_datetime()
 
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
+  # headline
+  headline <- html %>%
+    rvest::html_elements("[property=\"sailthru.title\"]") %>%
+    rvest::html_attr("content")
 
-  class_test(x)
+  # author
+  author <- html %>%
+    rvest::html_elements("[name=\"sailthru.author\"]") %>%
+    rvest::html_attr("content") %>%
+    toString()
 
-  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
+  # text
+  text <- html %>%
+    rvest::html_elements("p") %>%
+    rvest::html_text2() %>%
+    paste(collapse = "\n")
 
-  pb <- make_pb(x)
+  s_n_list(
+    datetime,
+    author,
+    headline,
+    text
+  )
 
-  purrr::map_df(x$content_raw, function(cont) {
-
-    if (verbose) pb$tick()
-    html <- rvest::read_html(cont)
-
-    # datetime
-    datetime <- html %>%
-      rvest::html_elements("[name=\"sailthru.date\"]") %>%
-      rvest::html_attr("content") %>%
-      lubridate::as_datetime()
-
-    # headline
-    headline <- html %>%
-      rvest::html_elements("[property=\"sailthru.title\"]") %>%
-      rvest::html_attr("content")
-
-    # author
-    author <- html %>%
-      rvest::html_elements("[name=\"sailthru.author\"]") %>%
-      rvest::html_attr("content") %>%
-      toString()
-
-    # text
-    text <- html %>%
-      rvest::html_elements("p") %>%
-      rvest::html_text2() %>%
-      paste(collapse = "\n")
-
-    s_n_list(
-      datetime,
-      author,
-      headline,
-      text
-    )
-  }) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
 }

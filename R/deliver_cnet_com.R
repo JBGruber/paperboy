@@ -1,4 +1,3 @@
-
 pb_deliver_paper.www_cnet_com <- function(x, verbose = NULL, pb, ...) {
 
   # raw html is stored in column content_raw

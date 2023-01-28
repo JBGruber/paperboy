@@ -1,21 +1,9 @@
 
-pb_deliver_paper.www_wsj_com <- function(x, verbose = NULL, ...) {
+pb_deliver_paper.www_wsj_com <- function(x, verbose = NULL, pb, ...) {
 
-  . <- NULL
-
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
-
-  class_test(x)
-
-  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
-
-  pb <- make_pb(x)
-
-  purrr::map_df(x$content_raw, function(cont) {
-
-    if (verbose) pb$tick()
-
-    html <- rvest::read_html(cont)
+  # raw html is stored in column content_raw
+  html <- rvest::read_html(x$content_raw)
+  pb_tick(x, verbose, pb)
 
     # datetime
     datetime <- html %>%
@@ -46,8 +34,5 @@ pb_deliver_paper.www_wsj_com <- function(x, verbose = NULL, ...) {
       headline,
       text
     )
-  }) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
+
 }
