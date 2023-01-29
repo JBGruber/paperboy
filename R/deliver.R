@@ -62,7 +62,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
   out <- purrr::map_df(domains, function(u) {
 
     class(u) <- c(
-      replace_all(utils::head(u$domain, 1), c(".", "-"), rep("_", 2L), fixed = TRUE),
+      classify(utils::head(u$domain, 1)),
       class(u)
     )
 
