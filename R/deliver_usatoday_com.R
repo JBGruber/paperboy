@@ -15,7 +15,7 @@ pb_deliver_paper.usatoday_com <- function(x, verbose, pb, ...) {
 
   # author
   author <- html %>%
-    rvest::html_elements(".authors,[itemprop=\"author\"],.gnt_ar_by_a,.gnt_ar_by")  %>%
+    rvest::html_elements(".authors,[itemprop=\"author\"],.gnt_ar_by_a,.gnt_ar_by,.topper__byline")  %>%
     rvest::html_text2() %>%
     unique() %>%
     toString()

@@ -9,12 +9,14 @@ pb_deliver_paper.www_wsj_com <- function(x, verbose = NULL, pb, ...) {
     datetime <- html %>%
       rvest::html_elements("[name=\"article.published\"]") %>%
       rvest::html_attr("content") %>%
-      lubridate::as_datetime()
+      lubridate::as_datetime() %>%
+      head(1L)
 
     # headline
     headline <- html %>%
       rvest::html_elements("title") %>%
-      rvest::html_text()
+      rvest::html_text() %>%
+      paste(collapse = "\n")
 
     # author
     author <- html %>%

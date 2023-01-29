@@ -1,8 +1,9 @@
-pb_deliver_paper.default <- function(x, verbose, pb, ...) {
+pb_deliver_paper.default <- function(x, verbose = NULL, pb, ...) {
 
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
-  if (verbose) pb$tick(tokens = list(what = x$domain[1]))
+  pb_tick(x, verbose, pb)
+  warn_once(x$domain)
   warning("\t...No method for domain ", x$domain[1], " yet, attempting generic approach")
 
   # datetime

@@ -97,6 +97,7 @@ normalise_df <- function(df) {
 
   df <- tibble::as_tibble(df)
 
+  # the default columns every parser is expected to extract
   expected_cols <- c(
     "url",
     "expanded_url",
@@ -160,3 +161,13 @@ pb_tick <- function(x, verbose, pb) {
   }
 }
 
+
+#' issue warning once per unknown domain
+#' @noRd
+warn_once <- function(id) {
+  if (is.null(inform_env[[id]])) {
+    cli::cli_alert_warning("No parser for domain {.strong {id}} yet, attempting generic approach.")
+    inform_env[[id]] <- TRUE
+  }
+}
+inform_env <- new.env()

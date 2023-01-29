@@ -18,8 +18,9 @@ pb_deliver_paper.www_foxbusiness_com <- function(x, verbose = NULL, pb, ...) {
 
   # author
   author <- html %>%
-    rvest::html_elements(".author") %>%
-    rvest::html_text() %>%
+    rvest::html_elements(".author,.author-byline") %>%
+    rvest::html_text2() %>%
+    gsub("By ", "", ., fixed = TRUE) %>%
     trimws() %>%
     toString()
 
