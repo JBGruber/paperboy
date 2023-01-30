@@ -9,7 +9,7 @@ pb_deliver_paper.www_telegraph_co_uk <- function(x, verbose = NULL, pb, ...) {
     html_search("[itemprop=\"datePublished\"]",
                 c("content", "datetime")) %>%
     as.POSIXct(format = "%Y-%m-%dT%H:%M%z") %>%
-    head(1L)
+    utils::head(1L)
 
   # headline
   headline <- html %>%

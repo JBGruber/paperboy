@@ -14,6 +14,7 @@ pb_inspect <- function(x,
                        host_ip = "127.0.0.1",
                        port = httpuv::randomPort()) {
 
+  content_raw <- NULL
   rlang::check_installed("httpuv")
 
   if (!"content_raw" %in% names(x))

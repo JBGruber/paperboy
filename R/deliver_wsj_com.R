@@ -10,7 +10,7 @@ pb_deliver_paper.www_wsj_com <- function(x, verbose = NULL, pb, ...) {
       rvest::html_elements("[name=\"article.published\"]") %>%
       rvest::html_attr("content") %>%
       lubridate::as_datetime() %>%
-      head(1L)
+      utils::head(1L)
 
     # headline
     headline <- html %>%

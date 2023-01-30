@@ -43,7 +43,7 @@ articles_raw <- pb_collect(test_data$url[1:20])
 
 This pulls the entire sites of each article from the net.
 If it doesn't, you probably need to set some cookies first (vignette on cookies coming soon).
-In most cases, it does not make much sense though to look at the data with e.g., `View()`, since the html data is relativly big and the viewer might crash.
+In most cases, it does not make much sense though to look at the data with e.g., `View()`, since the html data is relatively big and the viewer might crash.
 Instead, `paperboy` comes with a function to inspect the code in your browser:
 
 ```{r}

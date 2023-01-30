@@ -9,11 +9,11 @@ Depends:
     R (>= 3.5.0)
 License: GPL-3
 Imports:
+    cli,
     curl,
     dplyr,
     lubridate,
     magrittr,
-    methods,
     progress,
     purrr,
     rlang,

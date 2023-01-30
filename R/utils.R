@@ -21,7 +21,7 @@ pb_new <- function(np) {
   p <- ifelse(basename(getwd()) == "paperboy", "./R/", "")
   f <- paste0(p, "deliver_", np, ".R")
   if (!file.exists(f)) writeLines(template, f)
-  if (require(rstudioapi)) {
+  if (rlang::is_installed("rstudioapi")) {
     rstudioapi::documentOpen(f)
   } else {
     utils::file.edit(f)

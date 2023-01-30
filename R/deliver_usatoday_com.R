@@ -27,7 +27,7 @@ pb_deliver_paper.usatoday_com <- function(x, verbose, pb, ...) {
       extract("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z") %>%
       unique() %>%
       lubridate::as_datetime() |>
-      head(1L)
+      utils::head(1L)
   }
 
   # headline

@@ -35,7 +35,7 @@ pb_deliver_paper.www_faz_net <- function(x, verbose = NULL, pb, ...) {
       gsub("[[:space:]]", "", .) %>%
       replace_all(monate, replacement) %>%
       strptime(format = "%d.%m.%Y") %>%
-      head(1L)
+      utils::head(1L)
   }
 
   # headline

@@ -9,7 +9,7 @@ pb_deliver_paper.www_cbsnews_com <- function(x, verbose = NULL, pb, ...) {
     rvest::html_elements("time") %>%
     rvest::html_attr("datetime") %>%
     lubridate::as_datetime() %>%
-    head(1L)
+    utils::head(1L)
 
   # headline
   headline <- html %>%

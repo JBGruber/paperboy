@@ -9,7 +9,7 @@ pb_deliver_paper.www_cnn_com <- function(x, verbose = NULL, pb,...) {
     rvest::html_elements("[name=\"pubdate\"],[name=\"parsely-pub-date\"],[property=\"article:published_time\"]") %>%
     rvest::html_attr("content") %>%
     lubridate::as_datetime() %>%
-    head(1L)
+    utils::head(1L)
 
   # headline
   headline <- html %>%
