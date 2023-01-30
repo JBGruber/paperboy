@@ -5,8 +5,9 @@
 #'
 #' @param x Either a vector of URLs or a data.frame returned by
 #'   \link{pb_collect}.
-#' @param verbose A logical flag indicating whether information should be
-#'   printed to the screen. If \code{NULL} will be determined from
+#' @param verbose \code{FALSE} turns deliver silent. \code{TRUE} prints status
+#'   messages and a progress bar on the screen. \code{2L} turns on debug mode.
+#'   If \code{NULL} will be determined from
 #'   \code{getOption("paperboy_verbose")}.
 #' @param ... Passed on to \link{pb_collect}.
 #'
@@ -38,6 +39,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
          " returned by pb_collect.")
   }
 
+  # If verbose is not explicitly defined, use package default stored in options.
   if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
 
   bad_status <- x$status != 200L
@@ -54,27 +56,29 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
 
   domains <- split(x, x$domain, drop = TRUE)
 
-  out <- lapply(domains, function(u) {
+  # helper function to make progress bar
+  if (verbose) pb <- make_pb(x) else pb <- NULL
+
+  out <- purrr::map_df(domains, function(u) {
 
     class(u) <- c(
-      replace_all(utils::head(u$domain, 1), c(".", "-"), rep("_", 2L), fixed = TRUE),
+      classify(utils::head(u$domain, 1)),
       class(u)
     )
 
-    pb_deliver_paper(u, verbose = verbose, ...)
+    # iterate over all URLs
+    purrr::map_df(seq_along(u$url), function(i) pb_deliver_paper(x = u[i, ], verbose, pb))
 
   })
 
-  return(dplyr::bind_rows(out))
-
+  return(normalise_df(cbind(out, x)))
 }
 
 #' internal function to deliver specific newspapers
-#' @param x A data.frame returned by  \link{pb_collect} with an additional class
-#'   indicating the domain of all links.
+#' @param pb a progress bar object.
 #' @inheritParams pb_deliver
 #' @keywords internal
-pb_deliver_paper <- function(x, verbose = NULL, ...) {
+pb_deliver_paper <- function(x, verbose, pb, ...) {
   UseMethod("pb_deliver_paper")
 }
 
@@ -85,5 +89,10 @@ pb_deliver_paper <- function(x, verbose = NULL, ...) {
 
 # used for testing
 pb_deliver_paper.httpbin_org <- function(...) {
-
+  return(tibble::tibble(
+    datetime = NA,
+    author = NA,
+    headline = NA,
+    text = NA
+  ))
 }

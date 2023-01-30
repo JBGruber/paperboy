@@ -4,7 +4,7 @@
 \alias{html_search}
 \title{Search raw html for attributes}
 \usage{
-html_search(html, selectors, attributes = NULL, n = 1L)
+html_search(html, selectors, attributes = NULL, all = TRUE, n = 1L)
 }
 \arguments{
 \item{html}{raw html}
@@ -12,6 +12,9 @@ html_search(html, selectors, attributes = NULL, n = 1L)
 \item{selectors}{a vector of CSS selectors to include in search.}
 
 \item{attributes}{attributes to extract. If NULL, returns text.}
+
+\item{all}{if TRUE, all selectors are collected. Otherwise, only the first
+non-empty result is used.}
 
 \item{n}{if multiple are found, how many to return}
 }

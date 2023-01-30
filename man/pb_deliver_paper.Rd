@@ -4,15 +4,18 @@
 \alias{pb_deliver_paper}
 \title{internal function to deliver specific newspapers}
 \usage{
-pb_deliver_paper(x, verbose = NULL, ...)
+pb_deliver_paper(x, verbose, pb, ...)
 }
 \arguments{
-\item{x}{A data.frame returned by  \link{pb_collect} with an additional class
-indicating the domain of all links.}
+\item{x}{Either a vector of URLs or a data.frame returned by
+\link{pb_collect}.}
 
-\item{verbose}{A logical flag indicating whether information should be
-printed to the screen. If \code{NULL} will be determined from
+\item{verbose}{\code{FALSE} turns deliver silent. \code{TRUE} prints status
+messages and a progress bar on the screen. \code{2L} turns on debug mode.
+If \code{NULL} will be determined from
 \code{getOption("paperboy_verbose")}.}
+
+\item{pb}{a progress bar object.}
 
 \item{...}{Passed on to \link{pb_collect}.}
 }

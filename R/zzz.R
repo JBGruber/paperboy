@@ -3,3 +3,4 @@
   if (is.null(verbose)) options(paperboy_verbose = TRUE)
 }
 paperboy.env <- new.env()
+. <- NULL

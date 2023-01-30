@@ -2,16 +2,22 @@
 % Please edit documentation in R/utils.R
 \name{pb_available}
 \alias{pb_available}
-\title{Show available scrapers}
+\title{Show available parsers}
 \usage{
-pb_available()
+pb_available(...)
+}
+\arguments{
+\item{...}{optionally pass URLs to check if respective parser(s) is/are available.}
 }
 \value{
 A character vector of supported domains.
 }
 \description{
-Show available scrapers
+Show available parsers
 }
 \examples{
 pb_available()
+pb_available("https://edition.cnn.com/",
+             "https://www.nytimes.com/",
+             "https://www.google.com/")
 }

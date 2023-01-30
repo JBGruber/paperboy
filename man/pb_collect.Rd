@@ -6,6 +6,7 @@
 \usage{
 pb_collect(
   urls,
+  collect_rss = TRUE,
   timeout = 30,
   ignore_fails = FALSE,
   connections = 100L,
@@ -18,6 +19,9 @@ pb_collect(
 }
 \arguments{
 \item{urls}{Character object with URLs.}
+
+\item{collect_rss}{If one of the URLs contains an RSS feed, should it be
+parsed.}
 
 \item{timeout}{How long should the function wait for the connection (in
 seconds). If the query finishes earlier, results are returned immediately.}

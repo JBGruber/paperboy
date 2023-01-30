@@ -1,56 +1,41 @@
 
-pb_deliver_paper.www_foxbusiness_com <- function(x, verbose = NULL, ...) {
+pb_deliver_paper.www_foxbusiness_com <- function(x, verbose = NULL, pb, ...) {
 
-  . <- NULL
+  # raw html is stored in column content_raw
+  html <- rvest::read_html(x$content_raw)
+  pb_tick(x, verbose, pb)
 
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
+  # datetime
+  datetime <- html %>%
+    rvest::html_elements("[name=\"dcterms.created\"]") %>%
+    rvest::html_attr("content") %>%
+    lubridate::as_datetime()
 
-  class_test(x)
+  # headline
+  headline <- html %>%
+    rvest::html_elements("[property=\"og:title\"]") %>%
+    rvest::html_attr("content")
 
-  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
+  # author
+  author <- html %>%
+    rvest::html_elements(".author,.author-byline") %>%
+    rvest::html_text2() %>%
+    gsub("By ", "", ., fixed = TRUE) %>%
+    trimws() %>%
+    toString()
 
-  pb <- make_pb(x)
+  # text
+  text <- html %>%
+    rvest::html_elements(".article-content") %>%
+    rvest::html_text2() %>%
+    paste(collapse = "\n")
 
-  purrr::map_df(x$content_raw, function(cont) {
-
-    if (verbose) pb$tick()
-
-    html <- rvest::read_html(cont)
-
-    # datetime
-    datetime <- html %>%
-      rvest::html_elements("[name=\"dcterms.created\"]") %>%
-      rvest::html_attr("content") %>%
-      lubridate::as_datetime()
-
-    # headline
-    headline <- html %>%
-      rvest::html_elements("[property=\"og:title\"]") %>%
-      rvest::html_attr("content")
-
-    # author
-    author <- html %>%
-      rvest::html_elements(".author") %>%
-      rvest::html_text() %>%
-      trimws() %>%
-      toString()
-
-    # text
-    text <- html %>%
-      rvest::html_elements(".article-content") %>%
-      rvest::html_text2() %>%
-      paste(collapse = "\n")
-
-    s_n_list(
-      datetime,
-      author,
-      headline,
-      text
-    )
-  }) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
+  s_n_list(
+    datetime,
+    author,
+    headline,
+    text
+  )
 }
 
 

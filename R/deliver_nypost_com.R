@@ -1,54 +1,43 @@
+pb_deliver_paper.nypost_com <- function(x, verbose = NULL, pb, ...) {
 
-pb_deliver_paper.nypost_com <- function(x, verbose = NULL, ...) {
+  # raw html is stored in column content_raw
+  html <- rvest::read_html(x$content_raw)
+  pb_tick(x, verbose, pb)
 
-  . <- NULL
+  # datetime
+  datetime <- html %>%
+    rvest::html_elements("[property=\"article:published_time\"]") %>%
+    rvest::html_attr("content") %>%
+    lubridate::as_datetime()
 
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
+  # headline
+  headline <- html %>%
+    rvest::html_elements("[property=\"og:title\"]") %>%
+    rvest::html_attr("content")
 
-  class_test(x)
+  # author
+  author <- html %>%
+    rvest::html_elements(".byline__author")  %>%
+    rvest::html_text2() %>%
+    toString() %>%
+    gsub("By ", "", ., fixed = TRUE)
 
-  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
+  # text
+  text <- html %>%
+    rvest::html_elements("[class*=\"content\"]>p,[class*=\"entry-content\"]>p") %>%
+    rvest::html_text2() %>%
+    paste(collapse = "\n")
 
-  pb <- make_pb(x)
+  # the helper function safely creates a named list from objects
+  s_n_list(
+    datetime,
+    author,
+    headline,
+    text
+  )
 
-  purrr::map_df(x$content_raw, function(cont) {
-
-    if (verbose) pb$tick()
-
-    html <- rvest::read_html(cont)
-
-    # datetime
-    datetime <- html %>%
-      rvest::html_elements("[property=\"article:published_time\"]") %>%
-      rvest::html_attr("content") %>%
-      lubridate::as_datetime()
-
-    # headline
-    headline <- html %>%
-      rvest::html_elements("[property=\"og:title\"]") %>%
-      rvest::html_attr("content")
-
-    # author
-    author <- html %>%
-      rvest::html_elements(".byline")  %>%
-      rvest::html_text2() %>%
-      toString() %>%
-      gsub("By ", "", ., fixed = TRUE)
-
-    # text
-    text <- html %>%
-      rvest::html_elements("[class*=\"content\"]>p") %>%
-      rvest::html_text2() %>%
-      paste(collapse = "\n")
-
-    s_n_list(
-      datetime,
-      author,
-      headline,
-      text
-    )
-  }) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
 }
+
+pb_deliver_paper.decider_com <-
+  pb_deliver_paper.pagesix_com <-
+  pb_deliver_paper.nypost_com

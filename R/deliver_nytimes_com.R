@@ -1,64 +1,62 @@
+pb_deliver_paper.www_nytimes_com <- function(x, verbose, pb, ...) {
 
-pb_deliver_paper.www_nytimes_com <- function(x, verbose = NULL, ...) {
+  # raw html is stored in column content_raw
+  html <- rvest::read_html(x$content_raw)
+  pb_tick(x, verbose, pb)
 
-  . <- NULL
+  # datetime
+  datetime <- html %>%
+    html_search(selectors = c(
+      "[property=\"article:published_time\"]"
+    ), attributes = "content") %>%
+    lubridate::as_datetime()
 
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
+  # author
+  author <- html %>%
+    rvest::html_elements("[name=\"byl\"]")  %>%
+    rvest::html_attr("content") %>%
+    toString() %>%
+    gsub("By ", "", ., fixed = TRUE) %>%
+    unique() %>%
+    toString()
 
-  class_test(x)
-
-  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
-
-  pb <- make_pb(x)
-
-  purrr::map_df(x$content_raw, function(cont) {
-
-    if (verbose) pb$tick()
-
-    html <- rvest::read_html(cont)
-
-    # datetime
+  if (!isFALSE(is.na(datetime))) {
     datetime <- html %>%
-      rvest::html_elements("[property=\"article:published_time\"]") %>%
-      rvest::html_attr("content") %>%
-      lubridate::as_datetime()
+      rvest::html_elements("[slot=\"data\"],script") %>%
+      rvest::html_text() %>%
+      extract("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z") %>%
+      unique() %>%
+      lubridate::as_datetime() |>
+      head(1L)
+  }
 
-    # headline
-    headline <- html %>%
-      rvest::html_elements("[property=\"og:title\"]") %>%
-      rvest::html_attr("content")
+  # headline
+  headline <- html %>%
+    rvest::html_elements("[property=\"og:title\"]") %>%
+    rvest::html_attr("content")
 
-    # author
-    author <- html %>%
-      rvest::html_elements("[name=\"byl\"]")  %>%
-      rvest::html_attr("content") %>%
-      toString() %>%
-      gsub("By ", "", ., fixed = TRUE)
+  # text
+  text_temp <- html %>%
+    rvest::html_elements("[name=\"articleBody\"]")
 
-    # text
-    text_temp <- html %>%
-      rvest::html_elements("[name=\"articleBody\"]")
+  if (length(text_temp) > 0) {
+    text <- text_temp %>%
+      rvest::html_elements("p") %>%
+      rvest::html_text2() %>%
+      paste(collapse = "\n")
+  } else {
+    text <- html %>%
+      rvest::html_elements("p") %>%
+      rvest::html_text2() %>%
+      paste(collapse = "\n")
+  }
 
-    if (length(text_temp) > 0) {
-      text <- text_temp %>%
-        rvest::html_elements("p") %>%
-        rvest::html_text2() %>%
-        paste(collapse = "\n")
-    } else {
-      text <- html %>%
-        rvest::html_elements("p") %>%
-        rvest::html_text2() %>%
-        paste(collapse = "\n")
-    }
+  # the helper function safely creates a named list from objects
+  s_n_list(
+    datetime,
+    author,
+    headline,
+    text
+  )
 
-    s_n_list(
-      datetime,
-      author,
-      headline,
-      text
-    )
-  }) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
 }

@@ -10,8 +10,9 @@ pb_deliver(x, verbose = NULL, ...)
 \item{x}{Either a vector of URLs or a data.frame returned by
 \link{pb_collect}.}
 
-\item{verbose}{A logical flag indicating whether information should be
-printed to the screen. If \code{NULL} will be determined from
+\item{verbose}{\code{FALSE} turns deliver silent. \code{TRUE} prints status
+messages and a progress bar on the screen. \code{2L} turns on debug mode.
+If \code{NULL} will be determined from
 \code{getOption("paperboy_verbose")}.}
 
 \item{...}{Passed on to \link{pb_collect}.}

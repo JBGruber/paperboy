@@ -1,52 +1,38 @@
+pb_deliver_paper.www_forbes_com <- function(x, verbose = NULL, pb, ...) {
 
-pb_deliver_paper.www_forbes_com <- function(x, verbose = NULL, ...) {
+  # raw html is stored in column content_raw
+  html <- rvest::read_html(x$content_raw)
+  pb_tick(x, verbose, pb)
 
-  if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
+  # datetime
+  datetime <- html %>%
+    rvest::html_elements("[property=\"article:published\"]") %>%
+    rvest::html_attr("content") %>%
+    lubridate::as_datetime()
 
-  class_test(x)
+  # headline
+  headline <- html %>%
+    rvest::html_elements("[property=\"og:title\"]") %>%
+    rvest::html_attr("content")
 
-  if (verbose) message("\t...", nrow(x), " articles from ", x$domain[1])
+  # author
+  author <- html %>%
+    rvest::html_elements("[property=\"article:author\"]") %>%
+    rvest::html_attr("content")
 
-  pb <- make_pb(x)
+  if (length(author) > 1) author <- toString(author)
 
-  purrr::map_df(x$content_raw, function(cont) {
+  # text
+  text <- html %>%
+    rvest::html_elements("p") %>%
+    rvest::html_text2() %>%
+    paste(collapse = "\n")
 
-    if (verbose) pb$tick()
+  s_n_list(
+    datetime,
+    author,
+    headline,
+    text
+  )
 
-    html <- rvest::read_html(cont)
-
-    # datetime
-    datetime <- html %>%
-      rvest::html_elements("[property=\"article:published\"]") %>%
-      rvest::html_attr("content") %>%
-      lubridate::as_datetime()
-
-    # headline
-    headline <- html %>%
-      rvest::html_elements("[property=\"og:title\"]") %>%
-      rvest::html_attr("content")
-
-    # author
-    author <- html %>%
-      rvest::html_elements("[property=\"article:author\"]") %>%
-      rvest::html_attr("content")
-
-    if (length(author) > 1) author <- toString(author)
-
-    # text
-    text <- html %>%
-      rvest::html_elements("p") %>%
-      rvest::html_text2() %>%
-      paste(collapse = "\n")
-
-    s_n_list(
-      datetime,
-      author,
-      headline,
-      text
-    )
-  }) %>%
-    cbind(x) %>%
-    normalise_df() %>%
-    return()
 }
