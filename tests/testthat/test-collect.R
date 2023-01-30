@@ -1,7 +1,7 @@
 test_that("status", {
   expect_message(
     pb_collect("https://httpbin.org/status/404"),
-    "1 pages from 1 domains collected. 1 links had issues.\n"
+    "1 link had issues."
   )
 })
 
@@ -12,8 +12,7 @@ test_that("expandurls", {
     }, c(1, 5))
   expect_warning(
     pb_collect(urls = "https://httpbin.org/delay/10", timeout = 1, ignore_fails = TRUE),
-    "1 job(s) did not finish before timeout. Think about increasing the timeout parameter. Enter ?pb_collect for help.",
-    fixed = TRUE
+    "download did not finish before timeout."
   )
 })
 
@@ -26,4 +25,11 @@ test_that("send cookies", {
     "cookies must be provided in name = value pairs. For example, cookies = list(a = 1, b = 2)",
     fixed = TRUE
   )
+})
+
+test_that("rss", {
+  expect_equal({
+    res <- pb_collect(urls = "https://rss.nytimes.com/services/xml/rss/nyt/World.xml")
+    c(nrow(res) > 1, ncol(res))
+  }, c(1, 5))
 })

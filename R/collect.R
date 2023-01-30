@@ -18,8 +18,6 @@
 #'
 #' @return A data.frame (tibble) with url status data and raw media text.
 #' @export
-#'
-#' @importFrom rlang :=
 pb_collect <- function(urls,
                        collect_rss = TRUE,
                        timeout = 30,
@@ -94,9 +92,9 @@ pb_collect <- function(urls,
   }
 
 
-  if (status$pending > 0) cli::cli_alert_warning(c(
+  if (status$pending > 0) cli::cli_warn(paste(
     "{status$pending} download{?s} did not finish before timeout.",
-    "Think about increasing the timeout parameter. ",
+    "Think about increasing the timeout parameter.",
     "See {.help [{.fun pb_collect}](paperboy::pb_collect)} for help."
   ))
 
@@ -142,7 +140,7 @@ pb_collect <- function(urls,
 
     if (verbose) {
       cli::cli_progress_step("{nrow(out)} page{?s} from {length(unique(out$domain))} domain{?s} collected.")
-      cli::cli_progress_step("{cli::no(sum(out$status != 200L))} links had issues.")
+      cli::cli_progress_step("{cli::no(sum(out$status != 200L))} link{?s} had issues.")
     }
   }
   if (verbose) cli::cli_progress_done()

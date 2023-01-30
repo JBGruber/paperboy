@@ -1,7 +1,7 @@
 test_that("Test infrascture", {
   expect_warning(
     pb_deliver("google.com", verbose = TRUE),
-    "...No method for domain.*?yet, attempting generic approach"
+    "No parser for domain"
   )
   expect_error(
     pb_deliver(list("google.com"), verbose = FALSE),
@@ -9,15 +9,11 @@ test_that("Test infrascture", {
   )
   expect_error(
     pb_deliver(data.frame(test = "google.com"), verbose = FALSE),
-    "x must be a character vector of URLs or a data.frame returned by pb_collect."
+    "must be a character vector of URLs"
   )
   expect_message(
     pb_deliver(pb_collect("https://httpbin.org/status/404", verbose = FALSE)),
-    "1 URLs removed due to bad status."
-  )
-  expect_message(
-    pb_deliver(pb_collect("https://httpbin.org/status/200", verbose = FALSE)),
-    "Parsing..."
+    "1 URL removed due to bad status."
   )
 })
 

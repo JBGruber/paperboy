@@ -163,7 +163,7 @@ pb_tick <- function(x, verbose, pb) {
 #' @noRd
 warn_once <- function(id) {
   if (is.null(inform_env[[id]])) {
-    cli::cli_alert_warning("No parser for domain {.strong {id}} yet, attempting generic approach.")
+    cli::cli_warn("No parser for domain {.strong {id}} yet, attempting generic approach.")
     inform_env[[id]] <- TRUE
   }
 }

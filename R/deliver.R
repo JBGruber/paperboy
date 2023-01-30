@@ -35,8 +35,8 @@ pb_deliver.character <- function(x, verbose = NULL, ...) {
 pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
 
   if (!"content_raw" %in% colnames(x)) {
-    cli::cli_abort("x must be a character vector of URLs or a data.frame",
-                   " returned by pb_collect.")
+    cli::cli_abort(paste("x must be a character vector of URLs or a data.frame",
+                         " returned by {.help [{.fun pb_collect}](paperboy::pb_collect)}."))
   }
 
   # If verbose is not explicitly defined, use package default stored in options.
