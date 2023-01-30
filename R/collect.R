@@ -36,7 +36,8 @@ pb_collect <- function(urls,
   # prevent duplicates
   urls <- unique(urls)
 
-  if (verbose) message(length(urls), " unique URLs provided...")
+  if (verbose) cli::cli_progress_step("{length(urls)} unique URLs provided")
+  if (verbose) cli::cli_progress_step("Fetching pages...")
 
   # setup for async curl call
   pool <- curl::new_pool(total_con = connections,
@@ -64,7 +65,7 @@ pb_collect <- function(urls,
           content_raw = NA
         )
       } else {
-        stop("Connection error. Set `ignore_fails = TRUE` to ignore.")
+        cli::cli_abort("Connection error. Set {.code ignore_fails = TRUE} to ignore.")
       }
     }
   }
@@ -74,12 +75,11 @@ pb_collect <- function(urls,
   fail_parser <- lapply(urls, parse_fail)
   names(fail_parser) <- urls
 
-  if (verbose) message("\t...collecting")
+
   # it seems manual pagination is necessary as more than 1000 requests cause
   # 'Unrecoverable error in select/poll'
   url_batches <- split(urls, ceiling(seq_along(urls) / 1000))
   for (i in seq_along(url_batches)) {
-
     invisible(lapply(url_batches[[i]], function(u) {
       curl::curl_fetch_multi(
         u,
@@ -94,12 +94,11 @@ pb_collect <- function(urls,
   }
 
 
-  if (status$pending > 0) warning(
-    status$pending,
-    " job(s) did not finish before timeout. ",
+  if (status$pending > 0) cli::cli_alert_warning(c(
+    "{status$pending} download{?s} did not finish before timeout.",
     "Think about increasing the timeout parameter. ",
-    "Enter ?pb_collect for help.\n"
-  )
+    "See {.help [{.fun pb_collect}](paperboy::pb_collect)} for help."
+  ))
 
   out <- dplyr::bind_rows(pages, .id = "urls")
   if (nrow(out) > 0) {
@@ -112,7 +111,7 @@ pb_collect <- function(urls,
       dplyr::rename(url = urls)
 
     if (collect_rss) {
-      if (verbose) message("\t...parsing RSS feeds")
+      if (verbose) cli::cli_progress_step("Parsing RSS feeds")
       rss <- grepl("<rss.+>", out$content_raw)
       if (any(rss)) {
         rss_out <- collect_rss(
@@ -134,30 +133,19 @@ pb_collect <- function(urls,
     # see issue #3
     if (any(out$domain == "www.washingtonpost.com")) {
       if (any(grepl("gdpr-consent", out$expanded_url, fixed = TRUE))) {
-        warning("www.washingtonpost.com requests GDPR consent instead of showing",
-                " the article. See https://github.com/JBGruber/paperboy/issues/3")
+        cli::cli_alert_warning(c(
+          "www.washingtonpost.com requests GDPR consent instead of showing",
+                " the article. See {.url https://github.com/JBGruber/paperboy/issues/3}"
+        ))
       }
     }
 
     if (verbose) {
-      if (any(out$status != 200L)) {
-        msg <- paste0(
-          " ",
-          sum(out$status != 200L),
-          " links had issues."
-        )
-      } else {
-        msg <- ""
-      }
-      message(
-        nrow(out),
-        " pages from ",
-        length(unique(out$domain)),
-        " domains collected.",
-        msg
-      )
+      cli::cli_progress_step("{nrow(out)} page{?s} from {length(unique(out$domain))} domain{?s} collected.")
+      cli::cli_progress_step("{cli::no(sum(out$status != 200L))} links had issues.")
     }
   }
+  if (verbose) cli::cli_progress_done()
   attr(out, "paperboy_collected_at") <- Sys.time()
 
   return(out)

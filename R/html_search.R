@@ -15,8 +15,6 @@ html_search <- function(html,
                         all = TRUE,
                         n = 1L) {
 
-  . <- NULL
-
   if (all) {
     res <- rvest::html_elements(html, paste0(selectors, collapse = ","))
   } else {

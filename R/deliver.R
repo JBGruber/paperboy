@@ -35,8 +35,8 @@ pb_deliver.character <- function(x, verbose = NULL, ...) {
 pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
 
   if (!"content_raw" %in% colnames(x)) {
-    stop("x must be a character vector of URLs or a data.frame",
-         " returned by pb_collect.")
+    cli::cli_abort("x must be a character vector of URLs or a data.frame",
+                   " returned by pb_collect.")
   }
 
   # If verbose is not explicitly defined, use package default stored in options.
@@ -45,19 +45,19 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
   bad_status <- x$status != 200L
   x <- x[!bad_status, ]
 
-  if (verbose) {
-    if (sum(bad_status) > 0) {
-      message(sum(bad_status), " URLs removed due to bad status.", appendLF = FALSE)
-    }
-    if (sum(!bad_status) > 0) {
-      message(" Parsing...")
-    }
-  }
+  if (verbose & sum(bad_status) > 0) cli::cli_progress_step("{sum(bad_status)} URL{?s} removed due to bad status.")
 
   domains <- split(x, x$domain, drop = TRUE)
 
-  # helper function to make progress bar
-  if (verbose) pb <- make_pb(x) else pb <- NULL
+  if (verbose) {
+    oldstyle <- getOption("cli.progress_bar_style")
+    options(cli.progress_bar_style = list(
+      current = cli::col_yellow("c"),
+      complete = cli::col_grey("-"),
+      incomplete = cli::col_grey("o")
+    ))
+    pb <- cli::cli_progress_bar("Parsing raw html:", total = nrow(x))
+  } else pb <- NULL
 
   out <- purrr::map_df(domains, function(u) {
 
@@ -67,9 +67,14 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     )
 
     # iterate over all URLs
-    purrr::map_df(seq_along(u$url), function(i) pb_deliver_paper(x = u[i, ], verbose, pb))
-
+    out <- purrr::map_df(seq_along(u$url), function(i) pb_deliver_paper(x = u[i, ], verbose, pb))
+    return(out)
   })
+
+  if (verbose) {
+    cli::cli_progress_done()
+    options(cli.progress_bar_style = oldstyle)
+  }
 
   return(normalise_df(cbind(out, x)))
 }
@@ -82,10 +87,6 @@ pb_deliver_paper <- function(x, verbose, pb, ...) {
   UseMethod("pb_deliver_paper")
 }
 
-# pb_deliver_paper.default <- function(x, verbose = NULL, ...) {
-#   warning("No method for ", x$domain[1], " yet. Url ignored.")
-#   NULL
-# }
 
 # used for testing
 pb_deliver_paper.httpbin_org <- function(...) {

@@ -4,7 +4,6 @@ pb_deliver_paper.default <- function(x, verbose = NULL, pb, ...) {
   html <- rvest::read_html(x$content_raw)
   pb_tick(x, verbose, pb)
   warn_once(x$domain)
-  warning("\t...No method for domain ", x$domain[1], " yet, attempting generic approach")
 
   # datetime
   datetime <- html %>%

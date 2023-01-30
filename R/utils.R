@@ -11,7 +11,7 @@ magrittr::`%>%`
 #' @examples
 #' \dontrun{paperboy:::pb_new(np = "https://www.buzzfeed.com/")}
 pb_new <- function(np) {
-  . <- NULL
+
   np <- classify(utils::head(urltools::domain(np), 1))
 
   template <- system.file("templates", "deliver_.R", package = "paperboy") %>%
@@ -144,10 +144,7 @@ extract <- function(str, pattern) {
 #' construct progress bar
 #' @noRd
 make_pb <- function(df) {
-  progress::progress_bar$new(
-    format = "[:bar] :percent eta: :eta (:what)",
-    total = nrow(df)
-  )
+  cli::cli_progress_bar("Parsing ", total = nrow(df))
 }
 
 
@@ -155,9 +152,9 @@ make_pb <- function(df) {
 #' @noRd
 pb_tick <- function(x, verbose, pb) {
   if (verbose > 1) {
-    message(x$expanded_url)
+    cli::cli_progress_step(x$expanded_url)
   } else if (verbose > 0) {
-    pb$tick(tokens = list(what = x$domain[1]))
+    cli::cli_progress_update(status = paste0("(", x$domain, ")"), id = pb)
   }
 }
 
