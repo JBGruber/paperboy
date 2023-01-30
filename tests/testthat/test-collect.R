@@ -3,13 +3,21 @@ test_that("status", {
     pb_collect("https://httpbin.org/status/404"),
     "1 link had issues."
   )
+  expect_error(
+    pb_collect("test"),
+    "Connection error. Set"
+  )
+  expect_equal(
+    dim(pb_collect("test", ignore_fails = TRUE)),
+    c(1, 5)
+  )
 })
 
 test_that("expandurls", {
-  expect_equal({
-      res <- pb_collect(urls = "https://httpbin.org/")
-      c(nrow(res), ncol(res))
-    }, c(1, 5))
+  expect_equal(
+    dim(pb_collect(urls = "https://httpbin.org/")),
+    c(1, 5)
+  )
   expect_warning(
     pb_collect(urls = "https://httpbin.org/delay/10", timeout = 1, ignore_fails = TRUE),
     "download did not finish before timeout."

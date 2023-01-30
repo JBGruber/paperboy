@@ -19,9 +19,7 @@ pb_deliver_paper.www_theguardian_com <- function(x, verbose = NULL, pb, ...) {
   author <- html %>%
     rvest::html_elements("[property=\"article:author\"],[name=\"author\"]") %>%
     rvest::html_attr("content") %>%
-    utils::head(1L)
-
-  if (length(author) > 1) author <- toString(author)
+    toString()
 
   # text
   text <- html %>%

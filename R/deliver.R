@@ -87,13 +87,3 @@ pb_deliver_paper <- function(x, verbose, pb, ...) {
   UseMethod("pb_deliver_paper")
 }
 
-
-# used for testing
-pb_deliver_paper.httpbin_org <- function(...) {
-  return(tibble::tibble(
-    datetime = NA,
-    author = NA,
-    headline = NA,
-    text = NA
-  ))
-}

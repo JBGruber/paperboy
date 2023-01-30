@@ -32,3 +32,25 @@ test_that("Test huffpost scraper", {
     c(class(out), ncol(out), nrow(out))
   }, c("tbl_df", "tbl", "data.frame", "9", "1"))
 })
+
+test_scraper <- function(rss) {
+  test_that(rss, {
+    skip_if_offline()
+    expect_equal({
+      test <- pb_collect(rss, timeout = 90)$expanded_url[1]
+      out <- pb_deliver(test, verbose = FALSE)
+      c(sum(is.na(out)) < 4, ncol(out), nrow(out))
+    }, c(1, 9, 1))
+  })
+}
+
+lapply(c(
+  "https://www.cbsnews.com/latest/rss/evening-news",
+  "https://www.cnet.com/rss/news/",
+  "http://rss.cnn.com/rss/edition.rss",
+  "https://www.dailymail.co.uk/news/index.rss",
+  "https://www.latimes.com/politics/rss2.0.xml",
+  "https://feeds.a.dj.com/rss/RSSWorldNews.xml"
+), test_scraper)
+
+
