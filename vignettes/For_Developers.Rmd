@@ -1,5 +1,5 @@
 ---
-title: "For_Developers"
+title: "For Developers"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{For_Developers}
@@ -53,7 +53,7 @@ pb_inspect(articles_raw, 1L)
 ![view of a collected site with pb_inspect](inspect.png)
 
 From here we want to identify at least the headline, article text, publication date and time, and the author(s).
-Use the tools you are most comfortable with, I usually just right-click and inspect in chrome and then look for a suitable CSS tag.
+Use the tools you are most comfortable with, I usually just right-click and `Inspect` in Chromium and then look for a suitable CSS tag.
 To get better with tags, I recommend the cool game [CSS Diner](https://flukeout.github.io/).
 
 Once you know roughly how the site publishes articles, you can start a new parser which pulls the relevant information from the html code.
@@ -87,10 +87,10 @@ html %>%
     ), attributes = c("content", "text"))
 ```
 
-It looks through all the listed selectors and retrieves the attribute content or the text of the node if anything is found.
+It looks through all the listed selectors and retrieves the attribute content or the text of the node if anything is found (note you can set `all = FALSE` to only collect the first non empty node).
 
 The most difficult decision for most parsers is which CSS tags to choose.
-There is usually a trade-off between making the parser more specific and have clean data or make it more general to have less trouble maintaining different formats on the same site.
+There is usually a tradeoff between a more specific parser that provides clean data and a more general parser that causes fewer problems when it comes to maintaining different formats on the same website.
 A good example is the text column, which you can produce almost always like this:
 
 ```{r}
@@ -100,26 +100,26 @@ text <- html  %>%
   paste(collapse = "\n")
 ```
 
-This selects all paragraphs on a site, which often also includes irrelevant data, such as infos for subscribers, ads or even readers' comments.
-So it is usably suggested to do something like this instead:
+This selects all paragraphs on a site, which often also includes irrelevant data, such as infos for subscribers, ads, readers' comments or even meta data that is usually hidden from view.
+So it is usually better to do something like this instead:
 
 ```{r}
 text <- html  %>%
-  rvest::html_elements(".article-body>p") |> 
+  rvest::html_elements(".article-body>p") %>%
   rvest::html_text2() %>%
   paste(collapse = "\n")
 ```
 
 This code will only select paragraphs from the article-body class, which works well for most washingtonpost.com articles, for example.
 However, not all articles on the website have this class, for which case you want to create a fallback.
-`html_search()` can do this:
+`html_search()` can do this like shown below:
 
 ```{r}
 text <- html %>%
-  html_search(selectors = c(".article-body>p", "p"), 
-              attributes = "text", 
-              all = FALSE, # only the first non-empty match is used
-              n = Inf) %>% # default is to return the first attribute, we want all paragraphs
+  html_search(selectors = c(".article-body>p", "p"), # select paragraphs in .article-body or just all paragraphs
+              attributes = "text",                   # retrieve the text from selected nodes 
+              all = FALSE,                           # only the first non-empty match is used
+              n = Inf) %>%                           # default is to return the first attribute, we want all paragraphs
   paste(collapse = "\n")
 ```
 
@@ -134,9 +134,9 @@ paperboy:::s_n_list(a, b, c)
 ```
 
 Combining the data in this way makes sure the data can be neatly placed in a tibble later.
-You should still make sure though that the objects headline, article, datetime, and author have lenght 1 (with `toString()` and `head(x, 1L)` respectively)
+You should still make sure though that the objects *headline*, *article*, *datetime*, and *author* have length 1 (with `toString()` and `head(x, 1L)` respectively).
 You can also include additional fields in your parser if this makes sense in a specific case.
-The huffpost, for example, also distributes videos, so the type field is constructed and will be moved to the `misc` column automatically.
+The huffpost, for example, also distributes videos, so the *type* field is constructed and will be moved to the `misc` column automatically.
 
 Once you think the parser is ready for a test drive, use the raw html data from above and turn on debugging mode (with `verbose = 2L`) to see where the parser might still fail.
 To run the function through `pb_deliver` you just load your new function into the global environment and it should be picked up (since the template uses unexported functions, you should also run `devtools::load_all()`, so `R` can find them): 
