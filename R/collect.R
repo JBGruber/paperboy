@@ -37,68 +37,26 @@ pb_collect <- function(urls,
   if (verbose) cli::cli_progress_step("{length(urls)} unique URLs provided")
   if (verbose) cli::cli_progress_step("Fetching pages...")
 
-  # setup for async curl call
-  pool <- curl::new_pool(total_con = connections,
-                         host_con = host_con)
-  pages <- list()
-
-  # create different parser function for each request to identify results
-  parse_response <- function(urls) {
-    function(req) {
-      pages[[urls]] <<- list(
-        expanded_url = req$url,
-        status = req$status_code,
-        content_raw = readBin(req$content, character())
-      )
-    }
-  }
-
-
-  parse_fail <- function(urls) {
-    function(req, i_f = ignore_fails) {
-      if (i_f) {
-        pages[[urls]] <<- list(
-          expanded_url = "connection error",
-          status = 503L,
-          content_raw = NA
-        )
-      } else {
-        cli::cli_abort("Connection error. Set {.code ignore_fails = TRUE} to ignore.")
-      }
-    }
-  }
-
-  response_parser <- lapply(urls, parse_response)
-  names(response_parser) <- urls
-  fail_parser <- lapply(urls, parse_fail)
-  names(fail_parser) <- urls
-
 
   # it seems manual pagination is necessary as more than 1000 requests cause
   # 'Unrecoverable error in select/poll'
   url_batches <- split(urls, ceiling(seq_along(urls) / 1000))
-  for (i in seq_along(url_batches)) {
-    invisible(lapply(url_batches[[i]], function(u) {
-      curl::curl_fetch_multi(
-        u,
-        done = response_parser[[u]],
-        fail = fail_parser[[u]],
-        pool = pool,
-        handle = pb_handle(u, cookies, useragent)
-      )
-    }))
+  status <- purrr::map_df(url_batches, function(b)
+    async_requests(b,
+                   ignore_fails,
+                   connections,
+                   host_con,
+                   cookies,
+                   useragent,
+                   timeout))
 
-    status <- curl::multi_run(timeout = timeout, pool = pool)
-  }
-
-
-  if (status$pending > 0) cli::cli_warn(paste(
-    "{status$pending} download{?s} did not finish before timeout.",
+  if (sum(status$pending) > 0) cli::cli_warn(paste(
+    "{sum(status$pending)} download{?s} did not finish before timeout.",
     "Think about increasing the timeout parameter.",
     "See {.help [{.fun pb_collect}](paperboy::pb_collect)} for help."
   ))
 
-  out <- dplyr::bind_rows(pages, .id = "urls")
+  out <- dplyr::bind_rows(paperboy.env$pages, .id = "urls")
   if (nrow(out) > 0) {
 
     out <- tibble::add_column(
@@ -168,6 +126,64 @@ pb_handle <- function(url, cookies, useragent) {
     cookie = cookie,
     useragent = useragent
   )
+}
+
+# running async curl calls
+async_requests <- function(urls,
+                           ignore_fails,
+                           connections,
+                           host_con,
+                           cookies,
+                           useragent,
+                           timeout) {
+
+  pool <- curl::new_pool(total_con = connections,
+                         host_con = host_con)
+
+  paperboy.env$pages <- list()
+  paperboy.env$ignore_fails <- ignore_fails
+  response_parser <- lapply(urls, parse_response, parent.frame())
+  names(response_parser) <- urls
+  fail_parser <- lapply(urls, parse_fail, parent.frame())
+  names(fail_parser) <- urls
+
+  invisible(lapply(urls, function(u) {
+    curl::curl_fetch_multi(
+      u,
+      done = response_parser[[u]],
+      fail = fail_parser[[u]],
+      pool = pool,
+      handle = pb_handle(u, cookies, useragent)
+    )
+  }))
+
+  curl::multi_run(timeout = timeout, pool = pool)
+}
+
+
+parse_response <- function(urls, env) {
+  function(req) {
+    paperboy.env$pages[[urls]] <- list(
+      expanded_url = req$url,
+      status = req$status_code,
+      content_raw = readBin(req$content, character())
+    )
+  }
+}
+
+
+parse_fail <- function(urls, env) {
+  function(req, i_f = paperboy.env$ignore_fails) {
+    if (i_f) {
+      paperboy.env$pages[[urls]] <- list(
+        expanded_url = "connection error",
+        status = 503L,
+        content_raw = NA
+      )
+    } else {
+      cli::cli_abort("Connection error. Set {.code ignore_fails = TRUE} to ignore.")
+    }
+  }
 }
 
 

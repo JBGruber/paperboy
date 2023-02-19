@@ -50,7 +50,7 @@ lapply(c(
   "http://rss.cnn.com/rss/edition.rss",
   "https://www.dailymail.co.uk/news/index.rss",
   "https://www.latimes.com/politics/rss2.0.xml",
-  "https://feeds.a.dj.com/rss/RSSWorldNews.xml"
+  "https://feeds.a.dj.com/rss/RSSOpinion.xml"
 ), test_scraper)
 
 
