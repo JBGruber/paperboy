@@ -6,3 +6,4 @@
 tests/spelling.Rout.save
 tests/local-files
 Update_package.R
+test_data.rds

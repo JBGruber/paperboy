@@ -67,9 +67,9 @@ pb_collect <- function(urls,
       dplyr::rename(url = urls)
 
     if (collect_rss) {
-      if (verbose) cli::cli_progress_step("Parsing RSS feeds")
       rss <- grepl("<rss.+>", out$content_raw)
       if (any(rss)) {
+        if (verbose) cli::cli_progress_step("Parsing RSS feeds")
         rss_out <- collect_rss(
           out[rss, ],
           collect_rss = FALSE,

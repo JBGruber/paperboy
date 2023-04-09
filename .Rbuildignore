@@ -4,4 +4,5 @@
 /tests/local-files
 ^\.github$
 ^codecov\.yml$
-Update_package.R
+^submit2cran\.r$
+^test_data\.rds$
