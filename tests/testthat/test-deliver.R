@@ -52,5 +52,3 @@ lapply(c(
   "https://www.latimes.com/politics/rss2.0.xml",
   "https://feeds.a.dj.com/rss/RSSOpinion.xml"
 ), test_scraper)
-
-

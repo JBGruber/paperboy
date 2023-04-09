@@ -6,3 +6,5 @@
 ^codecov\.yml$
 ^submit2cran\.r$
 ^test_data\.rds$
+^doc$
+^Meta$
