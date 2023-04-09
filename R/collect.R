@@ -33,22 +33,35 @@ pb_collect <- function(urls,
 
   # prevent duplicates
   urls <- unique(urls)
-
-  if (verbose) cli::cli_progress_step("{length(urls)} unique URLs provided")
-  if (verbose) cli::cli_progress_step("Fetching pages...")
-
+  # not using the package env changes order of cli messages
+  paperboy.env$len_unique <- length(urls)
+  if (verbose) cli::cli_progress_step("{len_unique} unique URLs provided", .envir = paperboy.env)
 
   # it seems manual pagination is necessary as more than 1000 requests cause
   # 'Unrecoverable error in select/poll'
   url_batches <- split(urls, ceiling(seq_along(urls) / 1000))
-  status <- purrr::map_df(url_batches, function(b)
-    async_requests(b,
-                   ignore_fails,
-                   connections,
-                   host_con,
-                   cookies,
-                   useragent,
-                   timeout))
+
+  cli::cli_progress_step("Fetching pages...", spinner = TRUE, .envir = paperboy.env)
+
+  res <- purrr::map(url_batches, function(b) {
+    rp <- callr::r_bg(async_requests,
+                      args = list(
+                        urls = b,
+                        ignore_fails = ignore_fails,
+                        connections = connections,
+                        host_con = host_con,
+                        cookies = cookies,
+                        useragent = useragent,
+                        timeout = timeout
+                      ),
+                      package = TRUE)
+
+    while (rp$is_alive()) cli::cli_progress_update(.envir = paperboy.env); Sys.sleep(2/100)
+
+    rp$get_result()
+  })
+  cli::cli_progress_done(.envir = paperboy.env)
+  status <- purrr::map_df(res, `[[`, 1L)
 
   if (sum(status$pending) > 0) cli::cli_warn(paste(
     "{sum(status$pending)} download{?s} did not finish before timeout.",
@@ -56,7 +69,8 @@ pb_collect <- function(urls,
     "See {.help [{.fun pb_collect}](paperboy::pb_collect)} for help."
   ))
 
-  out <- dplyr::bind_rows(paperboy.env$pages, .id = "urls")
+  out <- purrr::map_df(res, `[[`, 2L)
+
   if (nrow(out) > 0) {
 
     out <- tibble::add_column(
@@ -157,7 +171,9 @@ async_requests <- function(urls,
     )
   }))
 
-  curl::multi_run(timeout = timeout, pool = pool)
+  status <- curl::multi_run(timeout = timeout, pool = pool)
+  pages <- dplyr::bind_rows(paperboy.env$pages, .id = "urls")
+  list(status, pages)
 }
 
 
