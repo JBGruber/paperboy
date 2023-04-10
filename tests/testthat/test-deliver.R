@@ -3,6 +3,16 @@ test_that("Test infrascture", {
     pb_deliver("google.com", verbose = TRUE),
     "No parser for domain"
   )
+  # only warn first time
+  expect_no_warning(
+    pb_deliver("google.com", verbose = TRUE),
+    "No parser for domain"
+  )
+  # still warn with new site
+  expect_warning(
+    pb_deliver("duckduckgo.com/", verbose = TRUE),
+    "No parser for domain"
+  )
   expect_error(
     pb_deliver(list("google.com"), verbose = FALSE),
     "No method for class list."
