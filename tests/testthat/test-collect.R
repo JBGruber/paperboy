@@ -42,6 +42,15 @@ test_that("rss", {
   }, c(1, 5))
 })
 
+test_that("store local", {
+  tmp <- tempdir()
+  expect_true({
+    pb_collect(urls = "https://httpbin.org/status/200",
+               save_dir = tmp)
+    file.exists(file.path(tmp, "d84c33c485e54845b489f53feada52f0.html"))
+  })
+})
+
 test_that("verbosity", {
   expect_no_condition(pb_collect(urls = "https://httpbin.org/status/200", verbose = FALSE))
   expect_message(pb_collect(urls = "https://httpbin.org/status/200", verbose = TRUE),

@@ -93,6 +93,7 @@ len_check <- function(x) {
 
 
 #' @noRd
+#' @importFrom rlang :=
 normalise_df <- function(df) {
 
   df <- tibble::as_tibble(df)

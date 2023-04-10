@@ -13,6 +13,7 @@ pb_collect(
   host_con = 6L,
   cookies = list(),
   useragent = "paperboy",
+  save_dir = NULL,
   verbose = NULL,
   ...
 )
@@ -36,6 +37,9 @@ due to connection issues. Setting to TRUE ignores this.}
 \item{cookies}{list or vector of named cookie values.}
 
 \item{useragent}{String to be sent in the User-Agent header.}
+
+\item{save_dir}{store raw html data on disk instead of memory by providing a
+path to a directory.}
 
 \item{verbose}{A logical flag indicating whether information should be
 printed to the screen. If \code{NULL} will be determined from

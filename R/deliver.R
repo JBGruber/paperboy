@@ -66,9 +66,8 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
       class(u)
     )
 
-    # iterate over all URLs
-    out <- purrr::list_rbind(purrr::map(seq_along(u$url),
-                                        function(i) pb_deliver_paper(x = u[i, ], verbose, pb)))
+    out <- purrr::list_rbind(purrr::map(seq_along(u$url), function(i)
+      pb_deliver_paper(x = u[i, ], verbose, pb)))
     return(out)
   }))
 

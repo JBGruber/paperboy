@@ -9,6 +9,7 @@ Depends:
     R (>= 3.5.0)
 License: GPL-3
 Imports:
+    callr,
     cli,
     curl,
     dplyr,

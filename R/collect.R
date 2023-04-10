@@ -11,6 +11,8 @@
 #' @param host_con max concurrent connections per host.
 #' @param cookies list or vector of named cookie values.
 #' @param useragent String to be sent in the User-Agent header.
+#' @param save_dir store raw html data on disk instead of memory by providing a
+#'   path to a directory.
 #' @param verbose A logical flag indicating whether information should be
 #'   printed to the screen. If \code{NULL} will be determined from
 #'   \code{getOption("paperboy_verbose")}.
@@ -26,6 +28,7 @@ pb_collect <- function(urls,
                        host_con = 6L,
                        cookies = list(),
                        useragent = "paperboy",
+                       save_dir = NULL,
                        verbose = NULL,
                        ...) {
 
@@ -52,7 +55,8 @@ pb_collect <- function(urls,
                         host_con = host_con,
                         cookies = cookies,
                         useragent = useragent,
-                        timeout = timeout
+                        timeout = timeout,
+                        save_dir = save_dir
                       ),
                       package = TRUE)
     while (rp$is_alive()) {
@@ -119,6 +123,7 @@ pb_collect <- function(urls,
   }
   if (verbose) cli::cli_progress_done()
   attr(out, "paperboy_collected_at") <- Sys.time()
+  attr(out, "paperboy_data_loc") <- ifelse(is.null(save_dir), "memory", "disk")
 
   return(out)
 }
@@ -151,16 +156,25 @@ async_requests <- function(urls,
                            host_con,
                            cookies,
                            useragent,
-                           timeout) {
+                           timeout,
+                           save_dir) {
 
   pool <- curl::new_pool(total_con = connections,
                          host_con = host_con)
 
   paperboy.env$pages <- list()
   paperboy.env$ignore_fails <- ignore_fails
-  response_parser <- lapply(urls, parse_response, parent.frame())
+
+  if (is.null(save_dir)) {
+    response_parser <- lapply(urls, parse_response)
+  } else {
+    if (!dir.exists(save_dir))
+      cli::cli_abort("{.code save_dir} {.path {save_dir}} does not exist")
+    response_parser <- lapply(urls, parse_response_disk, save_dir)
+  }
+
   names(response_parser) <- urls
-  fail_parser <- lapply(urls, parse_fail, parent.frame())
+  fail_parser <- lapply(urls, parse_fail)
   names(fail_parser) <- urls
 
   invisible(lapply(urls, function(u) {
@@ -179,9 +193,9 @@ async_requests <- function(urls,
 }
 
 
-parse_response <- function(urls, env) {
+parse_response <- function(url) {
   function(req) {
-    paperboy.env$pages[[urls]] <- list(
+    paperboy.env$pages[[url]] <- list(
       expanded_url = req$url,
       status = req$status_code,
       content_raw = readBin(req$content, character())
@@ -190,10 +204,23 @@ parse_response <- function(urls, env) {
 }
 
 
-parse_fail <- function(urls, env) {
+parse_response_disk <- function(url, save_dir) {
+  function(req) {
+    f <- file.path(save_dir, paste0(rlang::hash(url), ".html"))
+    writeBin(req$content, con = f, useBytes = TRUE)
+    paperboy.env$pages[[url]] <- list(
+      expanded_url = req$url,
+      status = req$status_code,
+      content_raw = f
+    )
+  }
+}
+
+
+parse_fail <- function(url) {
   function(req, i_f = paperboy.env$ignore_fails) {
     if (i_f) {
-      paperboy.env$pages[[urls]] <- list(
+      paperboy.env$pages[[url]] <- list(
         expanded_url = "connection error",
         status = 503L,
         content_raw = NA
