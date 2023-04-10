@@ -5,8 +5,7 @@ test_that("Test infrascture", {
   )
   # only warn first time
   expect_no_warning(
-    pb_deliver("google.com", verbose = TRUE),
-    "No parser for domain"
+    pb_deliver("google.com", verbose = TRUE)
   )
   # still warn with new site
   expect_warning(
