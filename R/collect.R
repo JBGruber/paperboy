@@ -44,7 +44,11 @@ pb_collect <- function(urls,
   # 'Unrecoverable error in select/poll'
   url_batches <- split(urls, ceiling(seq_along(urls) / 1000))
 
-  if (verbose) cli::cli_progress_step("Fetching pages...", spinner = TRUE, .envir = paperboy.env)
+  if (verbose) {
+    oldstyle <- getOption("cli.spinner")
+    options(cli.spinner = paperboy_spinner)
+    cli::cli_progress_step("Fetching pages...", spinner = TRUE, .envir = paperboy.env)
+  }
 
   res <- purrr::map(url_batches, function(b) {
     rp <- callr::r_bg(async_requests,
@@ -66,7 +70,11 @@ pb_collect <- function(urls,
 
     rp$get_result()
   })
-  if (verbose) cli::cli_progress_done(.envir = paperboy.env)
+
+  if (verbose) {
+    cli::cli_progress_done(.envir = paperboy.env)
+    options(cli.spinner = oldstyle)
+  }
 
   status <- purrr::map(res, `[[`, 1L)
   if (sum(status[["1"]][["pending"]]) > 0) cli::cli_warn(paste(
