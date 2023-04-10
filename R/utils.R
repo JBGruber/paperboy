@@ -75,7 +75,7 @@ s_n_list <- function(...) {
 
   out <- lapply(list(...), len_check)
 
-  stats::setNames(out, nms)
+  tibble::as_tibble(stats::setNames(out, nms))
 }
 
 

@@ -41,3 +41,11 @@ test_that("rss", {
     c(nrow(res) > 1, ncol(res))
   }, c(1, 5))
 })
+
+test_that("verbosity", {
+  expect_no_condition(pb_collect(urls = "https://httpbin.org/status/200", verbose = FALSE))
+  expect_message(pb_collect(urls = "https://httpbin.org/status/200", verbose = TRUE),
+                 "unique URLs provided")
+  expect_message(pb_collect(urls = "https://httpbin.org/status/200", verbose = TRUE),
+                 "Fetching pages...")
+})

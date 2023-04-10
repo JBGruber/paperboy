@@ -41,7 +41,7 @@ pb_collect <- function(urls,
   # 'Unrecoverable error in select/poll'
   url_batches <- split(urls, ceiling(seq_along(urls) / 1000))
 
-  cli::cli_progress_step("Fetching pages...", spinner = TRUE, .envir = paperboy.env)
+  if (verbose) cli::cli_progress_step("Fetching pages...", spinner = TRUE, .envir = paperboy.env)
 
   res <- purrr::map(url_batches, function(b) {
     rp <- callr::r_bg(async_requests,
@@ -55,21 +55,23 @@ pb_collect <- function(urls,
                         timeout = timeout
                       ),
                       package = TRUE)
-
-    while (rp$is_alive()) cli::cli_progress_update(.envir = paperboy.env); Sys.sleep(2/100)
+    while (rp$is_alive()) {
+      if (verbose) cli::cli_progress_update(.envir = paperboy.env)
+      Sys.sleep(2/100)
+    }
 
     rp$get_result()
   })
-  cli::cli_progress_done(.envir = paperboy.env)
-  status <- purrr::map_df(res, `[[`, 1L)
+  if (verbose) cli::cli_progress_done(.envir = paperboy.env)
 
-  if (sum(status$pending) > 0) cli::cli_warn(paste(
-    "{sum(status$pending)} download{?s} did not finish before timeout.",
+  status <- purrr::map(res, `[[`, 1L)
+  if (sum(status[["1"]][["pending"]]) > 0) cli::cli_warn(paste(
+    "{sum(status[['1']][['pending']])} download{?s} did not finish before timeout.",
     "Think about increasing the timeout parameter.",
     "See {.help [{.fun pb_collect}](paperboy::pb_collect)} for help."
   ))
 
-  out <- purrr::map_df(res, `[[`, 2L)
+  out <- purrr::list_rbind(purrr::map(res, `[[`, 2L))
 
   if (nrow(out) > 0) {
 
