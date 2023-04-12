@@ -68,10 +68,11 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
       class(u)
     )
 
-    # iterate over all URLs
-    out <- purrr::map(seq_along(u$url), function(i) pb_deliver_paper(x = u[i, ], verbose, pb)) %>%
+    parsed <- purrr::map(seq_along(u$url),
+                        function(i) pb_deliver_paper(x = u[i, ], verbose, pb)) %>%
       dplyr::bind_rows()
-    return(out)
+
+    return(cbind(u, parsed))
   }) %>%
     dplyr::bind_rows()
 
@@ -80,7 +81,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     options(cli.progress_bar_style = oldstyle)
   }
 
-  return(normalise_df(cbind(out, x)))
+  return(normalise_df(out))
 }
 
 #' internal function to deliver specific newspapers
