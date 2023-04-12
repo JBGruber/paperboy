@@ -61,7 +61,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     pb <- cli::cli_progress_bar("Parsing raw html:", total = nrow(x))
   }
 
-  out <- purrr::map_df(domains, function(u) {
+  out <- purrr::map(domains, function(u) {
 
     class(u) <- c(
       classify(utils::head(u$domain, 1)),
@@ -69,9 +69,11 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     )
 
     # iterate over all URLs
-    out <- purrr::map_df(seq_along(u$url), function(i) pb_deliver_paper(x = u[i, ], verbose, pb))
+    out <- purrr::map(seq_along(u$url), function(i) pb_deliver_paper(x = u[i, ], verbose, pb)) %>%
+      dplyr::bind_rows()
     return(out)
-  })
+  }) %>%
+    dplyr::bind_rows()
 
   if (verbose) {
     cli::cli_progress_done()
