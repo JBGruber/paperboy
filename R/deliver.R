@@ -61,20 +61,19 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     pb <- cli::cli_progress_bar("Parsing raw html:", total = nrow(x))
   }
 
-  out <- purrr::map(domains, function(u) {
+
+  out <- purrr::list_rbind(purrr::map(domains, function(u) {
 
     class(u) <- c(
       classify(utils::head(u$domain, 1)),
       class(u)
     )
 
-    parsed <- purrr::map(seq_along(u$url),
-                        function(i) pb_deliver_paper(x = u[i, ], verbose, pb)) %>%
-      dplyr::bind_rows()
 
-    return(cbind(u, parsed))
-  }) %>%
-    dplyr::bind_rows()
+    out <- purrr::list_rbind(purrr::map(seq_along(u$url), function(i)
+      pb_deliver_paper(x = u[i, ], verbose, pb)))
+    return(out)
+  }))
 
   if (verbose) {
     cli::cli_progress_done()

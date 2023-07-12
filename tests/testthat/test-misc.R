@@ -29,10 +29,10 @@ test_that("Test safe named list making", {
         datetime
       )
     },
-    list(text = "hello world",
-         author = "Max Mustermann",
-         headline = "lorem ipsum",
-         datetime = NA)
+    tibble::tibble(text = "hello world",
+                   author = "Max Mustermann",
+                   headline = "lorem ipsum",
+                   datetime = NA)
   )
   expect_equal({
       text <- "hello world"
@@ -47,9 +47,9 @@ test_that("Test safe named list making", {
         datetime
       )
     },
-    list(text = "hello world",
-         author = list(c("Max Mustermann", "Erika Mustermann")),
-         headline = "lorem ipsum",
-         datetime = NA)
+    tibble::tibble(text = "hello world",
+                   author = list(c("Max Mustermann", "Erika Mustermann")),
+                   headline = "lorem ipsum",
+                   datetime = NA)
   )
 })

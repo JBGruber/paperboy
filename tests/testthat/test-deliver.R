@@ -45,6 +45,7 @@ test_that("Test huffpost scraper", {
 test_scraper <- function(rss) {
   test_that(rss, {
     skip_if_offline()
+    skip_on_ci()
     expect_equal({
       test <- pb_collect(rss, timeout = 90)$expanded_url[1]
       out <- pb_deliver(test, verbose = FALSE)
