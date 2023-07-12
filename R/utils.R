@@ -113,7 +113,7 @@ normalise_df <- function(df) {
   missing_cols <- setdiff(expected_cols, colnames(df))
 
   for (c in missing_cols) {
-    df <- tibble::add_column(df, !!c := NA)
+    df <- tibble::add_column(df, {{c}} := NA)
   }
 
   not_expected_cols <- setdiff(colnames(df), c(expected_cols, "content_raw"))
@@ -130,7 +130,7 @@ normalise_df <- function(df) {
 #' base R version of stringi::stri_replace_all() to limit dependencies
 #' @noRd
 replace_all <- function(str, pattern, replacement, fixed = TRUE) {
-  for(i in seq_along(pattern)) str <- gsub(pattern[i], replacement[i], str, fixed = fixed)
+  for (i in seq_along(pattern)) str <- gsub(pattern[i], replacement[i], str, fixed = fixed)
   return(str)
 }
 

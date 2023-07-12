@@ -21,7 +21,7 @@ html_search <- function(html,
     res <- NULL
     i <- 1L
     l <- length(selectors)
-    while (length(res) < 1 & i < l) {
+    while (length(res) < 1 && i < l) {
       res <- rvest::html_elements(html, selectors[i])
       i <- i + 1
     }

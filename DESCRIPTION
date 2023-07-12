@@ -1,7 +1,7 @@
 Package: paperboy
 Title: Comprehensive Collection of News Media Scrapers
-Version: 0.0.4.9000
-Date: 2022-09-24
+Version: 0.0.5.9000
+Date: 2023-04-12
 Authors@R: person("Johannes", "Gruber", email = "JohannesB.Gruber@gmail.com",
   role = c("aut", "cre"))
 Description: A comprehensive collection of webscraping scripts for news media sites.

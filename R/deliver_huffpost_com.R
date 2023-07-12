@@ -54,4 +54,5 @@ pb_deliver_paper.www_huffpost_com <- function(x, verbose = NULL, pb, ...) {
 
 # define aliases for pages using the same layout
 pb_deliver_paper.huffingtonpost_com <-
+  pb_deliver_paper.www_huffingtonpost_co_uk <-
   pb_deliver_paper.www_huffpost_com

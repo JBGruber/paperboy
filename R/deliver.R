@@ -45,10 +45,12 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
   bad_status <- x$status != 200L
   x <- x[!bad_status, ]
 
-  if (verbose & sum(bad_status) > 0) cli::cli_progress_step("{sum(bad_status)} URL{?s} removed due to bad status.")
+  if (verbose && sum(bad_status) > 0)
+    cli::cli_progress_step("{sum(bad_status)} URL{?s} removed due to bad status.")
 
   domains <- split(x, x$domain, drop = TRUE)
 
+  pb <- NULL
   if (verbose) {
     oldstyle <- getOption("cli.progress_bar_style")
     options(cli.progress_bar_style = list(
@@ -57,7 +59,8 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
       incomplete = cli::col_grey("o")
     ))
     pb <- cli::cli_progress_bar("Parsing raw html:", total = nrow(x))
-  } else pb <- NULL
+  }
+
 
   out <- purrr::list_rbind(purrr::map(domains, function(u) {
 
@@ -65,6 +68,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
       classify(utils::head(u$domain, 1)),
       class(u)
     )
+
 
     out <- purrr::list_rbind(purrr::map(seq_along(u$url), function(i)
       pb_deliver_paper(x = u[i, ], verbose, pb)))
@@ -76,7 +80,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     options(cli.progress_bar_style = oldstyle)
   }
 
-  return(normalise_df(cbind(out, x)))
+  return(normalise_df(out))
 }
 
 #' internal function to deliver specific newspapers
@@ -86,4 +90,3 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
 pb_deliver_paper <- function(x, verbose, pb, ...) {
   UseMethod("pb_deliver_paper")
 }
-

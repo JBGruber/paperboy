@@ -117,7 +117,7 @@ However, not all articles on the website have this class, for which case you wan
 ```{r}
 text <- html %>%
   html_search(selectors = c(".article-body>p", "p"), # select paragraphs in .article-body or just all paragraphs
-              attributes = "text",                   # retrieve the text from selected nodes 
+              attributes = "text",                   # retrieve the text from selected nodes
               all = FALSE,                           # only the first non-empty match is used
               n = Inf) %>%                           # default is to return the first attribute, we want all paragraphs
   paste(collapse = "\n")
@@ -139,7 +139,7 @@ You can also include additional fields in your parser if this makes sense in a s
 The huffpost, for example, also distributes videos, so the *type* field is constructed and will be moved to the `misc` column automatically.
 
 Once you think the parser is ready for a test drive, use the raw html data from above and turn on debugging mode (with `verbose = 2L`) to see where the parser might still fail.
-To run the function through `pb_deliver` you just load your new function into the global environment and it should be picked up (since the template uses unexported functions, you should also run `devtools::load_all()`, so `R` can find them): 
+To run the function through `pb_deliver` you just load your new function into the global environment and it should be picked up (since the template uses unexported functions, you should also run `devtools::load_all()`, so `R` can find them):
 
 ```{r}
 articles <- pb_deliver(x = articles_raw, verbose = 2L)
