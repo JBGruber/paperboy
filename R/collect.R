@@ -94,6 +94,9 @@ pb_collect <- function(urls,
     ) %>%
       dplyr::rename(url = urls)
 
+    # conversion removes illegal characters
+    out$content_raw <- iconv(out$content_raw, from = "ISO-8859-1", to = "UTF-8")
+
     if (collect_rss) {
       rss <- grepl("<rss.+>", out$content_raw)
       if (any(rss)) {

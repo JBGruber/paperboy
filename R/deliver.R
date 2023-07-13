@@ -70,14 +70,24 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     )
 
 
-    out <- purrr::list_rbind(purrr::map(seq_along(u$url), function(i)
-      pb_deliver_paper(x = u[i, ], verbose, pb)))
-    return(out)
+    purrr::list_rbind(purrr::map(seq_along(u$url), function(i) {
+      cbind(
+        u[i, c("url", "expanded_url", "domain", "status")],
+        pb_deliver_paper(x = u[i, ], verbose, pb)
+      )
+    }))
   }))
 
   if (verbose) {
     cli::cli_progress_done()
     options(cli.progress_bar_style = oldstyle)
+  }
+
+  # tell user about warnings
+  ws <- mget(ls(inform_env), envir = inform_env)
+  if (length(ws) > 0) {
+    names(ws) <- rep("i", length(ws))
+    cli::cli_warn(ws)
   }
 
   return(normalise_df(out))
