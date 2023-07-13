@@ -84,10 +84,11 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
   }
 
   # tell user about warnings
-  ws <- mget(ls(inform_env), envir = inform_env)
+  ws <- mget(ls(inform_now_env), envir = inform_now_env)
   if (length(ws) > 0) {
     names(ws) <- rep("i", length(ws))
     cli::cli_warn(ws)
+    rm(list = ls(inform_now_env), envir = inform_now_env)
   }
 
   return(normalise_df(out))
