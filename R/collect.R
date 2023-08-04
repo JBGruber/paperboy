@@ -94,11 +94,8 @@ pb_collect <- function(urls,
     ) %>%
       dplyr::rename(url = urls)
 
-    # removes illegal characters.
-    out$content_raw <- gsub("[^ -~]+", "", out$content_raw , useBytes = TRUE)
-
     if (collect_rss) {
-      rss <- grepl("<rss.+>", out$content_raw)
+      rss <- grepl("<rss.+>", out$content_raw, useBytes = TRUE)
       if (any(rss)) {
         if (verbose) cli::cli_progress_step("Parsing RSS feeds")
         rss_out <- collect_rss(
@@ -119,7 +116,7 @@ pb_collect <- function(urls,
 
     # see issue #3
     if (any(out$domain == "www.washingtonpost.com")) {
-      if (any(grepl("gdpr-consent", out$expanded_url, fixed = TRUE))) {
+      if (any(grepl("gdpr-consent", out$expanded_url, fixed = TRUE, useBytes = TRUE))) {
         cli::cli_alert_warning(c(
           "www.washingtonpost.com requests GDPR consent instead of showing",
                 " the article. See {.url https://github.com/JBGruber/paperboy/issues/3}"

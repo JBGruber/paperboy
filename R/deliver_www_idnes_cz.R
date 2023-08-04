@@ -1,6 +1,7 @@
 pb_deliver_paper.www_idnes_cz <- function(x, verbose = NULL, pb, ...) {
 
   # raw html is stored in column content_raw
+  x$content_raw <- iconv(x$content_raw, from = "windows-1250", to = "UTF-8")
   html <- rvest::read_html(x$content_raw)
   pb_tick(x, verbose, pb)
 
