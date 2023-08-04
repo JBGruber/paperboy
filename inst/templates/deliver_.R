@@ -23,7 +23,7 @@ pb_deliver_paper.{{newspaper}} <- function(x, verbose = NULL, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_element("") %>%
+    rvest::html_elements("") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
