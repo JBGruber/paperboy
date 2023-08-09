@@ -95,11 +95,18 @@ pb_collect <- function(urls,
       dplyr::rename(url = urls)
 
     if (collect_rss) {
-      rss <- grepl("<rss.+>", out$content_raw, useBytes = TRUE)
+
+      if (!is.null(save_dir)) {
+        cont <- unlist(lapply(out$content_raw, function(f) readChar(f, file.info(f)$size, useBytes = TRUE)))
+      } else {
+        cont <- out$content_raw
+      }
+
+      rss <- grepl("<rss.+>", cont, useBytes = TRUE)
       if (any(rss)) {
         if (verbose) cli::cli_progress_step("Parsing RSS feeds")
         rss_out <- collect_rss(
-          out[rss, ],
+          cont,
           collect_rss = FALSE,
           timeout = timeout,
           ignore_fails = ignore_fails,
@@ -107,6 +114,7 @@ pb_collect <- function(urls,
           host_con = host_con,
           cookies = cookies,
           useragent = useragent,
+          save_dir = save_dir,
           verbose = FALSE,
           ...
         )
@@ -240,13 +248,13 @@ parse_fail <- function(url) {
 }
 
 
-collect_rss <- function(x, ...) {
+collect_rss <- function(cont, ...) {
 
-  links <- x$content_raw %>%
-    xml2::read_xml() %>%
-    xml2::xml_find_all("//*[name()='item']") %>%
-    xml2::as_list() %>%
-    purrr::map("link") %>%
+  links <- lapply(cont, function(x) x %>%
+                    xml2::read_xml() %>%
+                    xml2::xml_find_all("//*[name()='item']") %>%
+                    xml2::as_list() %>%
+                    purrr::map("link")) %>%
     unlist()
 
   pb_collect(links, ...)
