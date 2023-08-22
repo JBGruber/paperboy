@@ -15,15 +15,21 @@ pb_deliver_paper.www_theguardian_com <- function(x, verbose = NULL, pb, ...) {
     rvest::html_elements("[property=\"og:title\"]") %>%
     rvest::html_attr("content")
 
-  # author
   author <- html %>%
-    rvest::html_elements("[property=\"article:author\"],[name=\"author\"]") %>%
-    rvest::html_attr("content") %>%
+    rvest::html_elements("[rel=\"authors\"]") %>%
+    rvest::html_text2() %>%
     toString()
+
+  if (author == "") {
+    author <- html %>%
+      rvest::html_elements("[property=\"article:author\"],[name=\"author\"]") %>%
+      rvest::html_attr("content") %>%
+      toString()
+  }
 
   # text
   text <- html %>%
-    rvest::html_elements("p") %>%
+    rvest::html_elements("#maincontent p") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
