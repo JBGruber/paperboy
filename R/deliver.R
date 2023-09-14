@@ -46,7 +46,7 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
   x <- x[!bad_status, ]
 
   if (verbose && sum(bad_status) > 0)
-    cli::cli_progress_step("{sum(bad_status)} URL{?s} removed due to bad status.")
+    cli::cli_alert_warning("{sum(bad_status)} URL{?s} removed due to bad status.")
 
   domains <- split(x, x$domain, drop = TRUE)
 

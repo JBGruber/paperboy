@@ -41,7 +41,7 @@ pb_new <- function(np, author = "", issue = "") {
                  author = author,
                  issues = issue)) %>%
       dplyr::arrange(domain)
-    write.csv(status, "inst/status.csv")
+    write.csv(status, "inst/status.csv", row.names = FALSE)
     cli::cli_alert_success("Status file updated")
   }
 
@@ -59,6 +59,7 @@ pb_new_done <- function(np) {
   status <- read.csv("inst/status.csv")
   status[status$domain == gsub("^www.", "", np), "status"] <-
     "![](https://img.shields.io/badge/status-gold-%23ffd700.svg)"
+  write.csv(status, "inst/status.csv", row.names = FALSE)
   cli::cli_alert_success("All done! {praise::praise()}")
 }
 
@@ -75,7 +76,7 @@ test_parser <- function(test_data) {
     cli::cli_abort("Only works with output from {.fnc pb_collect}")
 
   cli::cli_alert_info("Trying to parse raw data")
-  test_df_parsed <- pb_deliver(test_df)
+  test_df_parsed <- pb_deliver(test_data)
   cli::cat_line()
   total <- nrow(test_df_parsed)
   cli::cli_alert_info("Checking results")
@@ -106,7 +107,13 @@ pct <- function(x) {
 
 check_fails <- function(df, what, total) {
 
-  fails <- sum(is.na(df[[what]])) / total
+  switch(what,
+         "datetime" = fails <- sum(is.na(df[[what]])) / total,
+         "author" = fails <- sum(df[[what]] == "NA") / total,
+         "headline" = fails <- sum(df[[what]] == "") / total,
+         "text" = fails <- sum(df[[what]] == "") / total
+  )
+
   if (fails > 0.01 & fails < 0.05)
     cli::cli_alert_warning("More than {pct(fails)} of {what} values failed to parse")
 
