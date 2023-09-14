@@ -2,17 +2,29 @@
 % Please edit documentation in R/utils.R
 \name{pb_new}
 \alias{pb_new}
+\alias{pb_new_done}
 \title{Create new scraper}
 \usage{
-pb_new(np)
+pb_new(np, author = "", issue = "")
+
+pb_new_done(np)
 }
 \arguments{
-\item{np}{domain of the newspaper this scraper is for.}
+\item{np}{domain or a URL of the newspaper this scraper is for.}
+
+\item{author}{who wrote it.}
+
+\item{issue}{is there a GitHub issue?}
 }
 \description{
 Create new scraper
 }
 \examples{
-\dontrun{paperboy:::pb_new(np = "https://www.buzzfeed.com/")}
+\dontrun{
+paperboy:::pb_new(np = "https://www.buzzfeed.com/",
+                  author = "[@JBGruber](https://github.com/JBGruber/)")
+
+paperboy:::pb_new_done()
+}
 }
 \keyword{internal}

@@ -3,32 +3,6 @@
 magrittr::`%>%`
 
 
-#' Create new scraper
-#'
-#' @param np domain of the newspaper this scraper is for.
-#'
-#' @keywords internal
-#' @examples
-#' \dontrun{paperboy:::pb_new(np = "https://www.buzzfeed.com/")}
-pb_new <- function(np) {
-
-  np <- classify(utils::head(urltools::domain(np), 1))
-
-  template <- system.file("templates", "deliver_.R", package = "paperboy") %>%
-    readLines() %>%
-    gsub("{{newspaper}}", np, x = ., fixed = TRUE)
-
-  p <- ifelse(basename(getwd()) == "paperboy", "./R/", "")
-  f <- paste0(p, "deliver_", np, ".R")
-  if (!file.exists(f)) writeLines(template, f)
-  if (rlang::is_installed("rstudioapi")) {
-    rstudioapi::documentOpen(f)
-  } else {
-    utils::file.edit(f)
-  }
-}
-
-
 #' Show available parsers
 #'
 #' @param ... optionally pass URLs to check if respective parser(s) is/are available.
@@ -169,5 +143,6 @@ warn_once <- function(id) {
   }
 }
 
+the <- new.env()
 inform_env <- new.env()
 inform_now_env <- new.env()

@@ -15,6 +15,7 @@ Imports:
     dplyr,
     lubridate,
     magrittr,
+    praise,
     purrr,
     rlang,
     rvest,

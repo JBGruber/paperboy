@@ -22,20 +22,24 @@ pb_inspect <- function(x,
 
   if (!is.null(paperboy.env$server)) paperboy.env$server$stop()
 
-  paperboy.env$server <- httpuv::startServer(
-    host = host_ip,
-    port = port,
-    app = list(
-      call = function(req) {
-        list(
-          status = 200L,
-          headers = list("Content-Type" = "text/html"),
-          body = dplyr::pull(x[i, ], content_raw)
-        )
-      }
+  if (grepl("<|>", x$content_raw[i])) {
+    paperboy.env$server <- httpuv::startServer(
+      host = host_ip,
+      port = port,
+      app = list(
+        call = function(req) {
+          list(
+            status = 200L,
+            headers = list("Content-Type" = "text/html"),
+            body = x$content_raw[i]
+          )
+        }
+      )
     )
-  )
+    utils::browseURL(paste0("http://", host_ip, ":", port))
+  } else {
+    utils::browseURL(x$content_raw[i])
+  }
 
-  utils::browseURL(paste0("http://", host_ip, ":", port))
 
 }
