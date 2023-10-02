@@ -10,6 +10,9 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 
+knitr::knit_hooks$set(document = function(x, options) 
+  gsub("[\\#", "[#", x, fixed = TRUE))
+
 options(paperboy_verbose = FALSE)
 
 trim <- function(x, n, e = "...") {
@@ -40,8 +43,6 @@ registerS3method(
 [![R-CMD-check](https://github.com/JBGruber/paperboy/workflows/R-CMD-check/badge.svg)](https://github.com/JBGruber/paperboy/actions)
 [![Codecov test coverage](https://codecov.io/gh/JBGruber/paperboy/branch/main/graph/badge.svg)](https://codecov.io/gh/JBGruber/paperboy?branch=main)
 <!-- badges: end -->
-
-[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/JohannesBGruber.svg?style=social&label=Follow%20%40JohannesBGruber)](https://twitter.com/JohannesBGruber)
 
 The philosophy of `paperboy` is that the package is a comprehensive collection of webscraping scripts for news media sites.
 Many data scientists and researchers write their own code when they have to retrieve news media content from websites.
@@ -131,6 +132,7 @@ Since some outlets will give you additional information, the `misc` column was i
 ```{r available, echo=FALSE}
 read.csv("./inst/status.csv") %>% 
   arrange(domain) %>%
+  select(-rss) %>% 
   knitr::kable(escape = FALSE)
 ```
 
