@@ -28,7 +28,7 @@ pb_available <- function(...) {
 
   if (length(dots) > 0) {
     names(dots) <- dots
-    return(sapply(dots, function(x) urltools::domain(x) %in% parsers, USE.NAMES = TRUE))
+    return(sapply(dots, function(x) adaR::ada_get_domain(x) %in% parsers, USE.NAMES = TRUE))
   }
 
   return(parsers)
@@ -142,6 +142,7 @@ warn_once <- function(id) {
     inform_env[[id]] <- TRUE
   }
 }
+
 
 the <- new.env()
 inform_env <- new.env()

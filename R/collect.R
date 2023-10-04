@@ -89,7 +89,7 @@ pb_collect <- function(urls,
 
     out <- tibble::add_column(
       out,
-      domain = urltools::domain(out$expanded_url),
+      domain = adaR::ada_get_domain(out$expanded_url),
       .after = "expanded_url"
     ) %>%
       dplyr::rename(url = urls)
@@ -153,7 +153,7 @@ pb_handle <- function(url, cookies, useragent) {
          " For example, cookies = list(a = 1, b = 2)")
   }
   # for sending only correct cookies, not yet used
-  domain <- urltools::domain(url)
+  domain <- adaR::ada_get_domain(url)
   cookies_str <- vapply(cookies, curl::curl_escape, FUN.VALUE = character(1))
 
   cookie <- paste(names(cookies), cookies_str, sep = "=", collapse = ";")

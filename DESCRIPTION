@@ -1,7 +1,7 @@
 Package: paperboy
 Title: Comprehensive Collection of News Media Scrapers
 Version: 0.0.5.9000
-Date: 2023-04-12
+Date: 2023-10-04
 Authors@R: person("Johannes", "Gruber", email = "JohannesB.Gruber@gmail.com",
   role = c("aut", "cre"))
 Description: A comprehensive collection of webscraping scripts for news media sites.
@@ -9,6 +9,7 @@ Depends:
     R (>= 3.5.0)
 License: GPL-3
 Imports:
+    adaR,
     callr,
     cli,
     curl,
@@ -22,7 +23,6 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
-    urltools,
     utils,
     xml2
 Suggests:
