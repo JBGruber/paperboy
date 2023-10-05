@@ -122,16 +122,6 @@ pb_collect <- function(urls,
       }
     }
 
-    # see issue #3
-    if (any(out$domain == "www.washingtonpost.com")) {
-      if (any(grepl("gdpr-consent", out$expanded_url, fixed = TRUE, useBytes = TRUE))) {
-        cli::cli_alert_warning(c(
-          "www.washingtonpost.com requests GDPR consent instead of showing",
-                " the article. See {.url https://github.com/JBGruber/paperboy/issues/3}"
-        ))
-      }
-    }
-
     if (verbose) {
       cli::cli_progress_step("{nrow(out)} page{?s} from {length(unique(out$domain))} domain{?s} collected.")
       cli::cli_progress_step("{cli::no(sum(out$status != 200L))} link{?s} had issues.")
