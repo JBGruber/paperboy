@@ -11,7 +11,7 @@ pb_collect(
   ignore_fails = FALSE,
   connections = 100L,
   host_con = 6L,
-  cookies = list(),
+  use_cookies = FALSE,
   useragent = "paperboy",
   save_dir = NULL,
   verbose = NULL,
@@ -34,7 +34,10 @@ due to connection issues. Setting to TRUE ignores this.}
 
 \item{host_con}{max concurrent connections per host.}
 
-\item{cookies}{list or vector of named cookie values.}
+\item{use_cookies}{If \code{TRUE}, use the \code{cookiemonster} package to
+handle cookies. See \link[cookiemonster]{add_cookies} for details on how to
+store cookies. Cookies are used to enter articles behind a paywall or
+consent form.}
 
 \item{useragent}{String to be sent in the User-Agent header.}
 

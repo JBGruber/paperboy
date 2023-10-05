@@ -1,30 +1,11 @@
 #' Read in cookie file
 #'
-#' This functions reads in and parses a cookies.txt file. You can get these
-#' files, for example, with the Browser extension "Get cookies.txt" (available
-#' for Chromium based Browsers an Firefox). You can then use the output in calls
-#' to \code{\link{pb_collect}}.
+#' Deprecated in favour of \link[cookiemonster]{add_cookies}.
 #'
-#' @param cookiefile path to a cookies.txt file.
-#'
-#' @return a vector of named cookie values.
-#' @importFrom utils read.delim
+#' @param ... not used.
 #' @export
-#'
-#' @examples
-#'
-#' cookies <- pb_read_cookies(system.file("extdata", "example_cookies.txt", package = "paperboy"))
-#' df <- pb_collect("https://httpbin.org/cookies", cookies = cookies)
-#' df$content_raw
-#'
-pb_read_cookies <- function(cookiefile) {
+pb_read_cookies <- function(...) {
 
-  lines <- readLines(cookiefile, warn = FALSE)
+  .Deprecated(msg = "this functionality has been moved to the cookiemonster package. See `?cookiemonster::add_cookies`")
 
-  df <- read.delim(text = lines[grep("\t", lines)], header = FALSE)
-
-  cookies <- df[, 7]
-  names(cookies)  <- df[, 6]
-
-  return(cookies)
 }

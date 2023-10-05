@@ -9,7 +9,10 @@
 #'   due to connection issues. Setting to TRUE ignores this.
 #' @param connections max total concurrent connections.
 #' @param host_con max concurrent connections per host.
-#' @param cookies list or vector of named cookie values.
+#' @param use_cookies If \code{TRUE}, use the \code{cookiemonster} package to
+#'   handle cookies. See \link[cookiemonster]{add_cookies} for details on how to
+#'   store cookies. Cookies are used to enter articles behind a paywall or
+#'   consent form.
 #' @param useragent String to be sent in the User-Agent header.
 #' @param save_dir store raw html data on disk instead of memory by providing a
 #'   path to a directory.
@@ -26,11 +29,17 @@ pb_collect <- function(urls,
                        ignore_fails = FALSE,
                        connections = 100L,
                        host_con = 6L,
-                       cookies = list(),
+                       use_cookies = FALSE,
                        useragent = "paperboy",
                        save_dir = NULL,
                        verbose = NULL,
                        ...) {
+
+  if (use_cookies) rlang::check_installed("cookiemonster")
+
+  if ("cookies" %in% names(list(...))) {
+    cli::cli_inform("The {.fn cookies} parameter is deprecated. Use {.fn use_cookies} instead.")
+  }
 
   if (is.null(verbose)) verbose <- getOption("paperboy_verbose")
 
@@ -51,13 +60,15 @@ pb_collect <- function(urls,
   }
 
   res <- purrr::map(url_batches, function(b) {
+    domain <- adaR::ada_get_domain(b[1])
+    cookies_str <- cookiemonster::get_cookies(paste0("\\b", domain, "\\b"), as = "string")
     rp <- callr::r_bg(async_requests,
                       args = list(
                         urls = b,
                         ignore_fails = ignore_fails,
                         connections = connections,
                         host_con = host_con,
-                        cookies = cookies,
+                        cookies_str = cookies_str,
                         useragent = useragent,
                         timeout = timeout,
                         save_dir = save_dir
@@ -112,7 +123,7 @@ pb_collect <- function(urls,
           ignore_fails = ignore_fails,
           connections = connections,
           host_con = host_con,
-          cookies = cookies,
+          use_cookies = use_cookies,
           useragent = useragent,
           save_dir = save_dir,
           verbose = FALSE,
@@ -135,24 +146,10 @@ pb_collect <- function(urls,
 }
 
 
-# setup handle (copied from
-# https://github.com/r-lib/httr/blob/main/R/cookies.r)
-pb_handle <- function(url, cookies, useragent) {
-  if (is.null(names(cookies)) && length(cookies) > 0) {
-    stop("cookies must be provided in name = value pairs.",
-         " For example, cookies = list(a = 1, b = 2)")
-  }
-  # for sending only correct cookies, not yet used
-  domain <- adaR::ada_get_domain(url)
-  cookies_str <- vapply(cookies, curl::curl_escape, FUN.VALUE = character(1))
-
-  cookie <- paste(names(cookies), cookies_str, sep = "=", collapse = ";")
-
-  curl::handle_setopt(
-    curl::new_handle(),
-    cookie = cookie,
-    useragent = useragent
-  )
+pb_handle <- function(cookies_str, useragent) {
+  h <- curl::new_handle()
+  if (!is.null(cookies_str)) h <- curl::handle_setheaders(h, Cookie = cookies_str)
+  curl::handle_setopt(h, useragent = useragent)
 }
 
 # running async curl calls
@@ -160,7 +157,7 @@ async_requests <- function(urls,
                            ignore_fails,
                            connections,
                            host_con,
-                           cookies,
+                           cookies_str,
                            useragent,
                            timeout,
                            save_dir) {
@@ -182,14 +179,13 @@ async_requests <- function(urls,
   names(response_parser) <- urls
   fail_parser <- lapply(urls, parse_fail)
   names(fail_parser) <- urls
-
   invisible(lapply(urls, function(u) {
     curl::curl_fetch_multi(
       u,
       done = response_parser[[u]],
       fail = fail_parser[[u]],
       pool = pool,
-      handle = pb_handle(u, cookies, useragent)
+      handle = pb_handle(cookies_str, useragent)
     )
   }))
 

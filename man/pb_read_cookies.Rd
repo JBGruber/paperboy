@@ -4,24 +4,11 @@
 \alias{pb_read_cookies}
 \title{Read in cookie file}
 \usage{
-pb_read_cookies(cookiefile)
+pb_read_cookies(...)
 }
 \arguments{
-\item{cookiefile}{path to a cookies.txt file.}
-}
-\value{
-a vector of named cookie values.
+\item{...}{not used.}
 }
 \description{
-This functions reads in and parses a cookies.txt file. You can get these
-files, for example, with the Browser extension "Get cookies.txt" (available
-for Chromium based Browsers an Firefox). You can then use the output in calls
-to \code{\link{pb_collect}}.
-}
-\examples{
-
-cookies <- pb_read_cookies(system.file("extdata", "example_cookies.txt", package = "paperboy"))
-df <- pb_collect("https://httpbin.org/cookies", cookies = cookies)
-df$content_raw
-
+Deprecated in favour of \link[cookiemonster]{add_cookies}.
 }

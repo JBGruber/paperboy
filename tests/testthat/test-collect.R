@@ -25,14 +25,13 @@ test_that("expandurls", {
 })
 
 test_that("send cookies", {
+  jar <- options(cookie_dir = tempdir())
+  withr::defer(options(jar))
+  withr::defer(unlink(file.path(tempdir(), paste0("cookies.rds"))))
   expect_equal({
-    pb_collect("https://httpbin.org/cookies", cookies = list(a = 1, b = 2), verbose = FALSE)$content_raw
-  }, "{\n  \"cookies\": {\n    \"a\": \"1\", \n    \"b\": \"2\"\n  }\n}\n")
-  expect_error(
-    pb_collect("https://httpbin.org/cookies", cookies = 1, verbose = FALSE),
-    "cookies must be provided in name = value pairs. For example, cookies = list(a = 1, b = 2)",
-    fixed = TRUE
-  )
+    cookiemonster::add_cookies(cookiestring = "test=true; success=yes", domain = "https://hb.cran.dev", confirm = TRUE)
+    pb_collect("https://hb.cran.dev/cookies", use_cookies = TRUE, verbose = FALSE)$content_raw
+  }, "{\n  \"cookies\": {\n    \"success\": \"yes\", \n    \"test\": \"true\"\n  }\n}\n")
 })
 
 test_that("rss", {
