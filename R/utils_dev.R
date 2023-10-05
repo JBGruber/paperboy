@@ -42,7 +42,7 @@ use_new_parser <- function(x,
                            rss = NULL,
                            test_data = NULL) {
 
-  x <- head(adaR::ada_get_domain(x), 1)
+  x <- utils::head(adaR::ada_get_domain(x), 1)
 
   cli::cli_progress_step(
     "Creating R file",
@@ -73,7 +73,7 @@ use_new_parser <- function(x,
     )
 
     if (file.exists("inst/status.csv")) {
-      status <- read.csv("inst/status.csv")
+      status <- utils::read.csv("inst/status.csv")
       if (!gsub("^www.", "", x) %in% status$domain) {
         status <- status %>%
           rbind(list(domain = sub("^www.", "", x),
@@ -82,7 +82,7 @@ use_new_parser <- function(x,
                      issues = issue,
                      rss    = rss)) %>%
           dplyr::arrange(domain)
-        write.csv(status, "inst/status.csv", row.names = FALSE)
+        utils::write.csv(status, "inst/status.csv", row.names = FALSE)
       } else if (rss == "") {
         # if entry already present, get rss value
         rss <- status[grepl(gsub("^www.", "", x), status$domain), "rss"]
@@ -154,13 +154,13 @@ use_new_parser <- function(x,
       msg_done = "status.csv updated."
     )
     x <- utils::head(adaR::ada_get_domain(x), 1)
-    status <- read.csv("inst/status.csv")
+    status <- utils::read.csv("inst/status.csv")
     status[status$domain == gsub("^www.", "", x), "status"] <-
       "![](https://img.shields.io/badge/status-gold-%23ffd700.svg)"
     cli::cli_alert_info("Check the entry manually. Press quit when you're happy.")
     status[status$domain == gsub("^www.", "", x), ] <-
-      edit(status[status$domain == gsub("^www.", "", x), ])
-    write.csv(status, "inst/status.csv", row.names = FALSE)
+      utils::edit(status[status$domain == gsub("^www.", "", x), ])
+    utils::write.csv(status, "inst/status.csv", row.names = FALSE)
 
   }
 

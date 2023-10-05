@@ -61,7 +61,7 @@ pb_collect <- function(urls,
 
   res <- purrr::map(url_batches, function(b) {
     domain <- adaR::ada_get_domain(b[1])
-    cookies_str <- cookiemonster::get_cookies(paste0("\\b", domain, "\\b"), as = "string")
+    cookies_str <- cookiemonster::get_cookies(paste0(domain, "\\b"), as = "string")
     rp <- callr::r_bg(async_requests,
                       args = list(
                         urls = b,

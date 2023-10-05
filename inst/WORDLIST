@@ -1,6 +1,7 @@
 CMD
 Codecov
-Datenschutzerklrung
+Datenschutzerklärung
+Guide’s
 Lifecycle
 Nutzungsbedingungen
 POSIXct
@@ -16,6 +17,8 @@ cbsnews
 cnet
 cnn
 com
+csv
+cz
 dailymail
 datetime
 doctype
@@ -28,6 +31,7 @@ foxnews
 ftw
 huffingtonpost
 huffpost
+idnes
 itemscope
 latimes
 lnk
@@ -35,6 +39,9 @@ marketwatch
 mediacloud
 msnbc
 newsweek
+nl
+nos
+nrc
 nypost
 nytimes
 org
@@ -55,9 +62,9 @@ uk
 un
 urls
 usatoday
+volkskrant
 washingtonpost
 webscraper
 webscraping
 wsj
-www
 ’A

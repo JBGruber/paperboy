@@ -12,10 +12,13 @@ Imports:
     adaR,
     callr,
     cli,
+    cookiemonster,
     curl,
     dplyr,
+    jsonlite,
     lubridate,
     magrittr,
+    methods,
     praise,
     purrr,
     rlang,
@@ -32,7 +35,8 @@ Suggests:
     rmarkdown,
     rstudioapi,
     spelling,
-    testthat
+    testthat,
+    withr
 URL: https://github.com/JBGruber/paperboy
 Encoding: UTF-8
 BugReports: https://github.com/JBGruber/paperboy/issues

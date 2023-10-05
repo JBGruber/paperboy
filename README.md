@@ -44,9 +44,9 @@ df <- pb_deliver("https://tinyurl.com/386e98k5")
 df
 ```
 
-| url                            | expanded_url                                                                      | domain              | status | datetime            | author                                                | headline                | text                           | misc |
-|:-------------------------------|:----------------------------------------------------------------------------------|:--------------------|-------:|:--------------------|:------------------------------------------------------|:------------------------|:-------------------------------|:-----|
-| <https://tinyurl.com/386e98k5> | <https://www.theguardian.com/tv-and-radio/2021/jul/12/should-marge-divorce-homer> | www.theguardian.com |    200 | 2021-07-12 12:00:13 | <https://www.theguardian.com/profile/stuart-heritage> | ’A woman trapped in an… | In the Guide’s weekly Solved!… | NULL |
+| url                            | expanded_url                                                                      | domain          | status | datetime            | author                                                | headline                | text                           | misc |
+|:-------------------------------|:----------------------------------------------------------------------------------|:----------------|-------:|:--------------------|:------------------------------------------------------|:------------------------|:-------------------------------|:-----|
+| <https://tinyurl.com/386e98k5> | <https://www.theguardian.com/tv-and-radio/2021/jul/12/should-marge-divorce-homer> | theguardian.com |    200 | 2021-07-12 12:00:13 | <https://www.theguardian.com/profile/stuart-heritage> | ’A woman trapped in an… | In the Guide’s weekly Solved!… | NULL |
 
 The returned `data.frame` contains important meta information about the
 news items and their full text. Notice, that the function had no problem
@@ -56,13 +56,12 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> Warning: ℹ No parser for domain www.google.com yet, attempting generic
-#> approach.
+#> Warning: ℹ No parser for domain google.com yet, attempting generic approach.
 ```
 
-| url        | expanded_url             | domain         | status | datetime | author | headline | text                                         | misc |
-|:-----------|:-------------------------|:---------------|-------:|:---------|:-------|:---------|:---------------------------------------------|:-----|
-| google.com | <http://www.google.com/> | www.google.com |    200 | NA       | NA     | Google   | © 2023 - Ochrana soukromí - Smluvní podmínky | NULL |
+| url        | expanded_url             | domain     | status | datetime | author | headline | text                                                | misc |
+|:-----------|:-------------------------|:-----------|-------:|:---------|:-------|:---------|:----------------------------------------------------|:-----|
+| google.com | <http://www.google.com/> | google.com |    200 | NA       | NA     | Google   | © 2023 - Datenschutzerklärung - Nutzungsbedingungen | NULL |
 
 The function still returns a data.frame, but important information is
 missing — in this case because it isn’t there. The other URLs will be
@@ -77,9 +76,9 @@ later parse it yourself:
 pb_collect("google.com")
 ```
 
-| url        | expanded_url             | domain         | status | content_raw                        |
-|:-----------|:-------------------------|:---------------|-------:|:-----------------------------------|
-| google.com | <http://www.google.com/> | www.google.com |    200 | \<!doctype html\>\<html itemscope… |
+| url        | expanded_url             | domain     | status | content_raw                        |
+|:-----------|:-------------------------|:-----------|-------:|:-----------------------------------|
+| google.com | <http://www.google.com/> | google.com |    200 | \<!doctype html\>\<html itemscope… |
 
 `pb_collect` uses concurrent requests to download many pages at the same
 time, making the function very quick to collect large amounts of data.
@@ -113,6 +112,7 @@ column was included so these can be retained.
 
 | domain                         | status                                                        | author                                    | issues                                               |
 |:-------------------------------|:--------------------------------------------------------------|:------------------------------------------|:-----------------------------------------------------|
+| ad.nl                          | ad.nl                                                         | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | anotherangryvoice.blogspot.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | boston.com                     | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 | bostonglobe.com                | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
@@ -157,6 +157,7 @@ column was included so these can be retained.
 | tribpub.com                    | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 | us.cnn.com                     | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | usatoday.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| volkskrant.nl                  | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | washingtonpost.com             | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | wsj.com                        | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 
