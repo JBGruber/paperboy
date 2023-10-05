@@ -1,4 +1,4 @@
-pb_deliver_paper.www_faz_net <- function(x, verbose = NULL, pb, ...) {
+pb_deliver_paper.faz_net <- function(x, verbose = NULL, pb, ...) {
 
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
@@ -65,4 +65,4 @@ pb_deliver_paper.www_faz_net <- function(x, verbose = NULL, pb, ...) {
 
 }
 
-pb_deliver_paper.blogs_faz_net <- pb_deliver_paper.www_faz_net
+pb_deliver_paper.blogs_faz_net <- pb_deliver_paper.faz_net

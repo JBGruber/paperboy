@@ -1,4 +1,4 @@
-pb_deliver_paper.www_buzzfeed_com <- function(x, verbose = NULL, pb, ...) {
+pb_deliver_paper.thecanary_co <- function(x, verbose = NULL, pb, ...) {
 
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
@@ -12,25 +12,24 @@ pb_deliver_paper.www_buzzfeed_com <- function(x, verbose = NULL, pb, ...) {
 
   # headline
   headline <- html %>%
-    rvest::html_element("[class^=\"headline_title\"]") %>%
+    rvest::html_element(".entry-title") %>%
     rvest::html_text()
 
   # author
   author <- html %>%
-    rvest::html_element("[class*=\"headline-byline_bylineName\"]")  %>%
+    rvest::html_element(".author")  %>%
     rvest::html_text2() %>%
     toString()
 
   # text
   text <- html %>%
-    rvest::html_elements(".subbuzz-text>p") %>%
+    rvest::html_elements(".entry-content>p") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
   # in-text links
   text_links <- html %>%
-    rvest::html_elements(".subbuzz-text,.tweet__container") %>%
-    rvest::html_elements("a") %>%
+    rvest::html_elements(".entry-content>p>a") %>%
     rvest::html_attr("href") %>%
     as.list()
 

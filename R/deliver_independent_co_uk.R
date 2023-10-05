@@ -1,4 +1,4 @@
-pb_deliver_paper.www_independent_co_uk <- function(x, verbose = NULL, pb, ...) {
+pb_deliver_paper.independent_co_uk <- function(x, verbose = NULL, pb, ...) {
 
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)

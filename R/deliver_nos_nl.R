@@ -19,7 +19,7 @@ pb_deliver_paper.nos_nl <- function(x, verbose = NULL, pb, ...) {
   author <- html %>%
     rvest::html_element(".NYlVB")  %>%
     rvest::html_text2() %>%
-    na.omit() %>%
+    stats::na.omit() %>%
     toString()
 
   # text

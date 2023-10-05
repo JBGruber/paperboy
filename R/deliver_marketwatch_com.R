@@ -1,5 +1,5 @@
 
-pb_deliver_paper.www_marketwatch_com <- function(x, verbose = NULL, pb, ...) {
+pb_deliver_paper.marketwatch_com <- function(x, verbose = NULL, pb, ...) {
 
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)

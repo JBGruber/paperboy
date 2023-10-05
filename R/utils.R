@@ -144,6 +144,21 @@ warn_once <- function(id) {
 }
 
 
+url_get_basename <- function(x) {
+  sub(adaR::ada_get_pathname(x), "", x, fixed = TRUE)
+}
+
+
+# see https://github.com/schochastics/adaR/issues/36
+url_get_domain <- function(x) {
+  out <- adaR::ada_get_domain(x)
+  if (is.na(out)) out <- adaR::ada_get_domain(paste0("https://", x))
+  return(out)
+}
+
+
+exit <- function() invokeRestart("abort")
+
 the <- new.env()
 inform_env <- new.env()
 inform_now_env <- new.env()

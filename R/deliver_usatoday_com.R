@@ -54,8 +54,8 @@ pb_deliver_paper.usatoday_com <- function(x, verbose, pb, ...) {
 # define aliases for pages using the same layout
 pb_deliver_paper.mmajunkie_usatoday_com <-
   pb_deliver_paper.golfweek_usatoday_com <-
-  pb_deliver_paper.www_democratandchronicle_com <-
-  pb_deliver_paper.www_usatoday_com <-
+  pb_deliver_paper.democratandchronicle_com <-
+  pb_deliver_paper.usatoday_com <-
   pb_deliver_paper.eu_democratandchronicle_com <-
   pb_deliver_paper.eu_courier_journal_com <-
   pb_deliver_paper.eu_usatoday_com <-

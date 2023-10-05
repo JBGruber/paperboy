@@ -1,4 +1,4 @@
-pb_deliver_paper.www_washingtonpost_com <- function(x, verbose, pb, ...) {
+pb_deliver_paper.washingtonpost_com <- function(x, verbose, pb, ...) {
 
   pb_tick(x, verbose, pb)
 

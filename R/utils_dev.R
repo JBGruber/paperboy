@@ -42,7 +42,7 @@ use_new_parser <- function(x,
                            rss = NULL,
                            test_data = NULL) {
 
-  x <- head(urltools::domain(x), 1)
+  x <- head(adaR::ada_get_domain(x), 1)
 
   cli::cli_progress_step(
     "Creating R file",
@@ -100,8 +100,9 @@ use_new_parser <- function(x,
   }
 
   # if file was just created, open for edit, otherwise test
-  if (file.info(r_file)$mtime > Sys.time() - 60) {
+  if (file.info(r_file)$atime > Sys.time() - 60) {
     edit_parser(r_file)
+    exit()
   } else {
     cli::cli_progress_step(
       "Testing {r_file} for consistency",
@@ -114,7 +115,7 @@ use_new_parser <- function(x,
     } else {
       cli::cli_progress_done(result = "failed")
       edit_parser(r_file)
-      return(NULL)
+      exit()
     }
   }
 
@@ -130,11 +131,13 @@ use_new_parser <- function(x,
     test_data <- pb_collect(rss)
   }
 
+  # TODO: would be good to load the new function, but neither devtools::load_all
+  # nor source seem to do the trick here
   test_data_parsed <- test_parser(test_data)
 
   if (the$test_status != "passed") {
     cli::cli_progress_done(result = "failed")
-    sel <- askYesNo(
+    sel <- utils::askYesNo(
       "Would you like me to load the test data and results into your environment?",
       default = FALSE
     )
@@ -142,6 +145,7 @@ use_new_parser <- function(x,
       test_data <<- test_data
       test_data_parsed <<- test_data_parsed
     }
+    exit()
   }
 
   if (is_pb()) {
@@ -149,12 +153,13 @@ use_new_parser <- function(x,
       "Finalising entry in inst/status.csv",
       msg_done = "status.csv updated."
     )
-    x <- utils::head(urltools::domain(x), 1)
+    x <- utils::head(adaR::ada_get_domain(x), 1)
     status <- read.csv("inst/status.csv")
     status[status$domain == gsub("^www.", "", x), "status"] <-
       "![](https://img.shields.io/badge/status-gold-%23ffd700.svg)"
-    status[status$domain == gsub("^www.", "", x), "status"] <-
-      edit(status[status$domain == gsub("^www.", "", x), "status"])
+    cli::cli_alert_info("Check the entry manually. Press quit when you're happy.")
+    status[status$domain == gsub("^www.", "", x), ] <-
+      edit(status[status$domain == gsub("^www.", "", x), ])
     write.csv(status, "inst/status.csv", row.names = FALSE)
 
   }
@@ -178,7 +183,7 @@ use_new_parser <- function(x,
 #' }
 pb_new <- function(np, author = "", issue = "") {
 
-  np <- utils::head(urltools::domain(np), 1)
+  np <- utils::head(adaR::ada_get_domain(np), 1)
   np_ <- classify(np)
 
   template <- system.file("templates", "deliver_.R", package = "paperboy") %>%
@@ -238,18 +243,20 @@ pct <- function(x) {
 
 check_fails <- function(df, what, total) {
 
-  switch(what,
-         "datetime" = fails <- sum(is.na(df[[what]])) / total,
-         "author" = fails <- sum(df[[what]] == "NA") / total,
-         "headline" = fails <- sum(df[[what]] == "") / total,
-         "text" = fails <- sum(df[[what]] == "") / total
+  switch(
+    what,
+    "datetime" = fails <- sum(is.na(df[[what]])) / total,
+    "author" = fails <- sum(df[[what]] == "NA") / total,
+    "headline" = fails <- (sum(df[[what]] == "", na.rm = TRUE) +
+      sum(is.na(df[[what]]))) / total,
+    "text" = fails <- sum(df[[what]] == "") / total
   )
 
   if (fails > 0.01 & fails < 0.05)
-    cli::cli_alert_warning("More than {pct(fails)} of {what} values failed to parse")
+    cli::cli_alert_warning("{pct(fails)} of {what} values failed to parse")
 
   if (fails >= 0.05) {
-    cli::cli_alert_danger("More than {pct(fails)} of {what} values failed to parse")
+    cli::cli_alert_danger("{pct(fails)} of {what} values failed to parse")
     return(TRUE)
   }
   return(FALSE)

@@ -1,4 +1,4 @@
-pb_deliver_paper.www_huffpost_com <- function(x, verbose = NULL, pb, ...) {
+pb_deliver_paper.huffpost_com <- function(x, verbose = NULL, pb, ...) {
 
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
@@ -54,5 +54,5 @@ pb_deliver_paper.www_huffpost_com <- function(x, verbose = NULL, pb, ...) {
 
 # define aliases for pages using the same layout
 pb_deliver_paper.huffingtonpost_com <-
-  pb_deliver_paper.www_huffingtonpost_co_uk <-
-  pb_deliver_paper.www_huffpost_com
+  pb_deliver_paper.huffingtonpost_co_uk <-
+  pb_deliver_paper.huffpost_com

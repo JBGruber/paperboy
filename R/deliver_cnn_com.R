@@ -1,4 +1,4 @@
-pb_deliver_paper.www_cnn_com <- function(x, verbose = NULL, pb, ...) {
+pb_deliver_paper.cnn_com <- function(x, verbose = NULL, pb, ...) {
 
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
@@ -55,4 +55,4 @@ pb_deliver_paper.www_cnn_com <- function(x, verbose = NULL, pb, ...) {
 
 pb_deliver_paper.us_cnn_com <-
   pb_deliver_paper.edition_cnn_com <-
-  pb_deliver_paper.www_cnn_com
+  pb_deliver_paper.cnn_com
