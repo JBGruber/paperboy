@@ -4,10 +4,13 @@
 \alias{pb_find_rss}
 \title{Find RSS feed on a newspapers website}
 \usage{
-pb_find_rss(x)
+pb_find_rss(x, use = c("main", "suffixes", "feedly"))
 }
 \arguments{
 \item{x}{main domain of the newspaper site to check for RSS feeds.}
+
+\item{use}{which steps to include in the search (see Details). Default is to
+include all.}
 }
 \value{
 A URL to the RSS feed(s) or NULL if nothing is found
@@ -15,6 +18,19 @@ A URL to the RSS feed(s) or NULL if nothing is found
 \description{
 Find RSS feed on a newspapers website
 }
+\details{
+Uses a three step heuristic to find RSS feeds:
+\enumerate{
+\item Scrapes the main page (without any paths) to see if the RSS feed is
+advertised
+\item Checks a number of common paths where sites put their RSS feeds
+\item Queries the \href{https://feedly.com/}{feedly.com} API to for feeds associated
+with a page
+}
+}
 \examples{
 pb_find_rss("https://www.buzzfeed.com/")
+}
+\references{
+Approach inspired by \url{https://github.com/mediacloud/feed_seeker}
 }
