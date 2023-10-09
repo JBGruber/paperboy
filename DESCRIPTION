@@ -1,7 +1,7 @@
 Package: paperboy
 Title: Comprehensive Collection of News Media Scrapers
 Version: 0.0.5.9000
-Date: 2023-10-05
+Date: 2023-10-09
 Authors@R: person("Johannes", "Gruber", email = "JohannesB.Gruber@gmail.com",
   role = c("aut", "cre"))
 Description: A comprehensive collection of webscraping scripts for news media sites.
@@ -37,6 +37,7 @@ Suggests:
     spelling,
     testthat,
     withr
+Remotes: JBGruber/cookiemonster
 URL: https://github.com/JBGruber/paperboy
 Encoding: UTF-8
 BugReports: https://github.com/JBGruber/paperboy/issues

@@ -61,7 +61,11 @@ pb_collect <- function(urls,
 
   res <- purrr::map(url_batches, function(b) {
     domain <- adaR::ada_get_domain(b[1])
-    cookies_str <- cookiemonster::get_cookies(paste0(domain, "\\b"), as = "string")
+    if (use_cookies) {
+      cookies_str <- cookiemonster::get_cookies(paste0(domain, "\\b"), as = "string")
+    } else {
+      cookies_str <- NULL
+    }
     rp <- callr::r_bg(async_requests,
                       args = list(
                         urls = b,
@@ -113,7 +117,7 @@ pb_collect <- function(urls,
         cont <- out$content_raw
       }
 
-      rss <- grepl("<rss.+>", cont, useBytes = TRUE)
+      rss <- grepl("<rss.+>|<\\?xml.+>", cont, useBytes = TRUE)
       if (any(rss)) {
         if (verbose) cli::cli_progress_step("Parsing RSS feeds")
         rss_out <- collect_rss(
@@ -236,11 +240,23 @@ parse_fail <- function(url) {
 
 collect_rss <- function(cont, ...) {
 
-  links <- lapply(cont, function(x) x %>%
-                    xml2::read_xml() %>%
-                    xml2::xml_find_all("//*[name()='item']") %>%
-                    xml2::as_list() %>%
-                    purrr::map("link")) %>%
+  links <- lapply(cont, function(x) {
+    # for rss
+    out <- x %>%
+      xml2::read_xml() %>%
+      xml2::xml_find_all("//*[name()='item']") %>%
+      xml2::as_list() %>%
+      purrr::map("link")
+    # for atom
+    if (length(out) < 1L) {
+      out <- x %>%
+        xml2::read_xml() %>%
+        xml2::xml_find_all("//*[name()='entry']") %>%
+        xml2::as_list() %>%
+        purrr::map(function(e) attr(e[["link"]], "href"))
+    }
+    return(out)
+  }) %>%
     unlist()
 
   pb_collect(links, ...)
