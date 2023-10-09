@@ -10,10 +10,24 @@ pb_deliver_paper.nrc_nl <- function(x, verbose = NULL, pb, ...) {
     rvest::html_attr("datetime") %>%
     lubridate::as_datetime()
 
+  type <- NULL
+  if (is.na(datetime)) {
+    datetime <- html %>%
+      rvest::html_element(".artikel") %>%
+      rvest::html_attr("data-article-updated-at") %>%
+      lubridate::as_datetime()
+
+    type <- html %>%
+      rvest::html_element(".artikel") %>%
+      rvest::html_attr("data-article-type")
+  }
+
   # headline
   headline <- html %>%
     rvest::html_element("[property=\"og:title\"]") %>%
     rvest::html_attr("content")
+
+  if (!is.null(type)) headline <- paste0("[", type, "] ", headline)
 
   # author
   author <- html %>%
@@ -23,7 +37,7 @@ pb_deliver_paper.nrc_nl <- function(x, verbose = NULL, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_elements(".article__content>p,.article__content>.bericht>p") %>%
+    rvest::html_elements(".article__content>p,.article__content>.bericht>p,.podcast-content") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 

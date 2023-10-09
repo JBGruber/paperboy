@@ -114,6 +114,7 @@ column was included so these can be retained.
 |:-------------------------------|:--------------------------------------------------------------|:------------------------------------------|:-----------------------------------------------------|
 | ad.nl                          | ad.nl                                                         | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | anotherangryvoice.blogspot.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| bbc.co.uk                      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | boston.com                     | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 | bostonglobe.com                | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 | breitbart.com                  | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
@@ -132,12 +133,15 @@ column was included so these can be retained.
 | foxbusiness.com                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | foxnews.com                    | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | ftw.usatoday.com               | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| geenstijl.nl                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | huffingtonpost.co.uk           | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | idnes.cz                       | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | independent.co.uk              | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | latimes.com                    | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | lnk.techrepublic.com           | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 | marketwatch.com                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| mediacourant.nl                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
+| metronieuws.nl                 | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | msnbc.com                      | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 | newsweek.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
 | nos.nl                         | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                      |
