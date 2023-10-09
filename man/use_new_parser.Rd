@@ -44,8 +44,10 @@ As might be obvious, not all steps can be performed in a single action.
 Rather the idea is to run the function multiple times, until all is done.
 }
 \examples{
+\dontrun{
 use_new_parser(x = "https://www.buzzfeed.com/",
                author = "[@JBGruber](https://github.com/JBGruber/)",
                issue = "[#1](https://github.com/JBGruber/paperboy/issues/1)",
                rss = "https://www.buzzfeed.com/rss")
+}
 }

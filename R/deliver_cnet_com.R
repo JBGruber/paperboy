@@ -18,16 +18,33 @@ pb_deliver_paper.cnet_com <- function(x, verbose = NULL, pb, ...) {
       as.POSIXct()
   }
 
-  # headline
-  headline <- html %>%
-    rvest::html_elements("[property=\"og:title\"]") %>%
-    rvest::html_attr("content")
+  if (condition) {
+    data <- html %>%
+      rvest::html_element("[type=\"application/ld+json\"]") %>%
+      rvest::html_text() %>%
+      jsonlite::fromJSON()
 
-  # author
-  author <- html %>%
-    rvest::html_elements(".c-globalAuthor_link,.author")  %>%
-    rvest::html_text2() %>%
-    toString()
+    datetime <- data$datePublished %>%
+      lubridate::as_datetime()
+
+    # headline
+    headline <- data$headline
+
+    # author
+    author <- data$author$name
+
+  } else {
+    # headline
+    headline <- html %>%
+      rvest::html_elements("[property=\"og:title\"]") %>%
+      rvest::html_attr("content")
+
+    # author
+    author <- html %>%
+      rvest::html_elements(".c-globalAuthor_link,.author")  %>%
+      rvest::html_text2() %>%
+      toString()
+  }
 
   # text
   text <- html %>%

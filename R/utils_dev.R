@@ -31,10 +31,12 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' use_new_parser(x = "https://www.buzzfeed.com/",
 #'                author = "[@JBGruber](https://github.com/JBGruber/)",
 #'                issue = "[#1](https://github.com/JBGruber/paperboy/issues/1)",
 #'                rss = "https://www.buzzfeed.com/rss")
+#' }
 #' @md
 use_new_parser <- function(x,
                            author = "",
@@ -51,12 +53,12 @@ use_new_parser <- function(x,
   r_file <- pb_new(x)
   cli::cli_progress_done()
 
-  cli::cli_progress_step(
-    "Trying to find RSS feed",
-    msg_done = "RSS feed noted",
-    msg_failed = "No RSS feed in the usual locations. Add to inst/status.csv manually"
-  )
   if (is.null(rss)) {
+    cli::cli_progress_step(
+      "Trying to find RSS feed",
+      msg_done = "RSS feed noted",
+      msg_failed = "No RSS feed in the usual locations. Add to inst/status.csv manually"
+    )
     rss <- pb_find_rss(x)
   }
   if (rss == "") {
@@ -153,7 +155,6 @@ use_new_parser <- function(x,
       "Finalising entry in inst/status.csv",
       msg_done = "status.csv updated."
     )
-    x <- utils::head(adaR::ada_get_domain(x), 1)
     status <- utils::read.csv("inst/status.csv")
     status[status$domain == gsub("^www.", "", x), "status"] <-
       "![](https://img.shields.io/badge/status-gold-%23ffd700.svg)"
@@ -183,8 +184,10 @@ use_new_parser <- function(x,
 #' }
 pb_new <- function(np, author = "", issue = "") {
 
-  np <- utils::head(adaR::ada_get_domain(np), 1)
+  np <- utils::head(url_get_domain(np), 1)
   np_ <- classify(np)
+
+  if (is.na(np)) cli::cli_abort("invalid domain name: {np}")
 
   template <- system.file("templates", "deliver_.R", package = "paperboy") %>%
     readLines() %>%

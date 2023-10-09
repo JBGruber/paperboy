@@ -145,7 +145,8 @@ warn_once <- function(id) {
 
 
 url_get_basename <- function(x) {
-  sub(adaR::ada_get_pathname(x), "", x, fixed = TRUE)
+  host <- url_get_domain(x)
+  paste0("https://", host)
 }
 
 
