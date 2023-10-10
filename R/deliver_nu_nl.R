@@ -46,3 +46,6 @@ pb_deliver_paper.nu_nl <- function(x, verbose = NULL, pb, ...) {
   )
 
 }
+
+
+pb_deliver_paper.www_nu_nl <- pb_deliver_paper.nu_nl

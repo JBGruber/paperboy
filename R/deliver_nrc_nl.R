@@ -60,3 +60,5 @@ pb_deliver_paper.nrc_nl <- function(x, verbose = NULL, pb, ...) {
   )
 
 }
+
+pb_deliver_paper.www_nrc_nl <- pb_deliver_paper.nrc_nl
