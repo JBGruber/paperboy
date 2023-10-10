@@ -59,6 +59,3 @@ pb_deliver_paper.volkskrant_nl <- function(x, verbose = NULL, pb, ...) {
   )
 
 }
-
-
-pb_deliver_paper.www_volkskrant_nl <- pb_deliver_paper.volkskrant_nl

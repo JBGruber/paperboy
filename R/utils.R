@@ -24,11 +24,11 @@ pb_available <- function(...) {
     .[!. %in% c("default", "httpbin_org")] %>%
     gsub("_", ".", ., fixed = TRUE)
 
-  dots <- list(...)
+  dots <- unlist(list(...), recursive = TRUE)
 
   if (length(dots) > 0) {
-    names(dots) <- dots
-    return(sapply(dots, function(x) adaR::ada_get_domain(x) %in% parsers, USE.NAMES = TRUE))
+    return(unlist(sapply(dots, function(x) adaR::ada_get_domain(x) %in% parsers,
+                         simplify = FALSE, USE.NAMES = TRUE)))
   }
 
   return(parsers)
@@ -38,6 +38,8 @@ pb_available <- function(...) {
 #' not as is sounds, turns urls into class conform string
 #' @noRd
 classify <- function(url) {
+  # here for data collected with older version of paperboy
+  url <- sub("^www\\.", "", url)
   replace_all(url, c(".", "-"), rep("_", 2L), fixed = TRUE)
 }
 
