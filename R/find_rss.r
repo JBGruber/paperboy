@@ -107,21 +107,29 @@ pb_find_rss <- function(x,
   )
   msg <- paste0("Discovered {nrow(out)} URL{?s}",
                 ifelse(nrow(out) > 1, "Check manually to see which ones fit", ""))
+  cli::cli_progress_done()
   cli::cli_alert_info(msg)
-  return(out)
+  if (nrow(out) > 0) {
+    return(out)
+  } else {
+    invisible(out)
+  }
 }
 
 
 is_feed <- function(resp) {
-  if (resp$status_code >= 400L) return(FALSE)
-  if (resp$type %in% c("application/rss+xml")) return(TRUE)
-  grepl("<rss.+>", rawToChar(resp$content), useBytes = TRUE)
+  # Why pluck? Sometimes the resp is NA or NULL. Not sure how
+  if (purrr::pluck(resp, "status_code", .default = 400L) >= 400L)
+    return(FALSE)
+  if (purrr::pluck(resp, "type", .default = "") %in% c("application/rss+xml"))
+    return(TRUE)
+  isTRUE(grepl("<rss.+>", rawToChar(purrr::pluck(resp, "content", .default = "")),
+               useBytes = TRUE))
 }
 
 
 is_feed_fns <- function(url) {
   function(req) {
-    req <<- req
     paperboy.env$pages[[url]] <- is_feed(req)
   }
 }
