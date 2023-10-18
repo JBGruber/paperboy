@@ -77,6 +77,7 @@ use_new_parser <- function(x,
     if (file.exists("inst/status.csv")) {
       status <- utils::read.csv("inst/status.csv")
       if (!gsub("^www.", "", x) %in% status$domain) {
+        domain <- NULL
         status <- status %>%
           rbind(list(domain = sub("^www.", "", x),
                      status = "![](https://img.shields.io/badge/status-requested-lightgrey)",
@@ -249,7 +250,8 @@ check_fails <- function(df, what, total) {
   switch(
     what,
     "datetime" = fails <- sum(is.na(df[[what]])) / total,
-    "author" = fails <- sum(df[[what]] == "NA") / total,
+    "author" = fails <- (sum(df[[what]] == "NA", na.rm = TRUE) +
+                           sum(is.na(df[[what]]))) / total,
     "headline" = fails <- (sum(df[[what]] == "", na.rm = TRUE) +
       sum(is.na(df[[what]]))) / total,
     "text" = fails <- sum(df[[what]] == "") / total

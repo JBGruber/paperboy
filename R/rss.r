@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' pb_collect_rss("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml")
+#' pb_collect_rss("https://feeds.washingtonpost.com/rss/world")
 pb_collect_rss <- function(x, ...) {
   if (!methods::is(x, "html_content")) {
     df <- pb_collect(x, pb_collect_rss = FALSE, ...)
@@ -112,7 +112,7 @@ pb_find_rss <- function(x,
       "articles.atom"
     )
 
-    comb <- expand.grid(unique(adaR::ada_get_domain(x)), common_suffixes)
+    comb <- expand.grid(unique(url_get_basename(x)), common_suffixes)
     urls <- paste0(comb$Var1, "/", comb$Var2)
 
     rss_checker <- lapply(urls, is_feed_fns)
@@ -134,7 +134,7 @@ pb_find_rss <- function(x,
   # 3. search feedly API
   if ("feedly" %in% use) {
     cli::cli_progress_step("Querying feedly API")
-    con <- url(paste0("https://cloud.feedly.com/v3/search/feeds?query=", adaR::ada_get_domain(x)))
+    con <- url(paste0("https://cloud.feedly.com/v3/search/feeds?query=", url_get_basename(x)))
     lines <- readLines(con, warn = FALSE)
     feedly <- jsonlite::stream_in(textConnection(lines), verbose = FALSE)$results[[1]]
     on.exit(close(con))
