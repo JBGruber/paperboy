@@ -12,6 +12,10 @@ test_that("Test infrascture", {
     pb_deliver("duckduckgo.com/", verbose = TRUE),
     "No parser for domain"
   )
+  expect_equal(
+    nrow(pb_deliver("duckduckgo.com/", try_default = FALSE)),
+    0L
+  )
   expect_error(
     pb_deliver(list("google.com"), verbose = FALSE),
     "No method for class list."
@@ -43,7 +47,7 @@ test_that("Test huffpost scraper", {
 })
 
 test_scraper <- function(rss) {
-  test_that(rss, {
+  test_that(desc = paste("test:", rss), {
     skip_if_offline()
     skip_on_ci()
     expect_equal({
@@ -55,6 +59,7 @@ test_scraper <- function(rss) {
 }
 
 lapply(c(
+  "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
   "https://www.cbsnews.com/latest/rss/evening-news",
   "https://www.cnet.com/rss/news/",
   "http://rss.cnn.com/rss/edition.rss",

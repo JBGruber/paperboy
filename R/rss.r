@@ -1,3 +1,44 @@
+#' Collect RSS feed
+#'
+#' Collect the URLs of articles from RSS or Atom feed(s)
+#'
+#' @param x URL(s) to RSS or Atom feed(s).
+#' @param ... passed to pb_collect.
+#'
+#' @return a character vector of URLs to articles
+#' @export
+#'
+#' @examples
+#' pb_collect_rss("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml")
+pb_collect_rss <- function(x, ...) {
+  if (!methods::is(x, "html_content")) {
+    df <- pb_collect(x, pb_collect_rss = FALSE, ...)
+    x <- unlist(df[df$status < 400L, "content_raw"])
+  }
+
+  lapply(x, function(x) {
+    # for rss
+    out <- x %>%
+      xml2::read_xml() %>%
+      xml2::xml_find_all("//*[name()='item']") %>%
+      xml2::as_list() %>%
+      purrr::map("link")
+    # for atom
+    if (length(out) < 1L) {
+      out <- x %>%
+        xml2::read_xml() %>%
+        xml2::xml_find_all("//*[name()='entry']") %>%
+        xml2::as_list() %>%
+        purrr::map(function(e) attr(e[["link"]], "href"))
+    }
+    return(out)
+  }) %>%
+    unlist() %>%
+    unname()
+
+}
+
+
 #' Find RSS feed on a newspapers website
 #'
 #' @param x main domain of the newspaper site to check for RSS feeds.
@@ -133,3 +174,5 @@ is_feed_fns <- function(url) {
     paperboy.env$pages[[url]] <- is_feed(req)
   }
 }
+
+
