@@ -11,18 +11,22 @@ pb_deliver_paper.cnet_com <- function(x, verbose = NULL, pb, ...) {
     lubridate::as_datetime()
 
   if (is.na(datetime)) {
-    datetime <- html %>%
-      rvest::html_element("time") %>%
-      rvest::html_text2() %>%
-      lubridate::mdy() %>%
-      as.POSIXct()
+    suppressWarnings(datetime <- html %>%
+                       rvest::html_element("time") %>%
+                       rvest::html_text2() %>%
+                       lubridate::mdy() %>%
+                       as.POSIXct())
   }
 
-  if (condition) {
+  if (is.na(datetime)) {
     data <- html %>%
       rvest::html_element("[type=\"application/ld+json\"]") %>%
       rvest::html_text() %>%
       jsonlite::fromJSON()
+
+    if (utils::hasName(data, "@graph")) {
+      data <- data$`@graph`[1, ]
+    }
 
     datetime <- data$datePublished %>%
       lubridate::as_datetime()
@@ -48,7 +52,7 @@ pb_deliver_paper.cnet_com <- function(x, verbose = NULL, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_elements(".c-CmsContent>p,.article-main-body>p") %>%
+    rvest::html_elements(".c-CmsContent>p,.article-main-body>p,.c-pageArticle_body p") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
