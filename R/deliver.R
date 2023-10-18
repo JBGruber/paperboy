@@ -5,6 +5,8 @@
 #'
 #' @param x Either a vector of URLs or a data.frame returned by
 #'   \link{pb_collect}.
+#' @param try_default if no parser is available, should a generic parser be used
+#'   \code{TRUE} or should the URL be skipped \code{FALSE}?
 #' @param verbose \code{FALSE} turns deliver silent. \code{TRUE} prints status
 #'   messages and a progress bar on the screen. \code{2L} turns on debug mode.
 #'   If \code{NULL} will be determined from
@@ -13,26 +15,26 @@
 #'
 #' @return A data.frame (tibble) with media data and full text.
 #' @export
-pb_deliver <- function(x, verbose = NULL, ...) {
+pb_deliver <- function(x, try_default = TRUE, verbose = NULL, ...) {
   UseMethod("pb_deliver")
 }
 
 #' @export
-pb_deliver.default <- function(x, verbose = NULL, ...) {
+pb_deliver.default <- function(x, try_default = TRUE, verbose = NULL, ...) {
     stop("No method for class ", class(x), ".")
 }
 
 #' @export
-pb_deliver.character <- function(x, verbose = NULL, ...) {
+pb_deliver.character <- function(x, try_default = TRUE, verbose = NULL, ...) {
 
   pages <- pb_collect(x, verbose = verbose, ...)
 
-  pb_deliver(pages, verbose = verbose)
+  pb_deliver(pages, try_default = try_default, verbose = verbose)
 
 }
 
 #' @export
-pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
+pb_deliver.data.frame <- function(x, try_default = TRUE, verbose = NULL, ...) {
 
   if (!"content_raw" %in% colnames(x)) {
     cli::cli_abort(paste("x must be a character vector of URLs or a data.frame",
@@ -48,6 +50,17 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
   if (isTRUE(verbose) && isTRUE(sum(bad_status) > 0))
     cli::cli_alert_warning("{sum(bad_status)} URL{?s} removed due to bad status.")
 
+  if (!try_default) {
+    sel <- pb_available(x$domain)
+    x <- x[sel, ]
+    if (isTRUE(verbose) && isTRUE(sum(!sel) > 0)) {
+      cli::cli_alert_warning(c(
+        "{sum(!sel)} URL{?s} removed as no parser is available for the domain{?s}. ",
+        "Set {.fn try_default = TRUE} to try a generic parser for unknown domains."
+      ))
+    }
+  }
+
   domains <- split(x, x$domain, drop = TRUE)
 
   pb <- NULL
@@ -60,6 +73,8 @@ pb_deliver.data.frame <- function(x, verbose = NULL, ...) {
     ))
     pb <- cli::cli_progress_bar("Parsing raw html:", total = nrow(x))
   }
+
+
 
 
   out <- purrr::list_rbind(purrr::map(domains, function(u) {
