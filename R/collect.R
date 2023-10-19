@@ -32,6 +32,7 @@ pb_collect <- function(urls,
                        use_cookies = FALSE,
                        useragent = "paperboy",
                        save_dir = NULL,
+                       mock = getOption("pb_mock", NULL),
                        verbose = NULL,
                        ...) {
 
@@ -75,7 +76,8 @@ pb_collect <- function(urls,
                         cookies_str = cookies_str,
                         useragent = useragent,
                         timeout = timeout,
-                        save_dir = save_dir
+                        save_dir = save_dir,
+                        mock = mock
                       ),
                       package = TRUE)
     while (rp$is_alive()) {
@@ -106,8 +108,7 @@ pb_collect <- function(urls,
       out,
       domain = adaR::ada_get_domain(out$expanded_url),
       .after = "expanded_url"
-    ) %>%
-      dplyr::rename(url = urls)
+    )
 
     if (collect_rss) {
 
@@ -133,6 +134,7 @@ pb_collect <- function(urls,
           use_cookies = use_cookies,
           useragent = useragent,
           save_dir = save_dir,
+          mock = mock,
           verbose = FALSE,
           ...
         )
@@ -167,7 +169,19 @@ async_requests <- function(urls,
                            cookies_str,
                            useragent,
                            timeout,
+                           mock,
                            save_dir) {
+
+  # strongly inspired by httr2
+  # https://github.com/r-lib/httr2/blob/main/R/req-perform.R#L78-L84
+  if (!is.null(mock)) {
+    mock <- rlang::as_function(mock)
+    mock_resp <- mock(urls)
+    status <- list(success = length(urls),
+                   error = 0,
+                   pending = 0)
+    return(list(status, mock_resp))
+  }
 
   pool <- curl::new_pool(total_con = connections,
                          host_con = host_con)
@@ -197,7 +211,7 @@ async_requests <- function(urls,
   }))
 
   status <- curl::multi_run(timeout = timeout, pool = pool)
-  pages <- dplyr::bind_rows(paperboy.env$pages, .id = "urls")
+  pages <- dplyr::bind_rows(paperboy.env$pages, .id = "url")
   list(status, pages)
 }
 
