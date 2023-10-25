@@ -67,7 +67,7 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, verbose = NULL, ...) {
   if (verbose) {
     oldstyle <- getOption("cli.progress_bar_style")
     options(cli.progress_bar_style = list(
-      current = cli::col_yellow("c"),
+      current = cli::col_yellow("ᗧ"),
       complete = cli::col_grey("-"),
       incomplete = cli::col_grey("o")
     ))
