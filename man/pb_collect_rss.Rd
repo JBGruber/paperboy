@@ -18,5 +18,7 @@ a character vector of URLs to articles
 Collect the URLs of articles from RSS or Atom feed(s)
 }
 \examples{
+\dontrun{
 pb_collect_rss("https://feeds.washingtonpost.com/rss/world")
+}
 }

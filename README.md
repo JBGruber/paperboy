@@ -113,7 +113,7 @@ column was included so these can be retained.
 | domain                         | status                                                        | author                                    | issues                                                 |
 |:-------------------------------|:--------------------------------------------------------------|:------------------------------------------|:-------------------------------------------------------|
 | ac24.cz                        | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
-| ad.nl                          | ad.nl                                                         | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| ad.nl                          | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | aktualne.cz                    | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | anotherangryvoice.blogspot.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | bbc.co.uk                      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |

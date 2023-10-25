@@ -9,7 +9,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' pb_collect_rss("https://feeds.washingtonpost.com/rss/world")
+#' }
 pb_collect_rss <- function(x, ...) {
   if (!methods::is(x, "html_content")) {
     df <- pb_collect(x, pb_collect_rss = FALSE, ...)
