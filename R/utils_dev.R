@@ -283,7 +283,7 @@ test_parser_consistency <- function(f, x) {
     t <- list(content_raw = "<html></html>")
     class(t) <- classify(x)
     pb_deliver_paper(t, verbose = FALSE, pb = NULL)
-  }, silent = TRUE)
+  })
   !methods::is(test, "try-error")
 }
 

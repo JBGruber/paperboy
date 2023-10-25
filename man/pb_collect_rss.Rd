@@ -18,5 +18,5 @@ a character vector of URLs to articles
 Collect the URLs of articles from RSS or Atom feed(s)
 }
 \examples{
-pb_collect_rss("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml")
+pb_collect_rss("https://feeds.washingtonpost.com/rss/world")
 }
