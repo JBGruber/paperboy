@@ -66,16 +66,19 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, verbose = NULL, ...) {
   pb <- NULL
   if (verbose) {
     oldstyle <- getOption("cli.progress_bar_style")
+    oldstyle_ascii <- getOption("cli.progress_bar_style_ascii")
     options(cli.progress_bar_style = list(
-      current = cli::col_yellow("ᗧ"),
+      current = cli::col_yellow("\u15E7"),
+      complete = cli::col_grey("\u2010"),
+      incomplete = cli::col_red("\u2022")
+    ))
+    options(cli.progress_bar_style_ascii = list(
+      current = cli::col_yellow("C"),
       complete = cli::col_grey("-"),
       incomplete = cli::col_grey("o")
     ))
     pb <- cli::cli_progress_bar("Parsing raw html:", total = nrow(x))
   }
-
-
-
 
   out <- purrr::list_rbind(purrr::map(domains, function(u) {
 
@@ -96,6 +99,7 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, verbose = NULL, ...) {
   if (verbose) {
     cli::cli_progress_done()
     options(cli.progress_bar_style = oldstyle)
+    options(cli.progress_bar_style_ascii = oldstyle_ascii)
   }
 
   # tell user about warnings
