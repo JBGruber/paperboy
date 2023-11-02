@@ -56,7 +56,7 @@ therefore often encounter this warning:
 
 ``` r
 pb_deliver("google.com")
-#> Warning: ℹ No parser for domain google.com yet, attempting generic approach.
+#> ! No parser for domain google.com yet, attempting generic approach.
 ```
 
 | url        | expanded_url             | domain     | status | datetime | author | headline | text                                                | misc |
@@ -163,6 +163,7 @@ column was included so these can be retained.
 | seznamzpravy.cz                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | sfgate.com                     | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | skwawkbox.org                  | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| telegraaf.nl                   | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | [@JBGruber](https://github.com/JBGruber/) | [\#17](https://github.com/JBGruber/paperboy/issues/17) |
 | telegraph.co.uk                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | thecanary.co                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | theguardian.com                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
