@@ -125,7 +125,7 @@ use_new_parser <- function(x,
   cli::cli_progress_step(
     "Checking parser {r_file} for consistency",
     msg_done = "{r_file} passed tests!",
-    msg_failed = "{r_file} did not passe tests."
+    msg_failed = "{r_file} did not pass tests."
   )
 
   if (is.null(test_data) && is.na(rss)) {
@@ -194,7 +194,7 @@ pb_new <- function(np, author = "", issue = "") {
     readLines() %>%
     gsub("{{newspaper}}", np_, x = ., fixed = TRUE)
 
-  p <- ifelse(is_pb(), "./R", "")
+  p <- ifelse(is_pb(), "./R", ".")
   f <- file.path(p, paste0("deliver_", np_, ".R"))
   if (!file.exists(f)) writeLines(template, f)
 

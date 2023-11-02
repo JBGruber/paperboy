@@ -1,14 +1,14 @@
 test_that("Test infrascture", {
-  expect_warning(
+  expect_message(
     pb_deliver("google.com", verbose = TRUE),
     "No parser for domain"
   )
   # only warn first time
-  expect_no_warning(
+  expect_no_message(
     pb_deliver("google.com", verbose = TRUE)
   )
   # still warn with new site
-  expect_warning(
+  expect_message(
     pb_deliver("duckduckgo.com/", verbose = TRUE),
     "No parser for domain"
   )

@@ -14,7 +14,7 @@
 #' }
 pb_collect_rss <- function(x, ...) {
   if (!methods::is(x, "html_content")) {
-    df <- pb_collect(x, pb_collect_rss = FALSE, ...)
+    df <- pb_collect(x, collect_rss = FALSE, ...)
     x <- unlist(df[df$status < 400L, "content_raw"])
   }
 

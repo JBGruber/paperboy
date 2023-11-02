@@ -51,7 +51,7 @@ pb_deliver_paper.ad_nl <- function(x, verbose = NULL, pb, ...) {
     )
 
   } else {
-    warn_once(x$domain)
+
     if (is.null(inform_now_env$block)) {
       cli::cli_alert_warning("Some articles are not present as they were blocked by a privacy gate")
     }
