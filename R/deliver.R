@@ -98,7 +98,9 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, verbose = NULL, ...) {
   ws <- mget(ls(inform_now_env), envir = inform_now_env)
   if (length(ws) > 0) {
     names(ws) <- rep("i", length(ws))
-    cli::cli_alert_warning(ws)
+    for (w in ws) {
+      cli::cli_alert_warning(w)
+    }
     rm(list = ls(inform_now_env), envir = inform_now_env)
   }
 
