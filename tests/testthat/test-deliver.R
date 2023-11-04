@@ -5,7 +5,7 @@ test_that("Test infrascture", {
   )
   # only warn first time
   expect_no_message(
-    pb_deliver("google.com", verbose = TRUE)
+    pb_deliver("google.com", verbose = FALSE)
   )
   # still warn with new site
   expect_message(
@@ -44,4 +44,13 @@ test_that("Test huffpost scraper", {
     out <- pb_deliver("https://tinyurl.com/4shbwkxs", verbose = FALSE)
     c(class(out), ncol(out), nrow(out))
   }, c("tbl_df", "tbl", "data.frame", "9", "1"))
+})
+
+test_that("Local test data can be parsed", {
+  skip_if(!file.exists("test_data.rds"))
+  test_data <- readRDS("test_data.rds")
+  expect_equal({
+    out <- pb_deliver(test_data)
+    c(class(out), ncol(out), nrow(out))
+  }, c("tbl_df", "tbl", "data.frame", "9", "80"))
 })
