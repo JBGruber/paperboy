@@ -61,8 +61,6 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, verbose = NULL, ...) {
     }
   }
 
-  domains <- split(x, x$domain, drop = TRUE)
-
   pb <- NULL
   if (verbose) {
     oldstyle <- getOption("cli.progress_bar_style")
@@ -80,20 +78,14 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, verbose = NULL, ...) {
     pb <- cli::cli_progress_bar("Parsing raw html:", total = nrow(x))
   }
 
-  out <- purrr::list_rbind(purrr::map(domains, function(u) {
+  x$class <- classify(x$domain)
 
-    class(u) <- c(
-      classify(utils::head(u$domain, 1)),
-      class(u)
+  out <- purrr::list_rbind(purrr::map(purrr::transpose(x), function(r) {
+    class(r) <- r$class
+    cbind(
+      r[c("url", "expanded_url", "domain", "status")],
+      pb_deliver_paper(x = r, verbose, pb)
     )
-
-
-    purrr::list_rbind(purrr::map(seq_along(u$url), function(i) {
-      cbind(
-        u[i, c("url", "expanded_url", "domain", "status")],
-        pb_deliver_paper(x = u[i, ], verbose, pb)
-      )
-    }))
   }))
 
   if (verbose) {

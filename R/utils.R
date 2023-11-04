@@ -38,9 +38,9 @@ pb_available <- function(...) {
 #' not as is sounds, turns urls into class conform string
 #' @noRd
 classify <- function(url) {
-  # here for data collected with older version of paperboy
-  url <- sub("^www\\.", "", url)
-  replace_all(url, c(".", "-"), rep("_", 2L), fixed = TRUE)
+  url <- sub("^www\\.", "", as.factor(url)) # here for data collected with older version of paperboy
+  # as.factor improves speed
+  replace_all(as.factor(url), c(".", "-"), rep("_", 2L), fixed = TRUE)
 }
 
 
@@ -140,7 +140,7 @@ pb_tick <- function(x, verbose, pb) {
 #' @noRd
 warn_once <- function(id) {
   if (is.null(inform_env[[id]])) {
-    inform_now_env[[id]] <- cli::format_message("No parser for domain {.strong {id}} yet, attempting generic approach.")
+    inform_now_env[[id]] <- cli::format_message("No parser for domain {.strong {id}} yet, attempting generic approach.\n")
     inform_env[[id]] <- TRUE
   }
 }
