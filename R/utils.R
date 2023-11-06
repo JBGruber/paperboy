@@ -27,7 +27,7 @@ pb_available <- function(...) {
   dots <- unlist(list(...), recursive = TRUE)
 
   if (length(dots) > 0) {
-    return(unlist(sapply(dots, function(x) adaR::ada_get_domain(x) %in% parsers,
+    return(unlist(sapply(dots, function(x) url_get_domain(x) %in% parsers,
                          simplify = FALSE, USE.NAMES = TRUE)))
   }
 
@@ -127,11 +127,11 @@ make_pb <- function(df) {
 
 #' tick progress bar
 #' @noRd
-pb_tick <- function(x, verbose, pb) {
+pb_tick <- function(x, verbose, pb, ...) {
   if (verbose > 1) {
-    cli::cli_progress_step(x$expanded_url)
+    cli::cli_progress_step(x$expanded_url, ...)
   } else if (verbose > 0) {
-    cli::cli_progress_update(status = paste0("(", x$domain, ")"), id = pb)
+    cli::cli_progress_update(status = paste0("(", x$domain, ")"), id = pb, ...)
   }
 }
 
