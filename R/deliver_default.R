@@ -1,5 +1,6 @@
 pb_deliver_paper.default <- function(x, verbose = NULL, pb, ...) {
 
+  pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- try(rvest::read_html(x$content_raw), silent = TRUE)
   if (methods::is(html, "try-error")) {
@@ -8,7 +9,6 @@ pb_deliver_paper.default <- function(x, verbose = NULL, pb, ...) {
     writeLines(x$content_raw, tmp)
     html <- rvest::read_html(tmp)
   }
-  pb_tick(x, verbose, pb)
   warn_once(x$domain)
 
   # datetime

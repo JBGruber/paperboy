@@ -4,7 +4,7 @@
 \alias{pb_deliver}
 \title{Deliver online news articles}
 \usage{
-pb_deliver(x, try_default = TRUE, verbose = NULL, ...)
+pb_deliver(x, try_default = TRUE, ignore_fails = FALSE, verbose = NULL, ...)
 }
 \arguments{
 \item{x}{Either a vector of URLs or a data.frame returned by
@@ -12,6 +12,10 @@ pb_deliver(x, try_default = TRUE, verbose = NULL, ...)
 
 \item{try_default}{if no parser is available, should a generic parser be used
 \code{TRUE} or should the URL be skipped \code{FALSE}?}
+
+\item{ignore_fails}{normally the function errors raw content for a URL can't
+be parsed. Setting to \code{TRUE} ignores all parsing errors (use with
+caution).}
 
 \item{verbose}{\code{FALSE} turns deliver silent. \code{TRUE} prints status
 messages and a progress bar on the screen. \code{2L} turns on debug mode.

@@ -1,8 +1,10 @@
 pb_deliver_paper.{{newspaper}} <- function(x, verbose = NULL, pb, ...) {
 
+  # updates progress bar
+  pb_tick(x, verbose, pb)
+
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
-  pb_tick(x, verbose, pb)
 
   # datetime
   datetime <- html %>%

@@ -1,8 +1,8 @@
 pb_deliver_paper.irozhlas_cz <- function(x, verbose = NULL, pb, ...) {
 
+  pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
-  pb_tick(x, verbose, pb)
 
   # data about the article is nicely stored in a json string
   data <- html %>%

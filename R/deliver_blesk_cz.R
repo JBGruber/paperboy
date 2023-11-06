@@ -1,13 +1,13 @@
 pb_deliver_paper.blesk_cz <- function(x, verbose = NULL, pb, ...) {
 
-  # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
   pb_tick(x, verbose, pb)
+  # raw html is stored in column content_raw
 
   # data about the article is nicely stored in a json string
   data <- html %>%
     rvest::html_elements("[type=\"application/ld+json\"]") %>%
-    rvest::html_text() %>%
+    rvest::html_text2() %>%
     lapply(jsonlite::fromJSON)
 
   # usually there are more than one,

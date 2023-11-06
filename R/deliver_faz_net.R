@@ -1,8 +1,8 @@
 pb_deliver_paper.faz_net <- function(x, verbose = NULL, pb, ...) {
 
+  pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
-  pb_tick(x, verbose, pb)
 
   if (basename(x$expanded_url) == x$domain) {
 

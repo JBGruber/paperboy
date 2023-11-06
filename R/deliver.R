@@ -7,6 +7,9 @@
 #'   \link{pb_collect}.
 #' @param try_default if no parser is available, should a generic parser be used
 #'   \code{TRUE} or should the URL be skipped \code{FALSE}?
+#' @param ignore_fails normally the function errors raw content for a URL can't
+#'   be parsed. Setting to \code{TRUE} ignores all parsing errors (use with
+#'   caution).
 #' @param verbose \code{FALSE} turns deliver silent. \code{TRUE} prints status
 #'   messages and a progress bar on the screen. \code{2L} turns on debug mode.
 #'   If \code{NULL} will be determined from
@@ -15,17 +18,17 @@
 #'
 #' @return A data.frame (tibble) with media data and full text.
 #' @export
-pb_deliver <- function(x, try_default = TRUE, verbose = NULL, ...) {
+pb_deliver <- function(x, try_default = TRUE, ignore_fails = FALSE, verbose = NULL, ...) {
   UseMethod("pb_deliver")
 }
 
 #' @export
-pb_deliver.default <- function(x, try_default = TRUE, verbose = NULL, ...) {
+pb_deliver.default <- function(x, try_default = TRUE, ignore_fails = FALSE, verbose = NULL, ...) {
     stop("No method for class ", class(x), ".")
 }
 
 #' @export
-pb_deliver.character <- function(x, try_default = TRUE, verbose = NULL, ...) {
+pb_deliver.character <- function(x, try_default = TRUE, ignore_fails = FALSE, verbose = NULL, ...) {
 
   pages <- pb_collect(x, verbose = verbose, ...)
 
@@ -34,7 +37,7 @@ pb_deliver.character <- function(x, try_default = TRUE, verbose = NULL, ...) {
 }
 
 #' @export
-pb_deliver.data.frame <- function(x, try_default = TRUE, verbose = NULL, ...) {
+pb_deliver.data.frame <- function(x, try_default = TRUE, ignore_fails = FALSE, verbose = NULL, ...) {
 
   if (!"content_raw" %in% colnames(x)) {
     cli::cli_abort(paste("x must be a character vector of URLs or a data.frame",
@@ -80,11 +83,13 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, verbose = NULL, ...) {
 
   x$class <- classify(x$domain)
 
+  deliver_fun <- ifelse(ignore_fails, s_pb_deliver_paper, pb_deliver_paper)
+
   out <- purrr::list_rbind(purrr::map(purrr::transpose(x), function(r) {
     class(r) <- r$class
-    cbind(
+    dplyr::bind_cols(
       r[c("url", "expanded_url", "domain", "status")],
-      pb_deliver_paper(x = r, verbose, pb)
+      deliver_fun(x = r, verbose, pb)
     )
   }))
 
@@ -107,6 +112,7 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, verbose = NULL, ...) {
   return(normalise_df(out))
 }
 
+
 #' internal function to deliver specific newspapers
 #' @param pb a progress bar object.
 #' @inheritParams pb_deliver
@@ -114,3 +120,15 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, verbose = NULL, ...) {
 pb_deliver_paper <- function(x, verbose, pb, ...) {
   UseMethod("pb_deliver_paper")
 }
+
+#' version of pb_deliver_paper that supresses errors
+#' @noRd
+s_pb_deliver_paper <- function(x, ...) {
+  tryCatch(pb_deliver_paper(x, ...), error = function(e) {
+    e <<- e
+    msg <- paste0("Problem: ", conditionMessage(e), x$expanded_url, "\n")
+    cli::cli_alert_danger(msg)
+    return(list())
+  })
+}
+

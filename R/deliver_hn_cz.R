@@ -1,8 +1,8 @@
 pb_deliver_paper.hn_cz <- function(x, verbose = NULL, pb, ...) {
 
+  pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- rvest::read_html(charToRaw(enc2utf8(x$content_raw)))
-  pb_tick(x, verbose, pb)
 
   # datetime
   datetime <- html %>%
