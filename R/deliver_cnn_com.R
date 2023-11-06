@@ -1,8 +1,8 @@
 pb_deliver_paper.cnn_com <- function(x, verbose = NULL, pb, ...) {
 
+  pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
-  pb_tick(x, verbose, pb)
 
   # datetime
   datetime <- html %>%
@@ -25,7 +25,7 @@ pb_deliver_paper.cnn_com <- function(x, verbose = NULL, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_elements(".zn-body-text,article,.article__main,BasicArticle__paragraph,[class^=\"Paragraph\"]") %>%
+    rvest::html_elements(".article__content p:not(.editor-note),.zn-body-text,article,.article__main,BasicArticle__paragraph,[class^=\"Paragraph\"]") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 

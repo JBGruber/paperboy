@@ -1,8 +1,8 @@
 pb_deliver_paper.cnet_com <- function(x, verbose = NULL, pb, ...) {
 
+  pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
-  pb_tick(x, verbose, pb)
 
   # datetime
   datetime <- html %>%
@@ -14,6 +14,7 @@ pb_deliver_paper.cnet_com <- function(x, verbose = NULL, pb, ...) {
     suppressWarnings(datetime <- html %>%
                        rvest::html_element("time") %>%
                        rvest::html_text2() %>%
+                       extract("[A-z.]+ \\d+,* \\d+") %>%
                        lubridate::mdy() %>%
                        as.POSIXct())
   }
