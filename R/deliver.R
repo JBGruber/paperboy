@@ -82,6 +82,8 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, ignore_fails = FALSE, v
   }
 
   x$class <- classify(x$domain)
+  # order by domain for progress bar
+  x <- dplyr::arrange(x, domain)
 
   deliver_fun <- ifelse(ignore_fails, s_pb_deliver_paper, pb_deliver_paper)
 
