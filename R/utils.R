@@ -38,9 +38,9 @@ pb_available <- function(...) {
 #' not as is sounds, turns urls into class conform string
 #' @noRd
 classify <- function(url) {
-  url <- sub("^www\\.", "", as.factor(url)) # here for data collected with older version of paperboy
   # as.factor improves speed
-  replace_all(as.factor(url), c(".", "-"), rep("_", 2L), fixed = TRUE)
+  url <- sub("^www\\.", "", as.factor(url)) # remove www for compatibility
+  gsub("\\.|\\-", "_", as.factor(url))
 }
 
 
