@@ -28,27 +28,22 @@ pb_deliver_paper.idnes_cz <- function(x, verbose = NULL, pb, ...) {
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
-  # video
-  media_raw <- html %>%
-    rvest::html_elements(".art-full img,video")
+  cover_image_html <- html %>%
+    rvest::html_elements(".art-full img,video") %>%
+    as.character()
 
-  media_link <- media_raw  %>%
+  cover_image_url <- html %>%
+    rvest::html_element(".art-full img,video") %>%
     rvest::html_attr("src") %>%
-    gsub("^//", "http://", .) %>%
-    as.list()
+    paste0("https:", .)
 
-  media_alt <-  media_raw  %>%
-    rvest::html_attr("alt")
-
-  media <- tibble::tibble(media_alt, media_link)
-
-  # the helper function safely creates a named list from objects
   s_n_list(
     datetime,
     author,
     headline,
     text,
-    media
+    cover_image_url,
+    cover_image_html
   )
 
 }
