@@ -59,7 +59,7 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, ignore_fails = FALSE, v
     if (isTRUE(verbose) && isTRUE(sum(!sel) > 0)) {
       cli::cli_alert_warning(c(
         "{sum(!sel)} URL{?s} removed as no parser is available for the domain{?s}. ",
-        "Set {.fn try_default = TRUE} to try a generic parser for unknown domains."
+        "Set {.code try_default = TRUE} to try a generic parser for unknown domains."
       ))
     }
   }
@@ -126,11 +126,16 @@ pb_deliver_paper <- function(x, verbose, pb, ...) {
 #' version of pb_deliver_paper that supresses errors
 #' @noRd
 s_pb_deliver_paper <- function(x, ...) {
-  tryCatch(pb_deliver_paper(x, ...), error = function(e) {
-    e <<- e
-    msg <- paste0("Problem: ", conditionMessage(e), x$expanded_url, "\n")
-    cli::cli_alert_danger(msg)
-    return(list())
-  })
+  tryCatch(pb_deliver_paper(x, ...),
+           error = function(e) {
+             msg <- paste0("Problem: ", conditionMessage(e), ". URL: ", x$expanded_url, "\n")
+             cli::cli_alert_danger(msg)
+             return(list())
+           },
+           warning = function(w) {
+             msg <- paste0("Warning: ", conditionMessage(w), ". URL: ", x$expanded_url, "\n")
+             cli::cli_alert_info(msg)
+             return(NULL)
+           })
 }
 

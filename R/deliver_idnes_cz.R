@@ -30,7 +30,8 @@ pb_deliver_paper.idnes_cz <- function(x, verbose = NULL, pb, ...) {
 
   cover_image_html <- html %>%
     rvest::html_elements(".art-full img,video") %>%
-    as.character()
+    as.character() %>%
+    paste(collapse = "\n")
 
   cover_image_url <- html %>%
     rvest::html_element(".art-full img,video") %>%
