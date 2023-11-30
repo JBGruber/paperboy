@@ -6,7 +6,7 @@ pb_deliver_paper.default <- function(x, verbose = NULL, pb, ...) {
   if (methods::is(html, "try-error")) {
     # TODO: work-around for weird encoding issues
     tmp <- tempfile(fileext = ".html")
-    writeLines(x$content_raw, tmp)
+    writeLines(gsub("[^ -~]+", "", x$content_raw , useBytes = TRUE), tmp)
     html <- rvest::read_html(tmp)
   }
   warn_once(x$domain)
