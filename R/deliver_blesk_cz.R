@@ -26,24 +26,6 @@ pb_deliver_paper.blesk_cz <- function(x, verbose = NULL, pb, ...) {
   author <- data$author$name %>%
     toString()
 
-  # # datetime
-  # datetime <- html %>%
-  #   rvest::html_element("[property=\"article:published_time\"]") %>%
-  #   rvest::html_attr("content") %>%
-  #   lubridate::as_datetime()
-  #
-  # # headline
-  # headline <- html %>%
-  #   rvest::html_element("title") %>%
-  #   rvest::html_text2()
-  #
-  # # author
-  # author <- html %>%
-  #   rvest::html_elements(".author-container")  %>%
-  #   rvest::html_text2() %>%
-  #   toString() %>%
-  #   sub("Autor: ", "", ., fixed = TRUE)
-
   # text
   text <- html %>%
     rvest::html_elements("#article p,#article h2") %>%
