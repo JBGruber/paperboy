@@ -113,6 +113,7 @@ use_new_parser <- function(x,
       msg_failed = "{r_file} did not pass tests. Please try again"
     )
 
+    attach(getNamespace("paperboy"))
     if (test_parser_consistency(r_file, x)) {
       cli::cli_progress_done()
     } else {

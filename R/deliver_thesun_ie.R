@@ -1,4 +1,4 @@
-pb_deliver_paper.breakingnews_ie <- function(x, verbose = NULL, pb, ...) {
+pb_deliver_paper.thesun_ie <- function(x, verbose = NULL, pb, ...) {
 
   # updates progress bar
   pb_tick(x, verbose, pb)
@@ -7,7 +7,7 @@ pb_deliver_paper.breakingnews_ie <- function(x, verbose = NULL, pb, ...) {
   html <- rvest::read_html(x$content_raw)
 
   data <- html %>%
-    rvest::html_element("script") %>%
+    rvest::html_element("[type=\"application/ld+json\"]") %>%
     rvest::html_text2()
 
   if (!isTRUE(is.na(data))) {
@@ -46,4 +46,3 @@ pb_deliver_paper.breakingnews_ie <- function(x, verbose = NULL, pb, ...) {
   }
 
 }
-

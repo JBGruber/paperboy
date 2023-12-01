@@ -32,8 +32,11 @@
 "idnes.cz","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","",NA
 "independent.co.uk","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","",NA
 "independent.ie","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.independent.ie/rss/section/ada62966-6b00-4ead-a0ba-2c179a0730b0"
+"irishexaminer.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://feeds.feedburner.com/ieireland"
+"irishmirror.ie","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.irishmirror.ie/?service=rss"
 "irishtimes.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.irishtimes.com/arc/outboundfeeds/feed-irish-news/"
 "irozhlas.cz","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.irozhlas.cz/rss/irozhlas"
+"joe.ie","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.joe.ie/feed"
 "latimes.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.latimes.com/politics/rss2.0.xml"
 "lidovky.cz","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://servis.lidovky.cz/rss.aspx"
 "lnk.techrepublic.com","![](https://img.shields.io/badge/status-requested-lightgrey)","","[#1](https://github.com/JBGruber/paperboy/issues/1)",NA
@@ -61,6 +64,8 @@
 "theguardian.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","",NA
 "thejournal.ie","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.thejournal.ie/feed/"
 "thelily.com","![](https://img.shields.io/badge/status-requested-lightgrey)","","[#1](https://github.com/JBGruber/paperboy/issues/1)",NA
+"thestreet.com","![](https://img.shields.io/badge/status-requested-lightgrey)","[@JBGruber](https://github.com/JBGruber/)","","https://news.yahoo.com/rss.xml"
+"thesun.ie","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.thesun.ie/feed/"
 "thismorningwithgordondeal.com","![](https://img.shields.io/badge/status-requested-lightgrey)","","[#1](https://github.com/JBGruber/paperboy/issues/1)",NA
 "time.com","![](https://img.shields.io/badge/status-requested-lightgrey)","","[#1](https://github.com/JBGruber/paperboy/issues/1)",NA
 "tribpub.com","![](https://img.shields.io/badge/status-requested-lightgrey)","","[#1](https://github.com/JBGruber/paperboy/issues/1)",NA
@@ -69,3 +74,4 @@
 "volkskrant.nl","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.volkskrant.nl/rss.xml"
 "washingtonpost.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://feeds.washingtonpost.com/rss/world"
 "wsj.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://feeds.a.dj.com/rss/RSSWorldNews.xml"
+"yahoo.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://news.yahoo.com/rss.xml"
