@@ -29,9 +29,9 @@ pb_deliver_paper.yahoo_com <- function(x, verbose = NULL, pb, ...) {
       rvest::html_text2() %>%
       paste(collapse = "\n")
 
-    cover_image_url <- head(data$image$url, 1L)
+    cover_image_url <- utils::head(data$image$url, 1L)
 
-    type <- data$`@type`
+    type <- purrr::pluck(data, "@type")
 
     s_n_list(
       datetime,

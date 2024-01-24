@@ -4,6 +4,13 @@ test_that("normalise_df works", {
     c("url", "expanded_url", "domain", "status", "datetime", "author",
       "headline", "text", "misc")
   )
+  expect_equal({
+    out <- normalise_df(list(
+      tibble::tibble(url = "test.com/1", test = TRUE),
+      tibble::tibble(url = "test.com/2", test = list(c(TRUE, FALSE)))
+    ))
+    purrr::map(out$misc, "test")
+  }, list(list(TRUE), list(c(TRUE, FALSE))))
 })
 
 test_that("pb_available works", {

@@ -86,7 +86,7 @@ pb_find_rss <- function(x,
 
   # 2. check common suffixes
   if ("suffixes" %in% use) {
-    cli::cli_progress_step("Looking through common pahts on the site")
+    cli::cli_progress_step("Looking through common paths on the site")
     common_suffixes <- c(
       "index.xml",
       "atom.xml",

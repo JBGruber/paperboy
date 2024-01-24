@@ -70,9 +70,23 @@ len_check <- function(x) {
 
 #' @noRd
 #' @importFrom rlang :=
-normalise_df <- function(df) {
+normalise_df <- function(l) {
 
-  df <- tibble::as_tibble(df)
+  # find columns that are a list in any tbl
+  list_cols <- purrr::map(l, function(df) {
+    names(which(purrr::map_lgl(df, is.list)))
+  }) %>%
+    unlist() %>%
+    unique()
+
+  # make the same column in all tbls a list
+  if (!is.null(list_cols)) {
+    for (i in seq_along(l)) {
+      l[[i]] <- dplyr::mutate(l[[i]], dplyr::across(tidyselect::all_of(list_cols), as.list))
+    }
+  }
+
+  df <- dplyr::bind_rows(l)
 
   # the default columns every parser is expected to extract
   expected_cols <- c(

@@ -38,6 +38,7 @@ pb_deliver.character <- function(x, try_default = TRUE, ignore_fails = FALSE, ve
 
 #' @export
 pb_deliver.data.frame <- function(x, try_default = TRUE, ignore_fails = FALSE, verbose = NULL, ...) {
+  domain <- NULL
 
   if (!"content_raw" %in% colnames(x)) {
     cli::cli_abort(paste("x must be a character vector of URLs or a data.frame",
@@ -87,13 +88,14 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, ignore_fails = FALSE, v
 
   deliver_fun <- ifelse(ignore_fails, s_pb_deliver_paper, pb_deliver_paper)
 
-  out <- purrr::list_rbind(purrr::map(purrr::transpose(x), function(r) {
+  out <- purrr::map(purrr::transpose(x), function(r) {
     class(r) <- r$class
     dplyr::bind_cols(
       r[c("url", "expanded_url", "domain", "status")],
       deliver_fun(x = r, verbose, pb)
     )
-  }))
+  }) %>%
+    normalise_df()
 
   if (verbose) {
     cli::cli_progress_done()
@@ -111,7 +113,7 @@ pb_deliver.data.frame <- function(x, try_default = TRUE, ignore_fails = FALSE, v
     rm(list = ls(inform_now_env), envir = inform_now_env)
   }
 
-  return(normalise_df(out))
+  return(out)
 }
 
 
