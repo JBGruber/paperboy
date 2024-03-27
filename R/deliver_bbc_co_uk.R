@@ -24,7 +24,8 @@ pb_deliver_paper.bbc_co_uk <- function(x, verbose = NULL, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_elements("article [class*=\"RichText\"] p,article .story-body p") %>%
+    rvest::html_elements("article [class*=\"RichText\"],article .story-body") %>%
+    rvest::html_elements("p,li") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
