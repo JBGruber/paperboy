@@ -1,7 +1,7 @@
 Package: paperboy
 Title: Comprehensive Collection of News Media Scrapers
 Version: 0.0.6.9000
-Date: 2024-03-27
+Date: 2024-05-01
 Authors@R:
     person(given = "Johannes B.",
            family = "Gruber",
@@ -44,6 +44,6 @@ Suggests:
 URL: https://github.com/JBGruber/paperboy
 Encoding: UTF-8
 BugReports: https://github.com/JBGruber/paperboy/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 Language: en-GB
