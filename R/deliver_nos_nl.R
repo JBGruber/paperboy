@@ -24,8 +24,9 @@ pb_deliver_paper.nos_nl <- function(x, verbose = NULL, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_elements("#content .eHATPt>p") %>%
+    rvest::html_elements("#content p,#content h2") %>%
     rvest::html_text2() %>%
+    setdiff("Deel artikel:") %>%
     paste(collapse = "\n")
 
   cover_image_html <- html %>%
