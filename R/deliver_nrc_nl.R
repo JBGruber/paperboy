@@ -37,7 +37,7 @@ pb_deliver_paper.nrc_nl <- function(x, verbose = NULL, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_elements(".article__content>p,.article__content>.bericht>p,.podcast-content") %>%
+    rvest::html_elements(".article__content>p,.article__content>.bericht>p,.podcast-content,.vorm__article-content>p") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
