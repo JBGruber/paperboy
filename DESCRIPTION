@@ -1,7 +1,7 @@
 Package: paperboy
 Title: Comprehensive Collection of News Media Scrapers
 Version: 0.0.6.9000
-Date: 2024-05-30
+Date: 2024-05-31
 Authors@R:
     person(given = "Johannes B.",
            family = "Gruber",

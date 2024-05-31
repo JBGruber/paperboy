@@ -29,6 +29,12 @@ pb_deliver_paper.volkskrant_nl <- function(x, verbose = NULL, pb, ...) {
     rvest::html_text2() %>%
     toString()
 
+  if (author == "NA") {
+    author <- html %>%
+      rvest::html_element("[name=\"author\"]")  %>%
+      rvest::html_attr("content") %>%
+      toString()
+  }
   # don't put NA in live tickers
   if (length(rvest::html_element(html, ".live-blog__moment__paragraph")) > 0) {
     author <- ""
@@ -36,16 +42,16 @@ pb_deliver_paper.volkskrant_nl <- function(x, verbose = NULL, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_elements(".block-text p,.lead p,.artstyle__intro,.artstyle__paragraph,.live-blog__moment__paragraph") %>%
+    rvest::html_elements(".block-text p,.lead p,.artstyle__intro,.artstyle__paragraph,.live-blog__moment__paragraph,#article-content p") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
   cover_image_html <- html %>%
-    rvest::html_element(".visual .header-video,.artstyle__main img") %>%
+    rvest::html_element(".visual .header-video,.artstyle__main img,#article-content img") %>%
     as.character()
 
   cover_image_url <- html %>%
-    rvest::html_element(".visual video,.artstyle__main img") %>%
+    rvest::html_element(".visual .header-video,.artstyle__main img,#article-content img") %>%
     rvest::html_attr("src")
 
   # the helper function safely creates a named list from objects
