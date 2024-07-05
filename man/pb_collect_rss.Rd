@@ -4,21 +4,25 @@
 \alias{pb_collect_rss}
 \title{Collect RSS feed}
 \usage{
-pb_collect_rss(x, ...)
+pb_collect_rss(x, parse = TRUE, ...)
 }
 \arguments{
 \item{x}{URL(s) to RSS or Atom feed(s).}
 
+\item{parse}{Whether the results should be parsed into a data.frame. Turn off for debugging.}
+
 \item{...}{passed to pb_collect.}
 }
 \value{
-a character vector of URLs to articles
+a data.frame or list
 }
 \description{
-Collect the URLs of articles from RSS or Atom feed(s)
+Collect articles from RSS or Atom feed(s)
 }
 \examples{
 \dontrun{
-pb_collect_rss("https://feeds.washingtonpost.com/rss/world")
+pb_collect_rss("https://www.washingtonpost.com/arcio/rss/")
+# works with atom feeds too
+pb_collect_rss("https://www.nu.nl/rss")
 }
 }

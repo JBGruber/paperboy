@@ -102,6 +102,8 @@ pb_collect <- function(urls,
 
   if (nrow(out) > 0) {
 
+    class(out$content_raw) <- "html_content"
+
     out <- tibble::add_column(
       out,
       domain = adaR::ada_get_domain(out$expanded_url),
@@ -122,7 +124,7 @@ pb_collect <- function(urls,
         if (verbose) cli::cli_progress_step("Parsing RSS feeds")
         cont <- cont[rss]
         class(cont) <- "html_content"
-        rss_links <- pb_collect_rss(cont)
+        rss_links <- pb_collect_rss(cont)$link
         rss_out <- pb_collect(
           rss_links,
           collect_rss = FALSE,
@@ -148,7 +150,6 @@ pb_collect <- function(urls,
   if (verbose) cli::cli_progress_done()
   attr(out, "paperboy_collected_at") <- Sys.time()
   attr(out, "paperboy_data_loc") <- ifelse(is.null(save_dir), "memory", "disk")
-
   return(out)
 }
 
