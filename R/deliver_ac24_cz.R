@@ -1,3 +1,4 @@
+#' @export
 pb_deliver_paper.ac24_cz <- function(x, verbose = NULL, pb, ...) {
 
   # raw html is stored in column content_raw

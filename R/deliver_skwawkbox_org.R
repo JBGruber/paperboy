@@ -1,3 +1,4 @@
+#' @export
 pb_deliver_paper.skwawkbox_org <- function(x, verbose = NULL, pb, ...) {
 
   pb_tick(x, verbose, pb)

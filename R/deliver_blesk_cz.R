@@ -1,3 +1,4 @@
+#' @export
 pb_deliver_paper.blesk_cz <- function(x, verbose = NULL, pb, ...) {
 
   html <- rvest::read_html(x$content_raw)

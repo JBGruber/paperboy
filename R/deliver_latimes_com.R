@@ -1,3 +1,4 @@
+#' @export
 
 pb_deliver_paper.latimes_com <- function(x, verbose = NULL, pb, ...) {
 

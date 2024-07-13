@@ -1,3 +1,4 @@
+#' @export
 pb_deliver_paper.washingtonpost_com <- function(x, verbose, pb, ...) {
 
   pb_tick(x, verbose, pb)

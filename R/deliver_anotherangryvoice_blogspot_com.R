@@ -1,3 +1,4 @@
+#' @export
 pb_deliver_paper.anotherangryvoice_blogspot_com <- function(x, verbose = NULL, pb, ...) {
 
   pb_tick(x, verbose, pb)

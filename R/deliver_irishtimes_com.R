@@ -1,3 +1,4 @@
+#' @export
 pb_deliver_paper.irishtimes_com <- function(x, verbose = NULL, pb, ...) {
 
   # updates progress bar

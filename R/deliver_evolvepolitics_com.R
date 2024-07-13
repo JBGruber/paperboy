@@ -1,3 +1,4 @@
+#' @export
 pb_deliver_paper.evolvepolitics_com <- function(x, verbose = NULL, pb, ...) {
 
   pb_tick(x, verbose, pb)

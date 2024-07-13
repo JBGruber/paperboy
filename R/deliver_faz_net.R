@@ -1,3 +1,4 @@
+#' @export
 pb_deliver_paper.faz_net <- function(x, verbose = NULL, pb, ...) {
 
   pb_tick(x, verbose, pb)

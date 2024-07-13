@@ -1,3 +1,4 @@
+#' @export
 pb_deliver_paper.zeit_de <- function(x, verbose = NULL, pb, ...) {
 
   # updates progress bar

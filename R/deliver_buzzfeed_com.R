@@ -1,3 +1,4 @@
+#' @export
 pb_deliver_paper.buzzfeed_com <- function(x, verbose = NULL, pb, ...) {
 
   pb_tick(x, verbose, pb)
