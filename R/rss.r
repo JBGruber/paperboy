@@ -1,43 +1,78 @@
 #' Collect RSS feed
 #'
-#' Collect the URLs of articles from RSS or Atom feed(s)
+#' Collect articles from RSS or Atom feed(s)
 #'
 #' @param x URL(s) to RSS or Atom feed(s).
+#' @param parse Whether the results should be parsed into a data.frame. Turn off for debugging.
 #' @param ... passed to pb_collect.
 #'
-#' @return a character vector of URLs to articles
+#' @return a data.frame or list
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' pb_collect_rss("https://feeds.washingtonpost.com/rss/world")
+#' pb_collect_rss("https://www.washingtonpost.com/arcio/rss/")
+#' # works with atom feeds too
+#' pb_collect_rss("https://www.nu.nl/rss")
 #' }
-pb_collect_rss <- function(x, ...) {
-  if (!methods::is(x, "html_content")) {
-    df <- pb_collect(x, collect_rss = FALSE, ...)
-    x <- unlist(df[df$status < 400L, "content_raw"])
+pb_collect_rss <- function(x, parse = TRUE, ...) {
+  if (!methods::is(x, "html_content") && !purrr::pluck_exists(x, "content_raw")) {
+    x <- pb_collect(x, collect_rss = FALSE, ...)
+  }
+  if (purrr::pluck_exists(x, "content_raw")) {
+    x <- unlist(x[x$status < 400L, "content_raw"])
   }
 
-  lapply(x, function(x) {
-    # for rss
-    out <- x %>%
-      xml2::read_xml() %>%
-      xml2::xml_find_all("//*[name()='item']") %>%
-      xml2::as_list() %>%
-      purrr::map("link")
-    # for atom
-    if (length(out) < 1L) {
-      out <- x %>%
-        xml2::read_xml() %>%
-        xml2::xml_find_all("//*[name()='entry']") %>%
-        xml2::as_list() %>%
-        purrr::map(function(e) attr(e[["link"]], "href"))
-    }
+  out <- purrr::map(x, parse_rss)
+  out <- unlist(out, recursive = FALSE)
+  if (parse) {
+    return(dplyr::bind_rows(out))
+  } else {
     return(out)
-  }) %>%
-    unlist() %>%
-    unname()
+  }
+}
 
+
+parse_rss <- function(xml) {
+  #  to make RSS and atom feed output equal
+  lookup <- c(
+    "guid"        = "id",
+    "pubDate"     = "published",
+    "description" = "summary",
+    "author"      = "author"
+  )
+
+  items <- xml %>%
+    xml2::read_xml() %>%
+    xml2::xml_find_all("//*[name()='item']") %>%
+    xml2::as_list() %>%
+    purrr::map(function(i) {
+      out <- lapply(i, unlist)
+      out <- out[!duplicated(names(i))]
+      out <- replace_names(out, lookup)
+      return(out)
+    })
+
+  if (length(items) < 1L) {
+    items <- parse_atom(xml)
+  }
+
+  return(items)
+}
+
+parse_atom <- function(xml) {
+  xml %>%
+    xml2::read_xml() %>%
+    xml2::xml_find_all("//*[name()='entry']") %>%
+    xml2::as_list() %>%
+    purrr::map(function(i) {
+      link <- attr(i[["link"]], "href")
+      out <- lapply(i, unlist)
+      # input contains multiple "link" items, delete them
+      out[["link"]] <- NULL
+      out[["url"]] <- link
+      return(out)
+    })
 }
 
 

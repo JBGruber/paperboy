@@ -118,7 +118,7 @@ normalise_df <- function(l) {
 
 
 #' base R version of stringi::stri_replace_all() to limit dependencies
-#' @noRd
+#' @keywords internal
 replace_all <- function(str, pattern, replacement, fixed = TRUE) {
   for (i in seq_along(pattern)) str <- gsub(pattern[i], replacement[i], str, fixed = fixed)
   return(str)
@@ -129,6 +129,15 @@ replace_all <- function(str, pattern, replacement, fixed = TRUE) {
 #' @keywords internal
 extract <- function(str, pattern) {
   regmatches(str, regexpr(pattern, str, perl = TRUE))
+}
+
+
+#' replace names of an object given a lookuptable
+#' @keywords internal
+replace_names <- function(x, lookup) {
+  replacement <- lookup[names(x)]
+  names(x) <- ifelse(is.na(replacement), names(x), replacement)
+  return(x)
 }
 
 

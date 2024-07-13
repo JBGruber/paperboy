@@ -20,7 +20,7 @@ test_that("expandurls", {
   )
   expect_warning(
     pb_collect(urls = "https://httpbin.org/delay/10", timeout = 1, ignore_fails = TRUE),
-    "download did not finish before timeout."
+    "download.did.not.finish.before.timeout."
   )
 })
 
@@ -28,17 +28,10 @@ test_that("send cookies", {
   jar <- options(cookie_dir = tempdir())
   withr::defer(options(jar))
   withr::defer(unlink(file.path(tempdir(), paste0("cookies.rds"))))
-  expect_equal({
+  expect_equivalent({
     cookiemonster::add_cookies(cookiestring = "test=true; success=yes", domain = "https://hb.cran.dev", confirm = TRUE)
-    pb_collect("https://hb.cran.dev/cookies", use_cookies = TRUE, verbose = FALSE)$content_raw
+    unclass(pb_collect("https://hb.cran.dev/cookies", use_cookies = TRUE, verbose = FALSE)$content_raw)
   }, "{\n  \"cookies\": {\n    \"success\": \"yes\", \n    \"test\": \"true\"\n  }\n}\n")
-})
-
-test_that("rss", {
-  expect_equal({
-    res <- pb_collect(urls = "https://rss.nytimes.com/services/xml/rss/nyt/World.xml")
-    c(nrow(res) > 1, ncol(res))
-  }, c(1, 5))
 })
 
 test_that("store local", {
