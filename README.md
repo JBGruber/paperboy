@@ -120,6 +120,7 @@ column was included so these can be retained.
 | blesk.cz                       | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | boston.com                     | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1)   |
 | bostonglobe.com                | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1)   |
+| breakingnews.ie                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | breitbart.com                  | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | buzzfeed.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | cbslnk.cbsileads.com           | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1)   |
@@ -143,7 +144,12 @@ column was included so these can be retained.
 | huffingtonpost.co.uk           | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | idnes.cz                       | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | independent.co.uk              | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| independent.ie                 | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| irishexaminer.com              | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| irishmirror.ie                 | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| irishtimes.com                 | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | irozhlas.cz                    | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| joe.ie                         | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | latimes.com                    | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | lidovky.cz                     | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | lnk.techrepublic.com           | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1)   |
@@ -151,6 +157,7 @@ column was included so these can be retained.
 | mediacourant.nl                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | metronieuws.nl                 | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | msnbc.com                      | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1)   |
+| newstatesman.com               | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | newsweek.com                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | nos.nl                         | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | novinky.cz                     | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
@@ -160,14 +167,20 @@ column was included so these can be retained.
 | nytimes.com                    | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | [@JBGruber](https://github.com/JBGruber/) | [\#17](https://github.com/JBGruber/paperboy/issues/17) |
 | pagesix.com                    | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1)   |
 | parlamentnilisty.cz            | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| rte.ie                         | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| rtl.nl                         | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | seznamzpravy.cz                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | sfgate.com                     | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | skwawkbox.org                  | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| sky.com                        | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | telegraaf.nl                   | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | [@JBGruber](https://github.com/JBGruber/) | [\#17](https://github.com/JBGruber/paperboy/issues/17) |
 | telegraph.co.uk                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | thecanary.co                   | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | theguardian.com                | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| thejournal.ie                  | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | thelily.com                    | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1)   |
+| thestreet.com                  | ![](https://img.shields.io/badge/status-requested-lightgrey)  | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| thesun.ie                      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | thismorningwithgordondeal.com  | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1)   |
 | time.com                       | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1)   |
 | tribpub.com                    | ![](https://img.shields.io/badge/status-requested-lightgrey)  |                                           | [\#1](https://github.com/JBGruber/paperboy/issues/1)   |
@@ -176,6 +189,8 @@ column was included so these can be retained.
 | volkskrant.nl                  | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | washingtonpost.com             | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 | wsj.com                        | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| yahoo.com                      | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
+| zeit.de                        | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg)   | [@JBGruber](https://github.com/JBGruber/) |                                                        |
 
 - ![](https://img.shields.io/badge/status-gold-%23ffd700.svg): Runs
   without known issues
