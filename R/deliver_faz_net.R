@@ -18,7 +18,7 @@ pb_deliver_paper.faz_net <- function(x, verbose = NULL, pb, ...) {
 
   # datetime
   datetime <- html %>%
-    html_search(c(".atc-MetaTime", ".tsr-Base_ContentMetaTime", "Datum", ".entry-date"),
+    html_search(c("time", ".atc-MetaTime", ".tsr-Base_ContentMetaTime", "Datum", ".entry-date"),
                 c("datetime", "text")) %>%
     lubridate::as_datetime()
 
@@ -42,17 +42,17 @@ pb_deliver_paper.faz_net <- function(x, verbose = NULL, pb, ...) {
   # headline
   headline <- html %>%
     rvest::html_elements("title") %>%
-    rvest::html_text("content")
+    rvest::html_text()
 
   # author
   author <- html %>%
-    rvest::html_elements(".atc-MetaAuthorLink,.entry-author")  %>%
+    rvest::html_elements("a .header-detail--bold,.atc-MetaAuthorLink,.entry-author")  %>%
     rvest::html_text() %>%
     toString()
 
   # text
   text <- html %>%
-    rvest::html_elements(".atc-IntroText,.atc-TextParagraph,.single-entry-content") %>%
+    rvest::html_elements(".body-elements__paragraph,.atc-IntroText,.atc-TextParagraph,.single-entry-content") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
