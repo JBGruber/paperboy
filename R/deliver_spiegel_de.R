@@ -1,16 +1,16 @@
 #' @export
-pb_deliver_paper.spiegel.de <- function(x, verbose = NULL, pb, ...) {
+pb_deliver_paper.spiegel_de <- function(x, verbose = NULL, pb, ...) {
   pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
 
   datetime <- html %>%
-      html_search(c("time"),c("datetime")) %>%
+      html_search(c("time"), c("datetime")) %>%
       lubridate::as_datetime()
 
   # headline
   headline <- html %>%
-      rvest::html_nodes(".font-brandUI .align-middle") %>%
+      rvest::html_nodes(".font-brandUI .align-middle,.block.font-serifdisplayUI .align-middle") %>%
       rvest::html_text()
 
   if(length(headline) > 1) {
