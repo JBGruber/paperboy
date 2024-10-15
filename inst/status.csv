@@ -4,7 +4,7 @@
 "aktualne.cz","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.aktualne.cz/rss"
 "anotherangryvoice.blogspot.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","",NA
 "bbc.co.uk","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://feeds.bbci.co.uk/news/rss.xml"
-"bild.de","![](https://img.shields.io/badge/status-requested-lightgrey)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","http://www.bild.de/rssfeeds/rss3-20745882,feed=alles.bild.html"
+"bild.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","http://www.bild.de/rssfeeds/rss3-20745882,feed=alles.bild.html"
 "blesk.cz","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.blesk.cz/rss"
 "boston.com","![](https://img.shields.io/badge/status-requested-lightgrey)","","[#1](https://github.com/JBGruber/paperboy/issues/1)",NA
 "bostonglobe.com","![](https://img.shields.io/badge/status-requested-lightgrey)","","[#1](https://github.com/JBGruber/paperboy/issues/1)",NA
@@ -61,7 +61,7 @@
 "sfgate.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","",NA
 "skwawkbox.org","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","",NA
 "sky.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://feeds.skynews.com/feeds/rss/home.xml"
-"spiegel.de","![](https://img.shields.io/badge/status-requested-lightgrey)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.spiegel.de/schlagzeilen/index.rss"
+"spiegel.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.spiegel.de/schlagzeilen/index.rss"
 "telegraaf.nl","![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)","[@JBGruber](https://github.com/JBGruber/)","[#17](https://github.com/JBGruber/paperboy/issues/17)","https://www.telegraaf.nl/rss.xml"
 "telegraph.co.uk","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","",NA
 "thecanary.co","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","",NA
@@ -77,6 +77,7 @@
 "usatoday.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","",NA
 "volkskrant.nl","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.volkskrant.nl/rss.xml"
 "washingtonpost.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://feeds.washingtonpost.com/rss/world"
+"welt.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.welt.de/feeds/latest.rss"
 "wsj.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://feeds.a.dj.com/rss/RSSWorldNews.xml"
 "yahoo.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://news.yahoo.com/rss.xml"
 "zeit.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.zeit.de/index"
