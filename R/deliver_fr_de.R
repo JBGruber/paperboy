@@ -4,7 +4,7 @@ pb_deliver_paper.fr_de <- function(x, verbose = NULL, pb, ...) {
     # raw html is stored in column content_raw
     html <- rvest::read_html(x$content_raw)
 
-    json_txt <- rvest::html_nodes(html, "script[type = \"application/ld+json\"] ")[1] |> rvest::html_text()
+    json_txt <- rvest::html_nodes(html, "script[type = \"application/ld+json\"] ")[1] %>% rvest::html_text()
     json_df <- jsonlite::fromJSON(json_txt)
     json_df <- json_df$mainEntity
 
