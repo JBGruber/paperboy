@@ -9,6 +9,8 @@ pb_deliver_paper.karlsruhe_insider_de <- function(x, verbose = NULL, pb, ...) {
     json_df <- json_df$`@graph`
     if (any(json_df$`@type` == "Person")) {
         author <- toString(json_df$name[json_df$`@type` == "Person"])
+    } else {
+        author <- ""
     }
     json_df <- json_df[1, ]
     datetime <- lubridate::as_datetime(json_df$datePublished)
