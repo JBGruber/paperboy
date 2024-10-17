@@ -14,7 +14,7 @@ pb_deliver_paper.express_de <- function(x, verbose = NULL, pb, ...) {
     }
     json_df <- json_df[grepl("NewsArticle", json_df$`@type`), ]
     datetime <- lubridate::as_datetime(json_df$datePublished)
-    headline <- json_df$headline
+    headline <- sub(" \\| .*", "", json_df$headline)
     text <- html %>%
         rvest::html_nodes(".dm-article__intro,.dm-paragraph,.dm-article__subheadline") %>%
         rvest::html_text2() %>%
