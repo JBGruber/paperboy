@@ -3,6 +3,7 @@
 S3method(pb_deliver,character)
 S3method(pb_deliver,data.frame)
 S3method(pb_deliver,default)
+S3method(pb_deliver_paper,abendblatt_de)
 S3method(pb_deliver_paper,ac24_cz)
 S3method(pb_deliver_paper,ad_nl)
 S3method(pb_deliver_paper,aktualne_cz)

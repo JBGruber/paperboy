@@ -1,4 +1,5 @@
 "domain","status","author","issues","rss"
+"abendblatt.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)", "https://www.abendblatt.de/rss"
 "ac24.cz","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.ac24.cz/feed/"
 "ad.nl","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.ad.nl/home/rss.xml"
 "aktualne.cz","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.aktualne.cz/rss"
