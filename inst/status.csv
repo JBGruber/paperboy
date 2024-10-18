@@ -101,6 +101,7 @@
 "nytimes.com","![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)","[@JBGruber](https://github.com/JBGruber/)","[#17](https://github.com/JBGruber/paperboy/issues/17)","https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
 "nzz.ch","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.nzz.ch/recent.rss"
 "orf.at","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://rss.orf.at/news.xml"
+"ostsee-zeitung.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)", NA
 "pagesix.com","![](https://img.shields.io/badge/status-requested-lightgrey)","","[#1](https://github.com/JBGruber/paperboy/issues/1)",NA
 "parlamentnilisty.cz","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","http://www.parlamentnilisty.cz/export/rss.aspx"
 "presseportal.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.presseportal.de/rss/presseportal.rss2"
