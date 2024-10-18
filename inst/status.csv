@@ -28,10 +28,11 @@
 "dailymail.co.uk","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.dailymail.co.uk/news/index.rss"
 "decider.com","![](https://img.shields.io/badge/status-requested-lightgrey)","","[#1](https://github.com/JBGruber/paperboy/issues/1)",NA
 "denikn.cz","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://denikn.cz/rss"
+"derstandard.at","![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)", "https://www.derstandard.at/rss"
+"derwesten.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.derwesten.de/feed"
 "der-postillon.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)", NA
 "deutschlandfunk.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.deutschlandfunk.de/nachrichten-100.rss"
 "deutschlandfunkkultur.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.deutschlandfunkkultur.de/politik-114.rss"
-"badische-zeitung.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.derwesten.de/feed"
 "echo24.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)", NA
 "edition.cnn.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","http://rss.cnn.com/rss/edition.rss"
 "eu.usatoday.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","",NA
