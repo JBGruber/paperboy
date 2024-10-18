@@ -10,9 +10,9 @@ pb_deliver_paper.br_de <- function(x, verbose = NULL, pb, ...) {
         types <- sapply(json_df, function(x) x$`@type`)
         if (any(types == "NewsArticle")) {
             json_df <- json_df[types == "NewsArticle"][[1]]
-        } else if (any(type == "VideoObject")) {
+        } else if (any(types == "VideoObject")) {
             json_df <- json_df[types == "VideoObject"][[1]]
-        } else if (any(type == "AudioObject")) {
+        } else if (any(types == "AudioObject")) {
             json_df <- json_df[types == "AudioObject"][[1]]
         }
     }
