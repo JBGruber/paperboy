@@ -1,5 +1,5 @@
 #' @export
-pb_deliver_paper.rp_online_de <- function(x, verbose = NULL, pb, ...) {
+pb_deliver_paper.tz_de <- function(x, verbose = NULL, pb, ...) {
     pb_tick(x, verbose, pb)
     # raw html is stored in column content_raw
     html <- rvest::read_html(x$content_raw)
@@ -9,12 +9,12 @@ pb_deliver_paper.rp_online_de <- function(x, verbose = NULL, pb, ...) {
         return(s_n_list())
     } else {
         json_df <- jsonlite::fromJSON(json_txt[1])
-
+        json_df <- json_df$mainEntity
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_nodes("strong[data-cy=\"intro\"],div[data-cy=\"article_content\"] p") %>%
+            rvest::html_nodes(".id-StoryElement-leadText,.id-StoryElement-crosshead,.id-StoryElement-paragraph") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 
