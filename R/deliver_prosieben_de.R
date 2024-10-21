@@ -9,12 +9,10 @@ pb_deliver_paper.prosieben_de <- function(x, verbose = NULL, pb, ...) {
         return(s_n_list())
     } else {
         if (length(json_txt) == 2) {
-            json_txt <- json_txt[2] %>% rvest::html_text()
-        } else {
-            json_txt <- json_txt %>% rvest::html_text()
+            json_txt <- json_txt[2]
         }
         json_df <- jsonlite::fromJSON(json_txt)
-        if (json_df$`@type` != "VideoObject") { # NewsArticle
+        if (json_df$`@type` != "VideoObject" && json_df$`@type` != "FAQPage") { # NewsArticle
             datetime <- lubridate::as_datetime(json_df$datePublished)
             headline <- json_df$headline
             author <- toString(json_df$author$name)
@@ -22,6 +20,8 @@ pb_deliver_paper.prosieben_de <- function(x, verbose = NULL, pb, ...) {
                 rvest::html_elements(".css-f9qfdi p.css-bq2685,.css-f9qfdi h2") %>%
                 rvest::html_text2() %>%
                 paste(collapse = "\n")
+        } else if (json_df$`@type` != "FAQPage") {
+            return(s_n_list())
         } else {
             datetime <- lubridate::as_datetime(json_df$uploadDate)
             headline <- json_df$name

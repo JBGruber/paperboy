@@ -8,6 +8,9 @@ pb_deliver_paper.rnd_de <- function(x, verbose = NULL, pb, ...) {
     if (isTRUE(is.na(json_txt)) || length(json_txt) == 0) {
         return(s_n_list())
     } else {
+        if (length(json_txt) <= 2) {
+            return(s_n_list())
+        }
         json_df <- jsonlite::fromJSON(json_txt[3])
 
         datetime <- lubridate::as_datetime(json_df$datePublished)
