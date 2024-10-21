@@ -9,6 +9,9 @@ pb_deliver_paper.focus_de <- function(x, verbose = NULL, pb, ...) {
         return(s_n_list())
     } else {
         json_df <- jsonlite::fromJSON(json_txt[1])
+        if ("@graph" %in% names(json_df)) {
+            json_df <- json_df$`@graph`
+        }
         if (json_df$`@type` != "NewsArticle") {
             return(s_n_list())
         }
