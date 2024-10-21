@@ -5,7 +5,7 @@ pb_deliver_paper.badische_zeitung_de <- function(x, verbose = NULL, pb, ...) {
     html <- rvest::read_html(iconv(x$content_raw, from = "ISO-8859-1", to = "UTF-8"))
 
     json_txt <- rvest::html_elements(html, "script[type = \"application/ld+json\"] ") %>% rvest::html_text()
-    if (isTRUE(is.na(json_txt))) {
+    if (isTRUE(is.na(json_txt)) || length(json_txt) == 0) {
         return(s_n_list())
     } else {
         json_df <- jsonlite::fromJSON(json_txt[1])

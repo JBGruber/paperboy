@@ -6,7 +6,7 @@ pb_deliver_paper.wdr_de <- function(x, verbose = NULL, pb, ...) {
 
     # careful: json can have many objects but the first seems to be the article
     json_txt <- rvest::html_elements(html, "script[type = \"application/ld+json\"] ") %>% rvest::html_text()
-    if (isTRUE(is.na(json_txt))) {
+    if (isTRUE(is.na(json_txt)) || length(json_txt) == 0) {
         return(s_n_list())
     } else {
         json_df <- jsonlite::fromJSON(json_txt[1])
