@@ -9,7 +9,9 @@ pb_deliver_paper.focus_de <- function(x, verbose = NULL, pb, ...) {
         return(s_n_list())
     } else {
         json_df <- jsonlite::fromJSON(json_txt[1])
-
+        if (json_df$`@type` != "NewsArticle") {
+            return(s_n_list())
+        }
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
         author <- toString(json_df$author$name)
