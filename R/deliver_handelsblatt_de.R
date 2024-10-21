@@ -12,7 +12,7 @@ pb_deliver_paper.handelsblatt_com <- function(x, verbose = NULL, pb, ...) {
     } else if (json_df$type == "404") {
         html <- rvest::read_html(x$content_raw)
         weekdays_de <- paste0(c("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"), collapse = "|")
-        months_de <- c("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember")
+        months_de <- c("Januar", "Februar", "M\U00E4rz", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember")
 
         date_string <- html %>%
             rvest::html_node(".post-date .meta-text") |>
@@ -25,7 +25,7 @@ pb_deliver_paper.handelsblatt_com <- function(x, verbose = NULL, pb, ...) {
         }
 
         date_string <- gsub("Uhr", "", date_string)
-        date_string <- gsub("‒", "", date_string)
+        date_string <- gsub("-", "", date_string)
         date_string <- gsub(",", "", date_string)
 
         datetime <- lubridate::as_datetime(date_string, format = "%d. %m %Y %H:%M ")
