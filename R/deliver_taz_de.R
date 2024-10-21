@@ -5,7 +5,7 @@ pb_deliver_paper.taz_de <- function(x, verbose = NULL, pb, ...) {
     html <- rvest::read_html(x$content_raw)
 
     json_txt <- rvest::html_elements(html, "script[type = \"application/ld+json\"] ") %>% rvest::html_text2()
-    if (isTRUE(is.na(json_txt)) || length(json_txt) == 0) {
+    if (isTRUE(is.na(json_txt)) || length(json_txt) <= 2) {
         return(s_n_list())
     } else {
         json_df <- jsonlite::fromJSON(json_txt[3])
