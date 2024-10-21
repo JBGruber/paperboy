@@ -15,7 +15,7 @@ pb_deliver_paper.handelsblatt_com <- function(x, verbose = NULL, pb, ...) {
         months_de <- c("Januar", "Februar", "M\U00E4rz", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember")
 
         date_string <- html %>%
-            rvest::html_node(".post-date .meta-text") |>
+            rvest::html_element(".post-date .meta-text") |>
             rvest::html_text2()
         date_string <- gsub(weekdays_de, "", date_string)
 
@@ -30,11 +30,11 @@ pb_deliver_paper.handelsblatt_com <- function(x, verbose = NULL, pb, ...) {
 
         datetime <- lubridate::as_datetime(date_string, format = "%d. %m %Y %H:%M ")
         headline <- html %>%
-            rvest::html_node("h1.entry-title") %>%
+            rvest::html_element("h1.entry-title") %>%
             rvest::html_text()
         author <- ""
         text <- html %>%
-            rvest::html_nodes(".entry-content p, .entry-content h2") %>%
+            rvest::html_elements(".entry-content p, .entry-content h2") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
     } else {

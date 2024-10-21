@@ -19,7 +19,7 @@ pb_deliver_paper.newsflash24_de <- function(x, verbose = NULL, pb, ...) {
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
         text <- html %>%
-            rvest::html_nodes(".entry-content p, .entry-content h2") %>%
+            rvest::html_elements(".entry-content p, .entry-content h2") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

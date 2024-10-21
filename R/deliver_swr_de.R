@@ -6,18 +6,18 @@ pb_deliver_paper.swr_de <- function(x, verbose = NULL, pb, ...) {
 
 
     datetime <- html %>%
-        rvest::html_node("time") %>%
+        rvest::html_element("time") %>%
         rvest::html_attr("datetime") %>%
         lubridate::as_datetime()
     headline <- html %>%
-        rvest::html_node("h1.headline") %>%
+        rvest::html_element("h1.headline") %>%
         rvest::html_text()
     author <- html %>%
-        rvest::html_nodes(".meta-top .meta-authors .meta-author-name a") %>%
+        rvest::html_elements(".meta-top .meta-authors .meta-author-name a") %>%
         rvest::html_text2() %>%
         toString()
     text <- html %>%
-        rvest::html_nodes(".detail-body .lead, .bodytext p, .bodytext h2") %>%
+        rvest::html_elements(".detail-body .lead, .bodytext p, .bodytext h2") %>%
         rvest::html_text2() %>%
         paste(collapse = "\n")
 

@@ -19,7 +19,7 @@ pb_deliver_paper.rollingstone_de <- function(x, verbose = NULL, pb, ...) {
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
         text <- html %>%
-            rvest::html_nodes(".asmb-article-excerpt,.asmb-article-content-container h2,.asmb-article-content-container p") %>%
+            rvest::html_elements(".asmb-article-excerpt,.asmb-article-content-container h2,.asmb-article-content-container p") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

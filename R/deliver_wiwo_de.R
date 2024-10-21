@@ -15,7 +15,7 @@ pb_deliver_paper.wiwo_de <- function(x, verbose = NULL, pb, ...) {
             headline <- json_df$headline
             author <- toString(json_df$creator)
             text <- html %>%
-                rvest::html_nodes(".c-leadtext,.u-richtext h3,.u-richtext p") %>%
+                rvest::html_elements(".c-leadtext,.u-richtext h3,.u-richtext p") %>%
                 rvest::html_text2() %>%
                 .[!grepl("Lesen Sie auch", .)] %>% # Remove links in between
                 paste(collapse = "\n")

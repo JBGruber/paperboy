@@ -17,7 +17,7 @@ pb_deliver_paper.zdf_de <- function(x, verbose = NULL, pb, ...) {
             headline <- json_df$headline
             author <- toString(json_df$author$name)
             text <- html %>%
-                rvest::html_nodes(".r1nj4qn5") %>%
+                rvest::html_elements(".r1nj4qn5") %>%
                 rvest::html_text2() %>%
                 paste(collapse = "\n")
         } else if (json_df$`@type` == "VideoObject") {
@@ -27,11 +27,11 @@ pb_deliver_paper.zdf_de <- function(x, verbose = NULL, pb, ...) {
             text <- json_df$description
         } else {
             datetime <- html %>%
-                rvest::html_node("time") %>%
+                rvest::html_element("time") %>%
                 rvest::html_attr("datetime") %>%
                 lubridate::as_datetime()
             headline <- html %>%
-                rvest::html_node("main h2") %>%
+                rvest::html_element("main h2") %>%
                 rvest::html_text2()
             author <- ""
             text <- ""

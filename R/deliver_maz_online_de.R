@@ -14,7 +14,7 @@ pb_deliver_paper.maz_online_de <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_nodes("header .Textstyled__Text-sc-1cqv9mi-0, article .Textstyled__Text-sc-1cqv9mi-0, article h2") %>%
+            rvest::html_elements("header .Textstyled__Text-sc-1cqv9mi-0, article .Textstyled__Text-sc-1cqv9mi-0, article h2") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

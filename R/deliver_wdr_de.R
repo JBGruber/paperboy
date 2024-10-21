@@ -16,7 +16,7 @@ pb_deliver_paper.wdr_de <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author$name) %>% gsub("/", ",", .)
         text <- html %>%
-            rvest::html_nodes(".einleitung,.text,.subtitle") %>%
+            rvest::html_elements(".einleitung,.text,.subtitle") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

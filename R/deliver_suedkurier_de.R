@@ -11,14 +11,14 @@ pb_deliver_paper.suedkurier_de <- function(x, verbose = NULL, pb, ...) {
         json_df <- jsonlite::fromJSON(json_txt[1])
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- html %>%
-            rvest::html_node("header h1") %>%
+            rvest::html_element("header h1") %>%
             rvest::html_text()
         author <- paste0("<p>", json_df$author$name, "</p>", collapse = ",") %>%
             rvest::read_html() %>%
             rvest::html_text() %>%
             toString()
         text <- html %>%
-            rvest::html_nodes(".article-summary,.article-jsonld.article-paywall-summary,.article-jsonld p") %>%
+            rvest::html_elements(".article-summary,.article-jsonld.article-paywall-summary,.article-jsonld p") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

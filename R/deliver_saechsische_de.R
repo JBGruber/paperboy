@@ -17,7 +17,7 @@ pb_deliver_paper.saechsische_de <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_nodes(".Textstyled__Text-sc-1cqv9mi-0, .Headlinestyled__Headline-sc-mamptc-0") %>%
+            rvest::html_elements(".Textstyled__Text-sc-1cqv9mi-0, .Headlinestyled__Headline-sc-mamptc-0") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

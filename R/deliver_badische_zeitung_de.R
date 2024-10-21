@@ -14,7 +14,7 @@ pb_deliver_paper.badische_zeitung_de <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author)
         text <- html %>%
-            rvest::html_nodes("section[role = \"article\"], .article-site__topic") %>%
+            rvest::html_elements("section[role = \"article\"], .article-site__topic") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

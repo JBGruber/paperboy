@@ -14,7 +14,7 @@ pb_deliver_paper.finanzen_net <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_nodes("p.h3, .news-container__text p, .news-container__text h2") %>%
+            rvest::html_elements("p.h3, .news-container__text p, .news-container__text h2") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

@@ -14,7 +14,7 @@ pb_deliver_paper.kabeleins_de <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_nodes("p.css-1tkp8z5, h2.css-xfddm,p.css-1pcz62z") %>%
+            rvest::html_elements("p.css-1tkp8z5, h2.css-xfddm,p.css-1pcz62z") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

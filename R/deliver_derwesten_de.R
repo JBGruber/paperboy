@@ -13,12 +13,12 @@ pb_deliver_paper.derwesten_de <- function(x, verbose = NULL, pb, ...) {
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
         author <- html %>%
-            rvest::html_nodes(".author.vcard .url.fn.n") %>%
+            rvest::html_elements(".author.vcard .url.fn.n") %>%
             rvest::html_text() %>%
             toString()
 
         text <- html %>%
-            rvest::html_nodes(".lead p,.article-body p") %>%
+            rvest::html_elements(".lead p,.article-body p") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

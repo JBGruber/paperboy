@@ -19,8 +19,8 @@ pb_deliver_paper.karlsruhe_insider_de <- function(x, verbose = NULL, pb, ...) {
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
         text <- html %>%
-            rvest::html_node("article .td-post-content") %>%
-            rvest::html_nodes("p, h2") %>%
+            rvest::html_element("article .td-post-content") %>%
+            rvest::html_elements("p, h2") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

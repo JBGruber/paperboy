@@ -14,7 +14,7 @@ pb_deliver_paper.lvz_de <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_nodes(".Articlestyled__ArticleBodyWrapper-sc-7y75gq-2 .Headlinestyled__Headline-sc-mamptc-0,.Articlestyled__ArticleBodyWrapper-sc-7y75gq-2 .Textstyled__Text-sc-1cqv9mi-0") %>%
+            rvest::html_elements(".Articlestyled__ArticleBodyWrapper-sc-7y75gq-2 .Headlinestyled__Headline-sc-mamptc-0,.Articlestyled__ArticleBodyWrapper-sc-7y75gq-2 .Textstyled__Text-sc-1cqv9mi-0") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

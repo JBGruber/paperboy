@@ -14,7 +14,7 @@ pb_deliver_paper.nzz_ch <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_nodes(".headline__lead,.articlecomponent.text,.subtitle,.articlecomponent") %>%
+            rvest::html_elements(".headline__lead,.articlecomponent.text,.subtitle,.articlecomponent") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

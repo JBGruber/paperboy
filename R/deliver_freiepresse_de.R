@@ -18,7 +18,7 @@ pb_deliver_paper.freiepresse_de <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author)
         text <- html %>%
-            rvest::html_nodes(".article__text p,.article__text h2") %>%
+            rvest::html_elements(".article__text p,.article__text h2") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

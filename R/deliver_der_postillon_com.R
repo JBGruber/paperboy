@@ -14,14 +14,14 @@ pb_deliver_paper.der_postillon_com <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_nodes(".post-body p") %>%
+            rvest::html_elements(".post-body p") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 
         # author abbr can be found at the end of the article
         if (author == "Der Postillon") {
             author_tmp <- html %>%
-                rvest::html_node("div[id='post-body'] span[style='font-size: x-small;']") %>%
+                rvest::html_element("div[id='post-body'] span[style='font-size: x-small;']") %>%
                 rvest::html_text() %>%
                 sub("; Erstver.*$", "", .)
             if (author_tmp != "") {

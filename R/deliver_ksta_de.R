@@ -19,7 +19,7 @@ pb_deliver_paper.ksta_de <- function(x, verbose = NULL, pb, ...) {
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- sub(" \\| .*", "", json_df$headline)
         text <- html %>%
-            rvest::html_nodes(".dm-article__intro,.dm-paragraph,.dm-article__subheadline") %>%
+            rvest::html_elements(".dm-article__intro,.dm-paragraph,.dm-article__subheadline") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
         if (author == "") {

@@ -14,7 +14,7 @@ pb_deliver_paper.heise_de <- function(x, verbose = NULL, pb, ...) {
         author <- toString(json_df$author$name)
 
         text <- html %>%
-            rvest::html_nodes("#lead,#article-content-body .ringCommonDetail.ringBlockType-paragraph,.article-content,.a-article-header__lead") %>%
+            rvest::html_elements("#lead,#article-content-body .ringCommonDetail.ringBlockType-paragraph,.article-content,.a-article-header__lead") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

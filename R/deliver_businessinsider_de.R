@@ -19,8 +19,8 @@ pb_deliver_paper.businessinsider_de <- function(x, verbose = NULL, pb, ...) {
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
         text <- html %>%
-            rvest::html_node(".article-main") %>%
-            rvest::html_nodes("p, h2") %>%
+            rvest::html_element(".article-main") %>%
+            rvest::html_elements("p, h2") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

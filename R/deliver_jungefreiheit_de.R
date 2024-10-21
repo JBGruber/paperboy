@@ -19,7 +19,7 @@ pb_deliver_paper.jungefreiheit_de <- function(x, verbose = NULL, pb, ...) {
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
         text <- html %>%
-            rvest::html_nodes(".elementor-widget-container p, .elementor-widget-container h3") %>%
+            rvest::html_elements(".elementor-widget-container p, .elementor-widget-container h3") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

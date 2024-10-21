@@ -14,7 +14,7 @@ pb_deliver_paper.rp_online_de <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_nodes("strong[data-cy=\"intro\"],div[data-cy=\"article_content\"] p") %>%
+            rvest::html_elements("strong[data-cy=\"intro\"],div[data-cy=\"article_content\"] p") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

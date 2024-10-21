@@ -19,7 +19,7 @@ pb_deliver_paper.ruhrnachrichten_de <- function(x, verbose = NULL, pb, ...) {
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
         text <- html %>%
-            rvest::html_nodes("p.article__teaser-text,.article__content p, .article__content h2") %>%
+            rvest::html_elements("p.article__teaser-text,.article__content p, .article__content h2") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n") %>%
             gsub("\nZur Startseite$", "", .)

@@ -14,7 +14,7 @@ pb_deliver_paper.stuttgarter_zeitung_de <- function(x, verbose = NULL, pb, ...) 
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_nodes(".brick.intro-text p,.brickgroup p,.brickgroup h2") %>%
+            rvest::html_elements(".brick.intro-text p,.brickgroup p,.brickgroup h2") %>%
             rvest::html_text2()
         rm_text <- c("StZ-Plus-Abonnement", "Vertrag mit Werbung")
 
