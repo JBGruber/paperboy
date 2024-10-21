@@ -23,8 +23,7 @@ pb_deliver_paper.merkur_de <- function(x, verbose = NULL, pb, ...) {
             datetime,
             author,
             headline,
-            text,
-            json_df # dumping the whole json data of an article
+            text
         )
     }
 }
