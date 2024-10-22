@@ -3,11 +3,16 @@ Title: Comprehensive Collection of News Media Scrapers
 Version: 0.0.7.9000
 Date: 2024-07-17
 Authors@R:
-    person(given = "Johannes B.",
-           family = "Gruber",
-           email = "JohannesB.Gruber@gmail.com", 
-           role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-9177-1772"))
+    c(person(given = "Johannes B.",
+             family = "Gruber",
+             email = "JohannesB.Gruber@gmail.com", 
+             role = c("aut", "cre"),
+             comment = c(ORCID = "0000-0001-9177-1772")),
+      person(given = "David",
+             family = "Schoch",
+             email = "david@schochastics.net",
+             role = "ctb",
+             comment = c(ORCID = "0000-0003-2952-4812")))
 Description: A comprehensive collection of webscraping scripts for news media sites.
 Depends:
     R (>= 3.5.0)
