@@ -9,6 +9,9 @@ pb_deliver_paper.rtl_de <- function(x, verbose = NULL, pb, ...) {
         return(s_n_list())
     } else {
         json_df <- jsonlite::fromJSON(json_txt[2])
+        if (any(json_df$`@type` %in% c("VideoGame"))) {
+            return(s_n_list())
+        }
         if (json_df$`@type` != "VideoObject") { # NewsArticle
             datetime <- lubridate::as_datetime(json_df$datePublished)
             headline <- json_df$headline
