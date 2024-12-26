@@ -1,5 +1,5 @@
 #' @export
-pb_deliver_paper.name_de <- function(x, verbose = NULL, pb, ...) {
+pb_deliver_paper.frankenpost_de <- function(x, verbose = NULL, pb, ...) {
     pb_tick(x, verbose, pb)
     # raw html is stored in column content_raw
     html <- rvest::read_html(x$content_raw)
