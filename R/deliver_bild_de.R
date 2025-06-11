@@ -16,7 +16,7 @@ pb_deliver_paper.bild_de <- function(x, verbose = NULL, pb, ...) {
 
     # author
     author <- html %>%
-        rvest::html_elements(".article_author") %>%
+        rvest::html_elements(".author__name") %>%
         rvest::html_text() %>%
         toString()
 
