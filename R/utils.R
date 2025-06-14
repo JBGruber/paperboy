@@ -169,6 +169,11 @@ warn_once <- function(id) {
 }
 
 
+#' @exportS3Method rvest::read_html
+read_html.html_content <- function(x, ...) {
+  rvest::read_html(as.character(x), ...)
+}
+
 url_get_basename <- function(x) {
   host <- url_get_domain(x)
   paste0("https://", host)
