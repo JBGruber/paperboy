@@ -8,3 +8,6 @@
 ^test_data\.rds$
 ^doc$
 ^Meta$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

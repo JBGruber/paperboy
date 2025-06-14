@@ -46,7 +46,7 @@ Suggests:
     spelling,
     testthat,
     withr
-URL: https://github.com/JBGruber/paperboy
+URL: https://github.com/JBGruber/paperboy, https://jbgruber.github.io/paperboy/
 Encoding: UTF-8
 BugReports: https://github.com/JBGruber/paperboy/issues
 RoxygenNote: 7.3.2
