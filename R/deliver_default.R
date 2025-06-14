@@ -16,6 +16,7 @@ pb_deliver_paper.default <- function(x, verbose = NULL, pb, ...) {
   datetime <- html %>%
     html_search(selectors = c(
       "time",
+      "[name=\"date\"]",
       "[name=\"pubdate\"]",
       "[name=\"parsely-pub-date\"]",
       "[name=\"article:published_time\"]",
