@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   For_Developers: For_Developers.html
-last_built: 2025-06-14T18:47Z
+last_built: 2025-06-16T15:19Z
 urls:
   reference: https://jbgruber.github.io/paperboy/reference
   article: https://jbgruber.github.io/paperboy/articles
