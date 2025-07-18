@@ -128,7 +128,10 @@ tibble::tribble(
 Since some outlets will give you additional information, the `misc` column was included so these can be retained.
 
 ## Available Scrapers
-If you want to know if an outlet is supported, you can use the following codes:
+
+If you want to know if an outlet is supported, you can use `pb_available`.
+For example:
+
 ```{r exampleavailable, eval=FALSE}
 pb_available("https://edition.cnn.com/",
              "https://www.nytimes.com/",
@@ -136,6 +139,7 @@ pb_available("https://edition.cnn.com/",
 ```
 
 Here is the full list of available scrapers:
+
 ```{r available, echo=FALSE}
 read.csv("./inst/status.csv") %>% 
   arrange(domain) %>%
