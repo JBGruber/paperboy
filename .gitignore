@@ -3,6 +3,9 @@
 .Rdata
 .httr-oauth
 .DS_Store
+dashboard/*.sqlite
+dashboard/*.sqlite-shm
+dashboard/*.sqlite-wal
 tests/spelling.Rout.save
 tests/local-files
 Update_package.R
