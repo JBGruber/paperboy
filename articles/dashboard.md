@@ -1,4 +1,4 @@
-# Paperboy Pulse Dashboard
+# Dashboard
 
 [](https://github.com/sina-chen/paperboy-pulse)
 
