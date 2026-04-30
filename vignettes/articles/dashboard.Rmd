@@ -1,21 +1,19 @@
 ---
-title: "Paperboy Pulse Dashboard"
+title: "Dashboard"
 ---
 
 ```{css, echo=FALSE}
-.dashboard-frame {
-  width: 100%;
-  height: 85vh;
+h1.title, .source-link { display: none !important; }
+
+iframe {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 56px);
   border: none;
-}
-/* Remove default article padding so the iframe can use full width */
-.contents {
-  padding: 0;
+  z-index: 100;
 }
 ```
 
-<iframe
-  src="https://sina-chen.github.io/paperboy-pulse/"
-  class="dashboard-frame"
-  title="Paperboy Pulse - Scraper Health Dashboard">
-</iframe>
+<iframe src="https://sina-chen.github.io/paperboy-pulse/" title="Paperboy Pulse - Scraper Health Dashboard"></iframe>
