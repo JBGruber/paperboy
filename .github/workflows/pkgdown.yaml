@@ -40,6 +40,24 @@ jobs:
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
+      - name: Add URL aliases for dashboard
+        run: |
+          for dir in docs/dashboard docs/pulse; do
+            mkdir -p "$dir"
+            cat > "$dir/index.html" <<'EOF'
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta http-equiv="refresh" content="0; url=/paperboy/articles/dashboard.html">
+              <link rel="canonical" href="https://jbgruber.github.io/paperboy/articles/dashboard.html">
+            </head>
+            <body>
+              <p>Redirecting to <a href="/paperboy/articles/dashboard.html">dashboard</a>&hellip;</p>
+            </body>
+          </html>
+          EOF
+          done
+
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@v4.5.0

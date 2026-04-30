@@ -1,0 +1,21 @@
+---
+title: "Paperboy Pulse Dashboard"
+---
+
+```{css, echo=FALSE}
+.dashboard-frame {
+  width: 100%;
+  height: 85vh;
+  border: none;
+}
+/* Remove default article padding so the iframe can use full width */
+.contents {
+  padding: 0;
+}
+```
+
+<iframe
+  src="https://sina-chen.github.io/paperboy-pulse/"
+  class="dashboard-frame"
+  title="Paperboy Pulse - Scraper Health Dashboard">
+</iframe>

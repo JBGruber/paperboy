@@ -2,3 +2,10 @@ url: https://jbgruber.github.io/paperboy/
 template:
   bootstrap: 5
 
+navbar:
+  components:
+    dashboard:
+      text: Dashboard
+      href: articles/dashboard.html
+  structure:
+    right: [dashboard, search, github]
