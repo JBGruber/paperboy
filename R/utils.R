@@ -27,7 +27,8 @@ pb_available <- function(...) {
   dots <- unlist(list(...), recursive = TRUE)
 
   if (length(dots) > 0) {
-    return(unlist(sapply(dots, function(x) url_get_domain(x) %in% parsers,
+    return(unlist(sapply(dots, function(x) url_get_domain(x) %>%
+                           gsub("-", ".", ., fixed = TRUE) %in% parsers,
                          simplify = FALSE, USE.NAMES = TRUE)))
   }
 
