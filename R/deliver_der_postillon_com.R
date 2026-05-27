@@ -15,8 +15,8 @@ pb_deliver_paper.der_postillon_com <- function(x, verbose = NULL, pb, ...) {
     rvest::html_element("meta[property='article:author']") |>
     rvest::html_attr("content")
   
-  # title
-  title <- html |>
+  # headline
+  headline <- html |>
     rvest::html_element("meta[property='og:title']") |>
     rvest::html_attr("content")
   
