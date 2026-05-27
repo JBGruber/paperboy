@@ -44,6 +44,7 @@ pb_deliver_paper.br_de <- function(x, verbose = NULL, pb, ...) {
       headline,
       text,
       accessed
+      )
   }
   
 }
