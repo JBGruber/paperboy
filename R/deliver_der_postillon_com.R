@@ -3,7 +3,7 @@ pb_deliver_paper.der_postillon_com <- function(x, verbose = NULL, pb, ...) {
     pb_tick(x, verbose, pb)
   
   # get final url
-  final_url <- test_col$content_raw %>% 
+  final_url <- x$content_raw %>% 
     rvest::read_html() %>% 
     rvest::html_element("body a") %>% 
     rvest::html_attr("href")
