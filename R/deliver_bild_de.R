@@ -4,21 +4,22 @@ pb_deliver_paper.bild_de <- function(x, verbose = NULL, pb, ...) {
     # raw html is stored in column content_raw
     html <- rvest::read_html(x$content_raw)
 
-    datetime <- html %>%
-        rvest::html_element("time") %>%
-        rvest::html_attr("datetime") %>%
-        lubridate::as_datetime()
+    # get page context
+    page_context <- html %>%
+      rvest::html_element("script#pageContext") %>%
+      rvest::html_text() %>%
+      jsonlite::fromJSON()
+
+    meta <- page_context$CLIENT_STORE_INITIAL_STATE$pageAggregation$meta
+
+    # date
+    datetime <- meta$publicationDate
 
     # headline
-    headline <- html %>%
-        rvest::html_elements(".document-title__headline") %>%
-        rvest::html_text()
+    headline <-meta$title
 
     # author
-    author <- html %>%
-        rvest::html_elements(".author__name") %>%
-        rvest::html_text() %>%
-        toString()
+    author <- meta$author
 
     # text
     text <- html %>%
@@ -26,11 +27,15 @@ pb_deliver_paper.bild_de <- function(x, verbose = NULL, pb, ...) {
         rvest::html_text() %>%
         paste(collapse = "\n")
 
+    # content type, e.g. article, video
+    content_type <- meta$documentType
+
     # the helper function safely creates a named list from objects
     s_n_list(
         datetime,
         author,
         headline,
-        text
+        text,
+        content_type
     )
 }

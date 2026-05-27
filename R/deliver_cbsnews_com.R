@@ -4,34 +4,38 @@ pb_deliver_paper.cbsnews_com <- function(x, verbose = NULL, pb, ...) {
   pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
+  
+  scripts <- html %>% 
+    rvest::html_elements("script[type='application/ld+json']") %>% 
+    rvest::html_text()
+  
+  json <- scripts[grepl("NewsArticle", scripts)] |>
+    jsonlite::fromJSON()
 
   # datetime
-  datetime <- html %>%
-    rvest::html_elements("time") %>%
-    rvest::html_attr("datetime") %>%
-    lubridate::as_datetime() %>%
-    utils::head(1L)
+  datetime <- json$datePublished %>%
+    lubridate::as_datetime()
 
   # headline
-  headline <- html %>%
-    rvest::html_elements("[property=\"og:title\"]") %>%
-    rvest::html_attr("content")
+  headline <- json$headline
 
   # author
-  author <- html %>%
-    rvest::html_element("[class*=\"content__meta--byline\"]") %>%
-    rvest::html_text() %>%
-    gsub("By\\b\\s+|\n", "", .) %>%
-    trimws()
+  author <- json$author$name
 
   # text
-  text <- html %>%
-    rvest::html_elements(".content__body>p") %>%
-    rvest::html_text2() %>%
-    paste(collapse = "\n")
-
+  text <- html |>
+    rvest::html_element("article section.content-updating-story__content-wrapper, section.content__body") %>% 
+    rvest::html_elements("p") %>% 
+    rvest::html_text2() %>% 
+    stringr::str_trim() %>% 
+    paste(collapse = "\n") 
+  
+  # content type 
   content_type <- x$expanded_url %>%
     gsub(".*cbsnews.com/(.+?)/.*", "\\1", ., perl = TRUE)
+  
+  # date and time of scraping
+  accessed = Sys.time()
 
   # the helper function safely creates a named list from objects
   s_n_list(
@@ -39,7 +43,8 @@ pb_deliver_paper.cbsnews_com <- function(x, verbose = NULL, pb, ...) {
     author,
     headline,
     text,
-    content_type
+    content_type,
+    accessed
   )
 
 }
