@@ -14,18 +14,33 @@ pb_deliver_paper.br_de <- function(x, verbose = NULL, pb, ...) {
         rvest::html_text2()
 
     author <- html %>%
-        rvest::html_element(".ArticleModuleTeaser_authorName__Q7ctt") %>%
+        rvest::html_element("span[class*='authorName']") %>%
         rvest::html_text2() %>%
         toString()
     text <- html %>%
-        rvest::html_element(".RichText_richText__wS9Rz.body3") %>%
-        rvest::html_elements("p, h2") %>%
+        rvest::html_elements("div[class*='richText'] p") %>%
         rvest::html_text2() %>%
         paste(collapse = "\n")
-    s_n_list(
+    accessed <- Sys.time()
+    domain <- adaR::ada_get_domain(x$content_raw)
+    if(domain == "ardsounds.de"){
+      content_type <- "podcast"
+      s_n_list(
         datetime,
         author,
         headline,
-        text
-    )
+        text,
+        accessed,
+        content_type
+        
+      )
+    } else {
+      s_n_list(
+        datetime,
+        author,
+        headline,
+        text,
+        accessed
+    }
+   
 }
