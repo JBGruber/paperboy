@@ -6,17 +6,17 @@ pb_deliver_paper.bild_de <- function(x, verbose = NULL, pb, ...) {
 
     # get page context
     page_context <- html %>%
-      rvest::html_element("script#pageContext") %>%
-      rvest::html_text() %>%
-      jsonlite::fromJSON()
+        rvest::html_element("script#pageContext") %>%
+        rvest::html_text() %>%
+        jsonlite::fromJSON()
 
     meta <- page_context$CLIENT_STORE_INITIAL_STATE$pageAggregation$meta
 
     # date
-    datetime <- meta$publicationDate
+    datetime <- lubridate::ymd_hms(meta$publicationDate)
 
     # headline
-    headline <-meta$title
+    headline <- meta$title
 
     # author
     author <- meta$author
