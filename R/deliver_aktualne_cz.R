@@ -30,7 +30,8 @@ pb_deliver_paper.aktualne_cz <- function(x, verbose = NULL, pb, ...) {
       rvest::html_text2()
   } else {
     author_json
-
+  }
+  
   # text
   text <- html %>%
     rvest::html_element("div[class*='f-tiptap-content__root']") %>%
