@@ -20,7 +20,7 @@ parser_df <- rio::import("inst/status.csv") %>%
   arrange(domain)
 ## check if all parsers are listed
 parser_available <- pb_available() %>%
-  str_remove("www.") %>%
+  sub("www.", "", ., fixed = TRUE) %>%
   tibble(parser = .)
 
 parser_available %>%

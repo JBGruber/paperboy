@@ -1,6 +1,5 @@
 #' @export
 pb_deliver_paper.aktualne_cz <- function(x, verbose = NULL, pb, ...) {
-
   pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
@@ -14,23 +13,23 @@ pb_deliver_paper.aktualne_cz <- function(x, verbose = NULL, pb, ...) {
     purrr::pluck("@graph") %>% 
     {\(x) x[x$`@type` == "NewsArticle", ]}()
   
-
   # datetime
   datetime <- article$datePublished %>%
     lubridate::as_datetime()
-
+  
   # headline
   headline <- article$headline
-
+  
   # author
   author_json <- article$author[[1]]$name |> paste(collapse = ", ")
-  author <-  if (is.null(author_json) || author_json == "") {
+  author <- if (is.null(author_json) || author_json == "") {
     html |>
       rvest::html_element("span.e-ui-authors-and-date__author-label") |>
       rvest::html_text2()
   } else {
     author_json
-
+  }
+  
   # text
   text <- html %>%
     rvest::html_element("div[class*='f-tiptap-content__root']") %>%
@@ -42,14 +41,13 @@ pb_deliver_paper.aktualne_cz <- function(x, verbose = NULL, pb, ...) {
   cover_image_html <- html %>%
     rvest::html_element("img.e-ui-image__img") %>%
     as.character()
-
+  
   # cover image url 
   cover_image_url <- article$image$url
   
   # date and time URL was accessed
   accessed <- Sys.time()
-
-
+  
   s_n_list(
     datetime,
     author,
@@ -59,5 +57,4 @@ pb_deliver_paper.aktualne_cz <- function(x, verbose = NULL, pb, ...) {
     cover_image_url,
     cover_image_html
   )
-
 }
