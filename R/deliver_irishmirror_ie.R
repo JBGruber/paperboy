@@ -26,17 +26,20 @@ pb_deliver_paper.irishmirror_ie <- function(x, verbose = NULL, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_elements(".article-wrapper p") %>%
+    rvest::html_elements("article p") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
   cover_image_html <- html %>%
-    rvest::html_element(".article-wrapper .img-container img") %>%
+    rvest::html_element("article img") %>%
     as.character()
 
   cover_image_url <- html %>%
-    rvest::html_element(".article-wrapper .img-container img") %>%
-    rvest::html_attr("src")
+    rvest::html_element("meta[property='og:image']") %>%
+    rvest::html_attr("content")
+  
+  # date and time URL was accessed
+  accessed <- Sys.time()
 
   s_n_list(
     datetime,
@@ -44,6 +47,7 @@ pb_deliver_paper.irishmirror_ie <- function(x, verbose = NULL, pb, ...) {
     headline,
     text,
     cover_image_url,
-    cover_image_html
+    cover_image_html,
+    accessed
   )
 }

@@ -5,38 +5,40 @@ pb_deliver_paper.geenstijl_nl <- function(x, verbose = NULL, pb, ...) {
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
 
+  json_data <- html %>%
+    rvest::html_element("script[type='application/ld+json']") %>%
+    rvest::html_text() %>%
+    jsonlite::fromJSON()
+  
   # datetime
-  datetime <- html %>%
-    rvest::html_element(".datetime") %>%
-    rvest::html_text2() %>%
-    lubridate::dmy_hm()
-
+  datetime <- json_data$datePublished %>% 
+    lubridate::ymd_hms()
+  
   # headline
-  headline <- html %>%
-    rvest::html_element("title") %>%
-    rvest::html_text2()
-
+  headline <- json_data$headline
+  
   # author
-  author <- html %>%
-    rvest::html_element("[rel=\"author\"]")  %>%
-    rvest::html_text2() %>%
-    toString()
-
+  author <- json_data$author$name
+  
   # text
   text <- html %>%
-    rvest::html_element("article") %>%
-    rvest::html_elements("p") %>%
+    rvest::html_elements("main p") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
-
+  
   cover_image_html <- html %>%
-    rvest::html_element("article img") %>%
+    rvest::html_element("main img") %>%
     as.character()
+  
+  cover_image_url <- json_data$image
 
   cover_image_url <- html %>%
     rvest::html_element("article img") %>%
     rvest::html_attr("src")
 
+  # date and time URL was accessed
+  accessed <- Sys.time()
+  
   # the helper function safely creates a named list from objects
   s_n_list(
     datetime,
@@ -44,7 +46,8 @@ pb_deliver_paper.geenstijl_nl <- function(x, verbose = NULL, pb, ...) {
     headline,
     text,
     cover_image_url,
-    cover_image_html
+    cover_image_html,
+    accessed
   )
 
 }

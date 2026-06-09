@@ -16,17 +16,30 @@ pb_deliver_paper.theguardian_com <- function(x, verbose = NULL, pb, ...) {
     rvest::html_elements("[property=\"og:title\"]") %>%
     rvest::html_attr("content")
 
+  # author
   author <- html %>%
-    rvest::html_elements("[rel=\"authors\"]") %>%
-    rvest::html_text2() %>%
-    toString()
-
-  if (author == "") {
+    rvest::html_elements("script[type='application/ld+json']") %>%
+    rvest::html_text() %>%
+    jsonlite::fromJSON() %>%
+    purrr::pluck("author", 1, "name")
+  
+  is_letters <- html %>%
+    rvest::html_element("meta[property='og:description']") %>%
+    rvest::html_attr("content") %>%
+    grepl("^Letter", .)
+  
+  if (author == "Guardian staff reporter" & isFALSE(is_letters)) {
     author <- html %>%
-      rvest::html_elements("[property=\"article:author\"],[name=\"author\"]") %>%
-      rvest::html_attr("content") %>%
-      toString()
+      rvest::html_element("meta[property='article:author']") %>%
+      rvest::html_attr("content")
+  } else if (author == "Guardian staff reporter" & isTRUE(is_letters)) {
+    author <- html %>%
+      rvest::html_element("div[data-gu-name='standfirst'] strong") %>%
+      rvest::html_text2()
   }
+  
+  author <- trimws(author) %>% 
+    paste(collapse = ", ")
 
   # text
   text <- html %>%
@@ -55,6 +68,9 @@ pb_deliver_paper.theguardian_com <- function(x, verbose = NULL, pb, ...) {
     strsplit("/") %>%
     purrr::pluck(1, 3, .default = NA_character_)
   type <- ifelse(grepl("^\\d+$", type), "news", type)
+  
+  # date and time URL was accessed
+  accessed <- Sys.time()
 
   s_n_list(
     datetime,
@@ -63,7 +79,8 @@ pb_deliver_paper.theguardian_com <- function(x, verbose = NULL, pb, ...) {
     text,
     type,
     cover_image_url,
-    cover_image_html
+    cover_image_html,
+    accessed
   )
 }
 
