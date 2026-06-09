@@ -25,7 +25,7 @@ test_that("Test infrascture", {
     "must be a character vector of URLs"
   )
   expect_message(
-    pb_deliver(pb_collect("https://httpbin.org/status/404", verbose = FALSE)),
+    pb_deliver(pb_collect("https://httpbingo.org/status/404", verbose = FALSE)),
     "1 URL removed due to bad status."
   )
 })
