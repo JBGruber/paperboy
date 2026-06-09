@@ -39,7 +39,7 @@ test_that("store local", {
   expect_true({
     pb_collect(urls = "https://httpbingo.org/status/200",
                save_dir = tmp)
-    file.exists(file.path(tmp, "d84c33c485e54845b489f53feada52f0.html"))
+    file.exists(file.path(tmp, "4df64bb23db5ae25849e1aaac30ab69e.html"))
   })
 })
 
