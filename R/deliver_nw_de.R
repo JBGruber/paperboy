@@ -12,17 +12,19 @@ pb_deliver_paper.nw_de <- function(x, verbose = NULL, pb, ...) {
 
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
-        author <- toString(json_df$author$name)
-        text <- html %>%
-            rvest::html_elements("p.em_text,h2.Zwischenzeile") %>%
-            rvest::html_text2() %>%
-            paste(collapse = "\n")
-
+        author <- xml2::xml_text(xml2::read_html(
+          paste0("<x>", toString(json_df$author$name), "</x>")))
+        text <- json_df$articleBody
+        
+        # date and time URL was accessed
+        accessed <- Sys.time()
+        
         s_n_list(
             datetime,
             author,
             headline,
-            text
+            text,
+            accessed
         )
     }
 }

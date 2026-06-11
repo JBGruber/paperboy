@@ -32,10 +32,6 @@ pb_deliver_paper.geenstijl_nl <- function(x, verbose = NULL, pb, ...) {
   
   cover_image_url <- json_data$image
 
-  cover_image_url <- html %>%
-    rvest::html_element("article img") %>%
-    rvest::html_attr("src")
-
   # date and time URL was accessed
   accessed <- Sys.time()
   
