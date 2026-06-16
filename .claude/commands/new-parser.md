@@ -152,7 +152,36 @@ Repeat up to 3 times. If the parser still fails after 3 rounds, stop, report the
 
 ---
 
-## Step 9 — Update `inst/status.csv`
+## Step 9 — Manual field review
+
+Run the parser on the first test article and display what was extracted:
+
+```bash
+Rscript -e "
+devtools::load_all(quiet = TRUE)
+test_data <- readRDS('/tmp/pb_test_data.rds')
+result    <- pb_deliver(test_data[1, ])
+cat('URL:\n', test_data\$url[1], '\n\n')
+cat('datetime: ', format(result\$datetime), '\n\n')
+cat('author:   ', result\$author, '\n\n')
+cat('headline: ', result\$headline, '\n\n')
+cat('text (first 1000 chars):\n')
+cat(substr(result\$text, 1, 1000), '\n')
+"
+```
+
+Show this output to the user and ask them to open the URL in their browser and verify that each field matches what they see on the page.
+
+**If the user reports problems:**
+- Ask which fields are wrong and (if they can tell) what the correct values should be.
+- Identify better selectors from the HTML context captured in Step 6. Check whether the wrong field came from a sub-headline, a sidebar, a related-article block, or nested ad content — these are the most common sources of error.
+- Fix the parser file, re-run the automated test (Step 8), then repeat this review step.
+
+Only proceed to Step 10 once the user explicitly confirms the fields look correct.
+
+---
+
+## Step 10 — Update `inst/status.csv`
 
 ```bash
 Rscript -e "
@@ -178,7 +207,7 @@ cat('status.csv updated\n')
 
 ---
 
-## Step 10 — Commit (do not push)
+## Step 11 — Commit (do not push)
 
 ```bash
 git add R/deliver_{domain_class}.R inst/status.csv
