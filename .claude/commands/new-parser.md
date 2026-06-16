@@ -170,6 +170,7 @@ cat('text:\n', result\$text, '\n')
 ```
 
 Show this output to the user and ask them to open the URL in their browser and verify that each field matches what they see on the page.
+Never abbreviate the text. Show it in full length, so the user can assess if everything was captured.
 
 **If the user reports problems:**
 - Ask which fields are wrong and (if they can tell) what the correct values should be.
