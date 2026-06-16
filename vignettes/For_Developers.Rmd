@@ -221,3 +221,15 @@ Every parser in the package is tested daily against its RSS feed in a [separate 
 Results are visible on the [Dashboard](https://jbgruber.github.io/paperboy/articles/dashboard.html).
 The RSS URL used for daily testing comes from the `rss` column in `inst/status.csv`, which `use_new_parser()` populates automatically.
 
+## Contributing via LLM
+
+LLM agents (such as Claude Code) can contribute parsers using the same workflow described above.
+The main difference is that instead of `pb_inspect()`, the agent reads the raw HTML directly or calls `pb_html_context()` to get a compact text summary of the page structure — meta tags, unique element/class combinations, `<time>` elements, paragraph container paths, and JSON-LD blocks — without needing a browser.
+
+If you are using Claude Code inside the `paperboy` repository, the `/new-parser` custom command automates the full workflow:
+
+```
+/new-parser https://www.denverpost.com/2025/06/13/example/
+```
+
+This runs each step — RSS discovery, data collection, HTML analysis, parser writing, iterative testing, and `status.csv` update — and creates a local commit ready for your review before you push.
