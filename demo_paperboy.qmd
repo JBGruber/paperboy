@@ -1,0 +1,190 @@
+---
+title: "[Tool Demo] `paperboy` --- A Collection of News Media Scrapers"
+author: Johannes B. Gruber
+presentation: ICA25 --- 2025-06-15
+---
+
+![](paperboy_logo.svg)
+
+# Philosphy
+
+The philosophy of the `R` package paperboy is that the package is a repository for web scraping scripts for news media sites, with advanced features for quick data retrieval --- even for content behind log-ins or anti-scraping measures.
+
+Goal: bring together Developers and Users of news web-scrapers
+
+# Installation
+
+```{r}
+remotes::install_github("JBGruber/paperboy")
+```
+
+# For Users
+## Single Link Examples
+
+```{r sinlge-1}
+library(paperboy)
+cnn_df <- pb_deliver("https://bit.ly/47bPVWP")
+dplyr::glimpse(cnn_df)
+```
+
+- URL is automatically unshortened
+- *CNN* parser is selected
+- Content is cleanly parsed
+
+```{r sinlge-2}
+mbpassion_df <- pb_deliver("https://bit.ly/3MqSnk7")
+dplyr::glimpse(mbpassion_df)
+```
+
+- URL is automatically unshortened
+- **No** parser for *Mercedes-Benz Passion* is available, but fallback on generic parser
+- Content is cleanly parsed
+
+## Rehydration Example
+
+```{r}
+library(httr2)
+test_data <- request("https://search.mediacloud.org/api/") |>
+  req_url_path_append("search/story-list") |>
+  req_headers(
+    Authorization = paste("Token", Sys.getenv("MC_TOKEN")),
+    Accept = "application/json"
+  ) |>
+  req_url_query(
+    q = "harris",
+    start = "2024-01-01",
+    ss = 107736L # source ID of huffpost.com
+  ) |>
+  req_perform() |>
+  resp_body_json() |>
+  purrr::pluck("stories") |>
+  dplyr::bind_rows()
+dplyr::glimpse(test_data)
+```
+
+```{r}
+saveRDS(test_data, "test_data.rds")
+test_data <- readRDS("test_data.rds")
+```
+
+
+```{r}
+test_data_hydrated <- pb_collect(
+  test_data$url,
+  host_con = 100
+)
+```
+
+- for many URLs it often makes sense first collect the data before parsing
+- it can also make sense to save this raw html for archival
+- if you were surprised how fast this was, you were right:
+    - `paperboy` collects 100 html pages at once
+    - for 1000 pages this takes ~7 at my home
+
+```{r}
+test_data_hydrated_parsed <- pb_deliver(test_data_hydrated[1:200, ])
+dplyr::glimpse(test_data_hydrated_parsed)
+```
+
+```{r}
+#| message: false
+test_data_hydrated_parsed <- readRDS("data/test_data_hydrated_parsed.rds")
+library(quanteda)
+corpus(test_data_hydrated_parsed) |>
+  tokens(
+    remove_punct = TRUE,
+    remove_symbols = TRUE,
+    remove_numbers = TRUE
+  ) |>
+  dfm() |>
+  dfm_remove(stopwords("en")) |>
+  topfeatures()
+```
+
+## Using cookies
+
+```{r}
+URL <- "https://www.zeit.de/arbeit/2024-10/viertagewoche-arbeitszeit-umsatz-effizienz-deutschland"
+
+library(rvest)
+html <- read_html(URL)
+text <- html |>
+  html_elements(".article-body p") |>
+  html_text2() |>
+  paste(collapse = "\n")
+nchar(text)
+```
+
+- the article above is behind a paywall
+- I use rvest here to show that the short snippet is not `paperboy`'s fault
+
+```{r}
+cookiemonster::add_cookies("zeit_cookies.txt")
+content_df <- pb_collect(URL, use_cookies = TRUE)
+```
+
+- we can use one of my other packages, `cookiemonster`, to read my log in cookies into R (I'm subscribed to Zeit.de)
+
+```{r}
+html2 <- read_html(as.character(content_df$content_raw))
+text2 <- html2 |>
+  html_elements(".article-body p") |>
+  html_text2() |>
+  paste(collapse = "\n")
+nchar(text2)
+```
+
+- the content from `pb_collect` is compatible with rvest, so we can compare
+- with the right cookies, the website delivers the full content
+
+
+# For Developers
+
+```{r}
+pb_find_rss("https://www.denverpost.com") |>
+  View()
+```
+
+- For testing purposes, I want to know the RSS location
+
+```{r}
+rss <- "https://denverpost.com/feed"
+test_df <- pb_collect(rss)
+dplyr::glimpse(test_df)
+```
+
+```{r}
+use_new_parser(
+  x = "https://www.denverpost.com/2025/06/13/no-kings-protest-colorado-donald-trump/",
+  author = "JBGruber",
+  rss = rss
+)
+```
+
+- the usethis inspired function guides you through making a new parser
+
+```{r}
+pb_inspect(test_df)
+```
+
+- to find the appropriate css tags, we inspect the collected html site
+- running use_new_parser again tests the new parser on fresh data
+
+```{r}
+use_new_parser(
+  x = "https://www.denverpost.com/2025/06/13/no-kings-protest-colorado-donald-trump/",
+  author = "JBGruber",
+  rss = rss,
+  test_data = test_df
+)
+```
+
+All done! Another site can be added!
+
+# How can you help?
+
+- cite the package
+- let me know if you have issues
+- become a contributor/co-author!
+- advise me on an incentive structure
+
