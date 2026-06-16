@@ -1,6 +1,5 @@
 #' @export
 pb_deliver_paper.aftenposten_no <- function(x, verbose = NULL, pb, ...) {
-
   pb_tick(x, verbose, pb)
 
   html <- rvest::read_html(x$content_raw)
@@ -13,25 +12,17 @@ pb_deliver_paper.aftenposten_no <- function(x, verbose = NULL, pb, ...) {
 
   # headline
   headline <- html %>%
-    rvest::html_element('[property="og:title"]') %>%
-    rvest::html_attr("content")
+    rvest::html_element("title") %>%
+    rvest::html_text2()
 
   # author
-  json_txt <- rvest::html_elements(html, 'script[type="application/ld+json"]') %>%
-    rvest::html_text()
-  author <- tryCatch({
-    json_df <- jsonlite::fromJSON(json_txt[1])
-    toString(json_df$author$name)
-  }, error = function(e) {
-    html %>%
-      rvest::html_elements("span.byline-name") %>%
-      rvest::html_text2() %>%
-      toString()
-  })
+  author <- html %>%
+    rvest::html_element(".byline-name") %>%
+    rvest::html_text2()
 
   # text
   text <- html %>%
-    rvest::html_elements('article[class*="article-wrapper"] p') %>%
+    rvest::html_elements('article[class*="article-wrapper"]>p') %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
@@ -41,5 +32,4 @@ pb_deliver_paper.aftenposten_no <- function(x, verbose = NULL, pb, ...) {
     headline,
     text
   )
-
 }
