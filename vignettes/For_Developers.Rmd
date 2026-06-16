@@ -48,6 +48,8 @@ You can run it on its own if you need more control:
 pb_find_rss("https://www.denverpost.com")
 ```
 
+If this does not retrieve and URLs, you might try a web search like "Denver Post RSS".
+
 ## Getting Test Data
 
 The fastest way to get test articles is directly from the RSS feed:

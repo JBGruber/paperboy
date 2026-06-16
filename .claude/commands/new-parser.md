@@ -52,7 +52,7 @@ Record this as `{domain}` (e.g. `denverpost.com`).
 Rscript -e "devtools::load_all(quiet = TRUE); cat(pb_find_rss('$ARGUMENTS'), '\n')"
 ```
 
-Record the URL as `{rss_url}`. If nothing is found, try appending `/feed`, `/rss`, or `/index.xml` to the site's root domain and test each with `pb_collect()`. If no working feed exists, set `{rss_url}` to `NA`.
+Record the URL as `{rss_url}`. If nothing is found, try appending `/feed`, `/rss`, or `/index.xml` to the site's root domain and test each with `pb_collect()`. If these don't find a RSS URL, try a web search. If no working feed exists, set `{rss_url}` to `NA`.
 
 ---
 
