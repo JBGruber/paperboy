@@ -165,8 +165,7 @@ cat('URL:\n', test_data\$url[1], '\n\n')
 cat('datetime: ', format(result\$datetime), '\n\n')
 cat('author:   ', result\$author, '\n\n')
 cat('headline: ', result\$headline, '\n\n')
-cat('text (first 1000 chars):\n')
-cat(substr(result\$text, 1, 1000), '\n')
+cat('text:\n', result\$text, '\n')
 "
 ```
 
