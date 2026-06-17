@@ -37,3 +37,6 @@ pb_deliver_paper.dailymail_co_uk <- function(x, verbose = NULL, pb, ...) {
   )
 
 }
+
+#' @export
+pb_deliver_paper.dailymail_com <- pb_deliver_paper.dailymail_co_uk
