@@ -12,8 +12,8 @@ pb_deliver_paper.aktualne_cz <- function(x, verbose = NULL, pb, ...) {
     jsonlite::fromJSON() %>%
     purrr::pluck("@graph") %>%
     {
-      \(x) x[x$`@type` == "NewsArticle", ]
-    }()
+      .[.$`@type` == "NewsArticle", ]
+    }
 
   # datetime
   datetime <- article$datePublished %>%
