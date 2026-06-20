@@ -1,6 +1,5 @@
 #' @export
 pb_deliver_paper.bbc_co_uk <- function(x, verbose = NULL, pb, ...) {
-
   pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
@@ -18,14 +17,16 @@ pb_deliver_paper.bbc_co_uk <- function(x, verbose = NULL, pb, ...) {
 
   # author
   author <- html %>%
-    rvest::html_element("[class*=\"TextContributorName\"]")  %>%
+    rvest::html_element("[class*=\"TextContributorName\"]") %>%
     rvest::html_text2() %>%
     stats::na.omit() %>%
     toString()
 
   # text
   text <- html %>%
-    rvest::html_elements("article [class*=\"RichText\"],article .story-body") %>%
+    rvest::html_elements(
+      "article [class*=\"RichText\"],article .story-body"
+    ) %>%
     rvest::html_elements("p,li") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
@@ -46,5 +47,6 @@ pb_deliver_paper.bbc_co_uk <- function(x, verbose = NULL, pb, ...) {
     cover_image_url,
     cover_image_html
   )
-
 }
+
+pb_deliver_paper.bbc_com <- pb_deliver_paper.bbc_co_uk
