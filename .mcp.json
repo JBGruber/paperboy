@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "r-btw": {
+      "command": "Rscript",
+      "args": [
+        "-e",
+        "options(btw.run_r.enabled = TRUE); btw::btw_mcp_server(tools = btw_tools('run'))"
+      ]
+    }
+  }
+}
