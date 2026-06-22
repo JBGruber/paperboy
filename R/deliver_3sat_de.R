@@ -12,7 +12,7 @@ pb_deliver_paper.3sat_de <- function(x, verbose = NULL, pb, ...) {
         rvest::html_elements(".main-content-details h2") %>%
         rvest::html_text()
 
-    author <- "" # no author info found
+    author <- "3sat"
 
     text <- html %>%
         rvest::html_elements(".o--post-long p") %>%
