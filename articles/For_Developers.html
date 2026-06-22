@@ -68,162 +68,254 @@
 <p>This vignette shows you how to write your own parser for a new site.
 Feel free to either use your parser locally or (preferably) contribute
 it back to the package via a <a href="https://github.com/JBGruber/paperboy/pulls" class="external-link">pull request</a>.</p>
-<p>If you want to contribute, your first steps should be to check if the
-parser you are looking for is already available (you can use
-<code><a href="../reference/pb_available.html">pb_available()</a></code> for that), or if someone has already
-committed to working on it in <a href="https://github.com/JBGruber/paperboy/issues" class="external-link">an issue</a> and if
-this is not the case, you should <a href="https://github.com/JBGruber/paperboy/issues/new" class="external-link">open a new
+<p>Before starting, check if the parser you need is already available
+with <code><a href="../reference/pb_available.html">pb_available()</a></code>, or if someone has already committed to
+working on it in <a href="https://github.com/JBGruber/paperboy/issues" class="external-link">an issue</a>. If not,
+<a href="https://github.com/JBGruber/paperboy/issues/new" class="external-link">open a new
 issue</a> to let others know you want to do it.</p>
-<p>The next step is to get some test data, that means URLs from the page
-you want to scrape. I like to use Media Cloud for that, which has an
-excellent R package we can employ here (the code below assumes you’ve
-already set <code>MEDIACLOUD_API_KEY</code>). So let’s walk through the
-process with huffpost.com as an example. We first need the internal ID
-of the site on Media cloud and then ask for 500 articles dating back a
-week from today</p>
+<div class="section level2">
+<h2 id="starting-a-new-parser">Starting a New Parser<a class="anchor" aria-label="anchor" href="#starting-a-new-parser"></a>
+</h2>
+<p>The entry point is <code><a href="../reference/use_new_parser.html">use_new_parser()</a></code>, which guides you
+through each step. Just pass a URL from the target site and your GitHub
+author info:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">mediacloud</span><span class="op">)</span></span>
-<span><span class="fu">search_media</span><span class="op">(</span><span class="st">"huffpost"</span><span class="op">)</span></span>
-<span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="fu">search_stories</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"*"</span>,</span>
-<span>                            media_id <span class="op">=</span> <span class="fl">27502</span>,</span>
-<span>                            after_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">7</span>,</span>
-<span>                            n <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></code></pre></div>
-<p>Next, you can collect the raw data of a few of these URLs to
-investigate the needed html identifiers:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JBGruber/paperboy" class="external-link">paperboy</a></span><span class="op">)</span></span>
-<span><span class="va">articles_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pb_collect.html">pb_collect</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">$</span><span class="va">url</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p>This pulls the entire sites of each article from the net. If it
-doesn’t, you probably need to set some cookies first (vignette on
-cookies coming soon). In most cases, it does not make much sense though
-to look at the data with e.g., <code><a href="https://rdrr.io/r/utils/View.html" class="external-link">View()</a></code>, since the html data
-is relatively big and the viewer might crash. Instead,
-<code>paperboy</code> comes with a function to inspect the code in your
-browser:</p>
+<span><span class="fu"><a href="../reference/use_new_parser.html">use_new_parser</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="st">"https://www.denverpost.com/2025/06/13/example/"</span>,</span>
+<span>  author <span class="op">=</span> <span class="st">"[@yourname](https://github.com/yourname/)"</span>,</span>
+<span>  rss <span class="op">=</span> <span class="st">"https://denverpost.com/feed"</span> <span class="co"># optional; auto-detected if omitted</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="../reference/use_new_parser.html">use_new_parser()</a></code> is designed to be run multiple
+times:</p>
+<ul>
+<li>
+<strong>First run</strong> — creates the parser file from the
+template and opens it for editing, then exits.</li>
+<li>
+<strong>Subsequent runs</strong> — sources the edited file, tests it
+against live articles from the RSS feed, and updates
+<code>inst/status.csv</code> on success.</li>
+</ul>
+<p>If <code>rss</code> is omitted in <code>use_new_parser</code>, the
+function below runs automatically and tries to identify an RSS feed.
+This is used for testing the parser and is an important part of the
+infrastructure. You can run it on its own if you need more control:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pb_find_rss.html">pb_find_rss</a></span><span class="op">(</span><span class="st">"https://www.denverpost.com"</span><span class="op">)</span></span></code></pre></div>
+<p>If this does not retrieve and URLs, you might try a web search like
+“Denver Post RSS”.</p>
+</div>
+<div class="section level2">
+<h2 id="getting-test-data">Getting Test Data<a class="anchor" aria-label="anchor" href="#getting-test-data"></a>
+</h2>
+<p>The fastest way to get test articles is directly from the RSS
+feed:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/pb_inspect.html">pb_inspect</a></span><span class="op">(</span><span class="va">articles_raw</span>, <span class="fl">1L</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pb_collect.html">pb_collect</a></span><span class="op">(</span><span class="st">"https://denverpost.com/feed"</span><span class="op">)</span></span></code></pre></div>
+<p>For broader coverage you can pull a larger set of URLs from the Media
+Cloud API (requires <code>MC_TOKEN</code> to be set):</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://httr2.r-lib.org" class="external-link">httr2</a></span><span class="op">)</span></span>
+<span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://httr2.r-lib.org/reference/request.html" class="external-link">request</a></span><span class="op">(</span><span class="st">"https://search.mediacloud.org/api/"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://httr2.r-lib.org/reference/req_url.html" class="external-link">req_url_path_append</a></span><span class="op">(</span><span class="st">"search/story-list"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://httr2.r-lib.org/reference/req_headers.html" class="external-link">req_headers</a></span><span class="op">(</span></span>
+<span>    Authorization <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Token"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MC_TOKEN"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    Accept <span class="op">=</span> <span class="st">"application/json"</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://httr2.r-lib.org/reference/req_url.html" class="external-link">req_url_query</a></span><span class="op">(</span></span>
+<span>    q <span class="op">=</span> <span class="st">"*"</span>,</span>
+<span>    start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">7</span>, <span class="st">"%Y-%m-%d"</span><span class="op">)</span>,</span>
+<span>    ss <span class="op">=</span> <span class="fl">107736L</span> <span class="co"># source ID — look it up via the Media Cloud search UI</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://httr2.r-lib.org/reference/req_perform.html" class="external-link">req_perform</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html" class="external-link">resp_body_json</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"stories"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="inspecting-the-html">Inspecting the HTML<a class="anchor" aria-label="anchor" href="#inspecting-the-html"></a>
+</h2>
+<p>Before writing selectors you need to see the raw HTML.
+<code>paperboy</code> ships with <code><a href="../reference/pb_inspect.html">pb_inspect()</a></code>, which opens
+any collected page in your browser:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pb_inspect.html">pb_inspect</a></span><span class="op">(</span><span class="va">test_data</span>, <span class="fl">1L</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
 <img src="inspect.png" alt="view of a collected site with pb_inspect"><div class="figcaption">view of a collected site with pb_inspect</div>
 </div>
-<p>From here we want to identify at least the headline, article text,
-publication date and time, and the author(s). Use the tools you are most
-comfortable with, I usually just right-click and <code>Inspect</code> in
-Chromium and then look for a suitable CSS tag. To get better with tags,
-I recommend the cool game <a href="https://flukeout.github.io/" class="external-link">CSS
-Diner</a>.</p>
-<p>Once you know roughly how the site publishes articles, you can start
-a new parser which pulls the relevant information from the html code.
-The best way to start is from the built-in template using the
-un-exported function <code><a href="../reference/pb_new.html">pb_new()</a></code>. Just enter the domain of the
-site (or an entire URL) to create the correct function (the new file
-will be placed in your working directory or the /R directory if you work
-in the package folder):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">paperboy</span><span class="fu">:::</span><span class="fu"><a href="../reference/pb_new.html">pb_new</a></span><span class="op">(</span>np <span class="op">=</span> <span class="st">"http://huffpost.com/"</span><span class="op">)</span></span></code></pre></div>
-<p>If you are familiar with <code>rvest</code>, you should have no
-problem making the parser work in minutes. Feel free to look at the
-available parsers for inspiration. To make the process even easier,
-<code>paperboy</code> adds the function <code>html_search</code> which
-can search through multiple CSS identifiers and node attributes at once.
-As an example, have a look at the default parser, which is designed to
-grab data from many different sites:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/html_search.html">html_search</a></span><span class="op">(</span>selectors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>      <span class="st">"[property=\"sailthru.title\"]"</span>,</span>
+<p>Right-click the elements you care about and choose <em>Inspect</em>
+in your browser to see the CSS classes and attributes. To get better
+with CSS selectors I recommend the game <a href="https://flukeout.github.io/" class="external-link">CSS Diner</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="writing-the-parser">Writing the Parser<a class="anchor" aria-label="anchor" href="#writing-the-parser"></a>
+</h2>
+<p>The template created by <code><a href="../reference/use_new_parser.html">use_new_parser()</a></code> looks like
+this:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pb_deliver_paper.www_denverpost_com</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">verbose</span> <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">pb</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">pb_tick</span><span class="op">(</span><span class="va">x</span>, <span class="va">verbose</span>, <span class="va">pb</span><span class="op">)</span></span>
+<span>  <span class="va">html</span> <span class="op">&lt;-</span> <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_html</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">content_raw</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">datetime</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html" class="external-link">html_element</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_attr.html" class="external-link">html_attr</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_datetime</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">headline</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html" class="external-link">html_element</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_attr.html" class="external-link">html_attr</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">author</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html" class="external-link">html_element</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_text.html" class="external-link">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/toString.html" class="external-link">toString</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">text</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html" class="external-link">html_elements</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_text.html" class="external-link">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="fu">s_n_list</span><span class="op">(</span><span class="va">datetime</span>, <span class="va">author</span>, <span class="va">headline</span>, <span class="va">text</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Fill in the empty strings with the CSS selectors and attributes you
+identified. If you are familiar with <code>rvest</code>, this usually
+takes only a few minutes. Feel free to look at the <a href="https://github.com/JBGruber/paperboy/tree/main/R" class="external-link">existing
+parsers</a> for inspiration. Some of them contains tricks that get
+around strange HTML structures or apply shortcuts that get clean data
+faster.</p>
+</div>
+<div class="section level2">
+<h2 id="choosing-css-selectors">Choosing CSS Selectors<a class="anchor" aria-label="anchor" href="#choosing-css-selectors"></a>
+</h2>
+<div class="section level3">
+<h3 id="html_search-for-robust-fallbacks">
+<code>html_search()</code> for robust fallbacks<a class="anchor" aria-label="anchor" href="#html_search-for-robust-fallbacks"></a>
+</h3>
+<p>The helper <code><a href="../reference/html_search.html">html_search()</a></code> tries a list of selectors in
+order and returns the first non-empty result. This is useful when a site
+uses different templates for different article types. For example, the
+headline could live in different places depending on article type:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">headline</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/html_search.html">html_search</a></span><span class="op">(</span></span>
+<span>    selectors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>      <span class="st">"[property=\"og:title\"]"</span>,</span>
 <span>      <span class="st">".headline__title"</span>,</span>
-<span>      <span class="st">".headline__subtitle"</span>,</span>
-<span>      <span class="st">".js-headline"</span>,</span>
 <span>      <span class="st">".headline"</span>,</span>
-<span>      <span class="st">".pg-headline"</span>,</span>
-<span>      <span class="st">".headline&gt;h1"</span>,</span>
-<span>      <span class="st">".headline__text"</span>,</span>
-<span>      <span class="st">"[property =\"mol:headline\"]"</span>,</span>
-<span>      <span class="st">"[id*=\"video-headline\"]"</span>,</span>
 <span>      <span class="st">"title"</span></span>
-<span>    <span class="op">)</span>, attributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"content"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>It looks through all the listed selectors and retrieves the attribute
-content or the text of the node if anything is found (note you can set
-<code>all = FALSE</code> to only collect the first non empty node).</p>
-<p>The most difficult decision for most parsers is which CSS tags to
-choose. There is usually a tradeoff between a more specific parser that
-provides clean data and a more general parser that causes fewer problems
-when it comes to maintaining different formats on the same website. A
-good example is the text column, which you can produce almost always
-like this:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">text</span> <span class="op">&lt;-</span> <span class="va">html</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    attributes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"content"</span>, <span class="st">"text"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>Set <code>all = FALSE</code> (the default) to return only the first
+non-empty match. For multi-value fields like article paragraphs, set
+<code>n = Inf</code> to collect all nodes:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">text</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/html_search.html">html_search</a></span><span class="op">(</span></span>
+<span>    selectors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">".article-body&gt;p"</span>, <span class="st">"p"</span><span class="op">)</span>,</span>
+<span>    attributes <span class="op">=</span> <span class="st">"text"</span>,</span>
+<span>    all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    n <span class="op">=</span> <span class="cn">Inf</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="targeting-the-article-body">Targeting the article body<a class="anchor" aria-label="anchor" href="#targeting-the-article-body"></a>
+</h3>
+<p>Prefer a specific container selector over bare <code>p</code> to
+avoid picking up ads, reader comments, and subscriber notices:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Too broad — catches everything on the page</span></span>
+<span><span class="va">text</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html" class="external-link">html_elements</a></span><span class="op">(</span><span class="st">"p"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_text.html" class="external-link">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<p>This selects all paragraphs on a site, which often also includes
-irrelevant data, such as infos for subscribers, ads, readers’ comments
-or even meta data that is usually hidden from view. So it is usually
-better to do something like this instead:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">text</span> <span class="op">&lt;-</span> <span class="va">html</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Better — only paragraphs inside the article body class</span></span>
+<span><span class="va">text</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_element.html" class="external-link">html_elements</a></span><span class="op">(</span><span class="st">".article-body&gt;p"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_text.html" class="external-link">html_text2</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<p>This code will only select paragraphs from the article-body class,
-which works well for most washingtonpost.com articles, for example.
-However, not all articles on the website have this class, for which case
-you want to create a fallback. <code><a href="../reference/html_search.html">html_search()</a></code> can do this
-like shown below:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">text</span> <span class="op">&lt;-</span> <span class="va">html</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/html_search.html">html_search</a></span><span class="op">(</span>selectors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">".article-body&gt;p"</span>, <span class="st">"p"</span><span class="op">)</span>, <span class="co"># select paragraphs in .article-body or just all paragraphs</span></span>
-<span>              attributes <span class="op">=</span> <span class="st">"text"</span>,                   <span class="co"># retrieve the text from selected nodes</span></span>
-<span>              all <span class="op">=</span> <span class="cn">FALSE</span>,                           <span class="co"># only the first non-empty match is used</span></span>
-<span>              n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>                           <span class="co"># default is to return the first attribute, we want all paragraphs</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<p>Another notable helper function is <code>s_n_list</code> (for safe
-named list), which combines multiple R objects into a named list in
-which all elements have the length 1. The returned value of
-<code>s_n_list</code> should be the output of all parsers:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span> <span class="co"># longer objects are put in a list</span></span>
-<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="co"># NULL is turned into NA</span></span>
+<p>There is always a trade-off: a specific selector gives cleaner text
+but may miss articles that use a different template;
+<code><a href="../reference/html_search.html">html_search()</a></code> with a fallback chain gives you both.</p>
+</div>
+<div class="section level3">
+<h3 id="s_n_list-for-safe-returns">
+<code>s_n_list()</code> for safe returns<a class="anchor" aria-label="anchor" href="#s_n_list-for-safe-returns"></a>
+</h3>
+<p>All parsers return a named list via <code>s_n_list()</code>, which
+ensures every element has length 1 and turns <code>NULL</code> values
+into <code>NA</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span> <span class="co"># longer objects are stored in a list column</span></span>
+<span><span class="va">b</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="co"># NULL becomes NA</span></span>
 <span><span class="va">c</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
 <span><span class="fu">paperboy</span><span class="fu">:::</span><span class="fu">s_n_list</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">c</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">#&gt;   a          b     c    </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;int [10]&gt;</span> <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
-<p>Combining the data in this way makes sure the data can be neatly
-placed in a tibble later. You should still make sure though that the
-objects <em>headline</em>, <em>article</em>, <em>datetime</em>, and
-<em>author</em> have length 1 (with <code><a href="https://rdrr.io/r/base/toString.html" class="external-link">toString()</a></code> and
-<code>head(x, 1L)</code> respectively). You can also include additional
-fields in your parser if this makes sense in a specific case. The
-huffpost, for example, also distributes videos, so the <em>type</em>
-field is constructed and will be moved to the <code>misc</code> column
+<p>You can include extra fields beyond the four required ones
+(<code>datetime</code>, <code>author</code>, <code>headline</code>,
+<code>text</code>); they are moved to the <code>misc</code> column
 automatically.</p>
-<p>Once you think the parser is ready for a test drive, use the raw html
-data from above and turn on debugging mode (with
-<code>verbose = 2L</code>) to see where the parser might still fail. To
-run the function through <code>pb_deliver</code> you just load your new
-function into the global environment and it should be picked up (since
-the template uses unexported functions, you should also run
-<code>devtools::load_all()</code>, so <code>R</code> can find them):</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">articles</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pb_deliver.html">pb_deliver</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">articles_raw</span>, verbose <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span></span></code></pre></div>
-<p>Look through the articles to see if anything is missing that should
-be there. For the huffpost data, for example, the author was missing
-around half the time until I discovered that the html class is either
-<code>.author-card__name</code> <em>or</em>
-<code>.entry-wirepartner__byline</code> depending on if the author was a
-huffpost writer.</p>
-<p>Finally, you should check the new parser against the entire test data
-from above:</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="testing">Testing<a class="anchor" aria-label="anchor" href="#testing"></a>
+</h2>
+<p>After editing the parser, pass your collected test data to
+<code><a href="../reference/use_new_parser.html">use_new_parser()</a></code> — it will source the file, run
+<code><a href="../reference/pb_deliver.html">pb_deliver()</a></code> across all collected articles, and report
+failure rates for each required field:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">articles</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pb_deliver.html">pb_deliver</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">test_data</span><span class="op">$</span><span class="va">url</span><span class="op">)</span></span></code></pre></div>
-<p>If it works well here too, the parser is ready for serious duty
-:)</p>
-<!-- TODO: add description how to write tests -->
-<!-- registerS3method("pb_deliver", "www_huffpost_com", pb_deliver_paper.www_huffpost_com) -->
-  </main>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/use_new_parser.html">use_new_parser</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="st">"https://www.denverpost.com/2025/06/13/example/"</span>,</span>
+<span>  author <span class="op">=</span> <span class="st">"[@yourname](https://github.com/yourname/)"</span>,</span>
+<span>  rss <span class="op">=</span> <span class="st">"https://denverpost.com/feed"</span>,</span>
+<span>  test_data <span class="op">=</span> <span class="va">test_data</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>A field must parse successfully for ≥ 95 % of articles to pass. If
+the parser fails, <code><a href="../reference/use_new_parser.html">use_new_parser()</a></code> offers to load
+<code>test_data</code> and the parsed results into your global
+environment so you can inspect which articles failed and why.</p>
+<p>Once the parser passes, <code><a href="../reference/use_new_parser.html">use_new_parser()</a></code> updates
+<code>inst/status.csv</code> with a gold badge. Open a pull request and
+you are done.</p>
+</div>
+<div class="section level2">
+<h2 id="automated-testing">Automated Testing<a class="anchor" aria-label="anchor" href="#automated-testing"></a>
+</h2>
+<p>Every parser in the package is tested daily against its RSS feed in a
+<a href="https://sina-chen.github.io/paperboy-pulse/" class="external-link">separate
+repository</a>. Results are visible on the <a href="https://jbgruber.github.io/paperboy/articles/dashboard.html">Dashboard</a>.
+The RSS URL used for daily testing comes from the <code>rss</code>
+column in <code>inst/status.csv</code>, which
+<code><a href="../reference/use_new_parser.html">use_new_parser()</a></code> populates automatically.</p>
+</div>
+<div class="section level2">
+<h2 id="contributing-via-llm">Contributing via LLM<a class="anchor" aria-label="anchor" href="#contributing-via-llm"></a>
+</h2>
+<p>LLM agents (such as Claude Code) can contribute parsers using the
+same workflow described above. The main difference is that instead of
+<code><a href="../reference/pb_inspect.html">pb_inspect()</a></code>, the agent reads the raw HTML directly or
+calls <code><a href="../reference/pb_html_context.html">pb_html_context()</a></code> to get a compact text summary of
+the page structure — meta tags, unique element/class combinations,
+<code>&lt;time&gt;</code> elements, paragraph container paths, and
+JSON-LD blocks — without needing a browser.</p>
+<p>If you are using Claude Code inside the <code>paperboy</code>
+repository, the <code>/new-parser</code> custom command automates the
+full workflow:</p>
+<pre><code>/new-parser https://www.denverpost.com/2025/06/13/example/</code></pre>
+<p>This runs each step — RSS discovery, data collection, HTML analysis,
+parser writing, iterative testing, and <code>status.csv</code> update —
+and creates a local commit ready for your review before you push.</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

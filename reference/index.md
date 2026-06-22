@@ -12,6 +12,8 @@
   : Deliver online news articles
 - [`pb_find_rss()`](https://jbgruber.github.io/paperboy/reference/pb_find_rss.md)
   : Find RSS feed on a newspapers website
+- [`pb_html_context()`](https://jbgruber.github.io/paperboy/reference/pb_html_context.md)
+  : Get HTML context for LLM-assisted parser development
 - [`pb_inspect()`](https://jbgruber.github.io/paperboy/reference/pb_inspect.md)
   : Inspect content collected with pb_collect
 - [`pb_read_cookies()`](https://jbgruber.github.io/paperboy/reference/pb_read_cookies.md)

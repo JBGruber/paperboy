@@ -1,5 +1,6 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://jbgruber.github.io/paperboy/404.html</loc></url>
+<url><loc>https://jbgruber.github.io/paperboy/AGENTS.html</loc></url>
 <url><loc>https://jbgruber.github.io/paperboy/articles/For_Developers.html</loc></url>
 <url><loc>https://jbgruber.github.io/paperboy/articles/dashboard.html</loc></url>
 <url><loc>https://jbgruber.github.io/paperboy/articles/index.html</loc></url>
@@ -13,6 +14,7 @@
 <url><loc>https://jbgruber.github.io/paperboy/reference/pb_deliver.html</loc></url>
 <url><loc>https://jbgruber.github.io/paperboy/reference/pb_deliver_paper.html</loc></url>
 <url><loc>https://jbgruber.github.io/paperboy/reference/pb_find_rss.html</loc></url>
+<url><loc>https://jbgruber.github.io/paperboy/reference/pb_html_context.html</loc></url>
 <url><loc>https://jbgruber.github.io/paperboy/reference/pb_inspect.html</loc></url>
 <url><loc>https://jbgruber.github.io/paperboy/reference/pb_new.html</loc></url>
 <url><loc>https://jbgruber.github.io/paperboy/reference/pb_read_cookies.html</loc></url>
