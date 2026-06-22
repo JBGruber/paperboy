@@ -2,44 +2,74 @@
 
 Add a new newspaper parser to the `paperboy` R package for: **$ARGUMENTS**
 
-Work through the steps below in order. Use `Rscript` for all R operations — no interactive R session is needed. Read each command's output before continuing to the next step.
+Work through the steps below in order. Read each tool result before continuing to the next step.
+
+---
+
+## Environment & tools
+
+Run **every** R operation through the **`run_r`** tool exposed by the **`r-btw`** MCP server (the btw
+package). This is a *single persistent R session*: variables you create — most importantly the collected
+test data — stay in memory between calls, so there is no need to write anything to disk or to `/tmp`.
+This is what makes the command portable to Windows.
+
+- **R code** → the `run_r` tool. Never call `Rscript` on the command line.
+- **Reading and editing files** → Claude Code's own `Read` / `Write` / `Edit` tools.
+- **`git`** → the `Bash` tool (git is cross-platform).
+
+If the `run_r` tool is not available, the MCP server is not connected. Tell the user to install btw
+(`install.packages("btw")`) and restart Claude Code so it picks up `.mcp.json`, then approve the
+`r-btw` server when prompted. Stop until it is available. (RSQLite is only needed by `fix-parser`,
+not here.)
 
 ---
 
 ## Step 1 — Validate environment
 
-```bash
-Rscript -e "cat(file.exists('DESCRIPTION') && any(grepl('Package: paperboy', readLines('DESCRIPTION'), fixed = TRUE)), '\n')"
+Run via `run_r`:
+
+```r
+file.exists("DESCRIPTION") && any(grepl("Package: paperboy", readLines("DESCRIPTION"), fixed = TRUE))
 ```
 
-If the output is not `TRUE`, stop and tell the user to run this command from the paperboy repository root.
+If the result is not `TRUE`, stop and tell the user to start Claude Code from the paperboy repository
+root (the persistent R session inherits that working directory).
+
+Otherwise load the package once — it stays loaded for the rest of this session:
+
+```r
+devtools::load_all(quiet = TRUE)
+```
 
 ---
 
 ## Step 2 — Check for duplicate
 
-```bash
-Rscript -e "devtools::load_all(quiet = TRUE); cat(pb_available('$ARGUMENTS'), '\n')"
+Run via `run_r`:
+
+```r
+pb_available("$ARGUMENTS")
 ```
 
-If the output is `TRUE`, a parser already exists. Report this to the user and stop.
+If the result is `TRUE`, a parser already exists. Report this to the user and stop.
 
 ---
 
 ## Step 3 — Determine the domain class name
 
-This is the string that becomes the function name and the file name.
+This is the string that becomes the function name and the file name. Run via `run_r`:
 
-```bash
-Rscript -e "devtools::load_all(quiet = TRUE); cat(paperboy:::classify(adaR::ada_get_domain('$ARGUMENTS')), '\n')"
+```r
+paperboy:::classify(adaR::ada_get_domain("$ARGUMENTS"))
 ```
 
-Record this value as `{domain_class}` (e.g. `www_denverpost_com`). The parser file will be `R/deliver_{domain_class}.R` and the function will be `pb_deliver_paper.{domain_class}`.
+Record this value as `{domain_class}` (e.g. `www_denverpost_com`). The parser file will be
+`R/deliver_{domain_class}.R` and the function will be `pb_deliver_paper.{domain_class}`.
 
 Also record the bare domain without `www.`:
 
-```bash
-Rscript -e "cat(sub('^www\\.', '', adaR::ada_get_domain('$ARGUMENTS')), '\n')"
+```r
+sub("^www\\.", "", adaR::ada_get_domain("$ARGUMENTS"))
 ```
 
 Record this as `{domain}` (e.g. `denverpost.com`).
@@ -48,37 +78,38 @@ Record this as `{domain}` (e.g. `denverpost.com`).
 
 ## Step 4 — Find the RSS feed
 
-```bash
-Rscript -e "devtools::load_all(quiet = TRUE); cat(pb_find_rss('$ARGUMENTS'), '\n')"
+Run via `run_r`:
+
+```r
+pb_find_rss("$ARGUMENTS")
 ```
 
-Record the URL as `{rss_url}`. If nothing is found, try appending `/feed`, `/rss`, or `/index.xml` to the site's root domain and test each with `pb_collect()`. If these don't find a RSS URL, try a web search. If no working feed exists, set `{rss_url}` to `NA`.
+Record the URL as `{rss_url}`. If nothing is found, try appending `/feed`, `/rss`, or `/index.xml` to
+the site's root domain and test each with `pb_collect()`. If these don't find a RSS URL, try a web
+search. If no working feed exists, set `{rss_url}` to `NA`.
 
 ---
 
 ## Step 5 — Collect test articles
 
-```bash
-Rscript -e "
-devtools::load_all(quiet = TRUE)
-test_data <- pb_collect('{rss_url}')
-saveRDS(test_data, '/tmp/pb_test_data.rds')
-cat('Collected', nrow(test_data), 'articles\n')
-"
+Run via `run_r`. The result stays in memory as `test_data` — no need to save it:
+
+```r
+test_data <- pb_collect("{rss_url}")
+nrow(test_data)
 ```
 
-If `{rss_url}` is NA, skip this step; you will need to collect individual article URLs from `$ARGUMENTS` domain instead.
+If `{rss_url}` is NA, collect individual article URLs from the `$ARGUMENTS` domain into `test_data`
+instead.
 
 ---
 
 ## Step 6 — Analyse the HTML structure
 
-```bash
-Rscript -e "
-devtools::load_all(quiet = TRUE)
-test_data <- readRDS('/tmp/pb_test_data.rds')
+Run via `run_r`:
+
+```r
 pb_html_context(test_data, n = 3L)
-"
 ```
 
 Read the output carefully. Identify selectors for each of the four required fields using this priority order:
@@ -108,13 +139,14 @@ Use `html_search()` with a fallback list wherever reasonable — it makes parser
 
 ## Step 7 — Write the parser file
 
-Read the template:
+Read the template with the `Read` tool:
 
-```bash
-cat inst/templates/deliver_.R
+```
+inst/templates/deliver_.R
 ```
 
-Write `R/deliver_{domain_class}.R` with the selectors you identified in Step 6. Follow these conventions:
+Write `R/deliver_{domain_class}.R` (with the `Write` tool) using the selectors you identified in
+Step 6. Follow these conventions:
 
 - All four fields (`datetime`, `author`, `headline`, `text`) must be extracted.
 - `datetime` must be passed through `lubridate::as_datetime()`.
@@ -127,26 +159,27 @@ Write `R/deliver_{domain_class}.R` with the selectors you identified in Step 6. 
 
 ## Step 8 — Test and iterate (up to 3 rounds)
 
-```bash
-Rscript -e "
+After writing the file, reload the package and run the parser on the test data — all via `run_r`.
+Because the session is persistent, `test_data` is still in memory:
+
+```r
 devtools::load_all(quiet = TRUE)
-result <- pb_deliver(readRDS('/tmp/pb_test_data.rds'))
+result <- pb_deliver(test_data)
 total  <- nrow(result)
 rates  <- c(
-  datetime = sum(is.na(result\$datetime)) / total,
-  author   = (sum(result\$author == 'NA', na.rm = TRUE) + sum(is.na(result\$author))) / total,
-  headline = (sum(result\$headline == '', na.rm = TRUE) + sum(is.na(result\$headline))) / total,
-  text     = sum(result\$text == '', na.rm = TRUE) / total
+  datetime = sum(is.na(result$datetime)) / total,
+  author   = (sum(result$author == "NA", na.rm = TRUE) + sum(is.na(result$author))) / total,
+  headline = (sum(result$headline == "", na.rm = TRUE) + sum(is.na(result$headline))) / total,
+  text     = sum(result$text == "", na.rm = TRUE) / total
 )
-cat(paste0(names(rates), ': ', round(rates * 100, 1), '%'), sep = '\n')
-"
+cat(paste0(names(rates), ": ", round(rates * 100, 1), "%"), sep = "\n")
 ```
 
 A field **passes** when its failure rate is below 5 %. If any field fails:
 
 1. Re-read the HTML context from Step 6.
-2. Adjust the failing selector in the parser file.
-3. Re-run this test step.
+2. Adjust the failing selector in the parser file with the `Edit` tool.
+3. Re-run this test step (the `devtools::load_all()` picks up your edits).
 
 Repeat up to 3 times. If the parser still fails after 3 rounds, stop, report the per-field failure rates, and do **not** commit.
 
@@ -154,19 +187,15 @@ Repeat up to 3 times. If the parser still fails after 3 rounds, stop, report the
 
 ## Step 9 — Manual field review
 
-Run the parser on the first test article and display what was extracted:
+Run the parser on the first test article and display what was extracted, via `run_r`:
 
-```bash
-Rscript -e "
-devtools::load_all(quiet = TRUE)
-test_data <- readRDS('/tmp/pb_test_data.rds')
-result    <- pb_deliver(test_data[1, ])
-cat('URL:\n', test_data\$url[1], '\n\n')
-cat('datetime: ', format(result\$datetime), '\n\n')
-cat('author:   ', result\$author, '\n\n')
-cat('headline: ', result\$headline, '\n\n')
-cat('text:\n', result\$text, '\n')
-"
+```r
+result <- pb_deliver(test_data[1, ])
+cat("URL:\n", test_data$url[1], "\n\n")
+cat("datetime: ", format(result$datetime), "\n\n")
+cat("author:   ", result$author, "\n\n")
+cat("headline: ", result$headline, "\n\n")
+cat("text:\n", result$text, "\n")
 ```
 
 Show this output to the user and ask them to open the URL in their browser and verify that each field matches what they see on the page.
@@ -183,31 +212,33 @@ Only proceed to Step 10 once the user explicitly confirms the fields look correc
 
 ## Step 10 — Update `inst/status.csv`
 
-```bash
-Rscript -e "
-status <- read.csv('inst/status.csv', stringsAsFactors = FALSE)
-domain <- '{domain}'
-rss    <- '{rss_url}'
-badge  <- '![](https://img.shields.io/badge/status-gold-%23ffd700.svg)'
-if (!domain %in% status\$domain) {
+Run via `run_r`:
+
+```r
+status <- read.csv("inst/status.csv", stringsAsFactors = FALSE)
+domain <- "{domain}"
+rss    <- "{rss_url}"
+badge  <- "![](https://img.shields.io/badge/status-gold-%23ffd700.svg)"
+if (!domain %in% status$domain) {
   status <- rbind(status, data.frame(
     domain = domain, status = badge,
-    author = 'LLM agent', issues = '', rss = rss,
+    author = "LLM agent", issues = "", rss = rss,
     stringsAsFactors = FALSE
   ))
 } else {
-  status[status\$domain == domain, 'status'] <- badge
-  status[status\$domain == domain, 'rss']    <- rss
+  status[status$domain == domain, "status"] <- badge
+  status[status$domain == domain, "rss"]    <- rss
 }
-status <- status[order(status\$domain), ]
-write.csv(status, 'inst/status.csv', row.names = FALSE)
-cat('status.csv updated\n')
-"
+status <- status[order(status$domain), ]
+write.csv(status, "inst/status.csv", row.names = FALSE)
+cat("status.csv updated\n")
 ```
 
 ---
 
 ## Step 11 — Commit (do not push)
+
+Use the `Bash` tool:
 
 ```bash
 git add R/deliver_{domain_class}.R inst/status.csv

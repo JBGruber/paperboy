@@ -62,20 +62,20 @@ For broader coverage you can pull a larger set of URLs from the Media Cloud API 
 
 ```{r}
 library(httr2)
-test_data <- request("https://search.mediacloud.org/api/") |>
-  req_url_path_append("search/story-list") |>
+test_data <- request("https://search.mediacloud.org/api/") %>%
+  req_url_path_append("search/story-list") %>%
   req_headers(
     Authorization = paste("Token", Sys.getenv("MC_TOKEN")),
     Accept = "application/json"
-  ) |>
+  ) %>%
   req_url_query(
     q = "*",
     start = format(Sys.Date() - 7, "%Y-%m-%d"),
     ss = 107736L # source ID — look it up via the Media Cloud search UI
-  ) |>
-  req_perform() |>
-  resp_body_json() |>
-  purrr::pluck("stories") |>
+  ) %>%
+  req_perform() %>%
+  resp_body_json() %>%
+  purrr::pluck("stories") %>%
   dplyr::bind_rows()
 ```
 

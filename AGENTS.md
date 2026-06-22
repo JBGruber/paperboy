@@ -131,6 +131,8 @@ If using Claude Code inside this repository, run:
 
 This command handles all steps automatically: RSS discovery, test data collection, HTML analysis via `pb_html_context()`, parser writing, iterative testing, `status.csv` update, and a local commit ready for review.
 
+The `/new-parser` and `/fix-parser` commands run all R through a persistent R session exposed by the [btw](https://posit-dev.github.io/btw/) package's MCP server (configured in `.mcp.json`). This keeps them cross-platform (no `/tmp`, no `Rscript -e` subprocesses, no `sqlite3` CLI). On first use, install the packages — `install.packages(c("btw", "RSQLite"))` — and approve the `r-btw` server when Claude Code prompts.
+
 ### Workflow (manual)
 
 ```r

@@ -16,25 +16,58 @@ database to decide what to fix.
 > **stop, explain why, suggest how it might be addressed, and wait for the user.** If the user wants to
 > work on another domain, they will say so in a new prompt.
 
-Work through the steps below in order. Use `Rscript` for all R operations and `sqlite3` for
-database queries — no interactive session is needed. Read each command's output before continuing.
+Work through the steps below in order. Read each tool result before continuing.
+
+---
+
+## Environment & tools
+
+Run **every** R operation through the **`run_r`** tool exposed by the **`r-btw`** MCP server (the btw
+package). This is a *single persistent R session*: variables you create — the database connection, the
+collected test data — stay in memory between calls, so there is no need to write anything to disk or to
+`/tmp`. This is what makes the command portable to Windows.
+
+- **R code** → the `run_r` tool. Never call `Rscript` or `sqlite3` on the command line.
+- **Reading and editing files** → Claude Code's own `Read` / `Edit` tools.
+- **`git`** → the `Bash` tool (git is cross-platform).
+
+If the `run_r` tool is not available, the MCP server is not connected. Tell the user to install the
+required packages (`install.packages(c("btw", "RSQLite"))`) and restart Claude Code so it picks up
+`.mcp.json`, then approve the `r-btw` server when prompted. Stop until it is available.
 
 ---
 
 ## Step 1 — Validate environment
 
-```bash
-Rscript -e "cat(file.exists('DESCRIPTION') && any(grepl('Package: paperboy', readLines('DESCRIPTION'), fixed = TRUE)), '\n')"
+Run via `run_r`:
+
+```r
+file.exists("DESCRIPTION") && any(grepl("Package: paperboy", readLines("DESCRIPTION"), fixed = TRUE))
 ```
 
-If the output is not `TRUE`, stop and tell the user to run this command from the paperboy repository root.
+If the result is not `TRUE`, stop and tell the user to start Claude Code from the paperboy repository
+root (the persistent R session inherits that working directory).
+
+Otherwise load the package once — it stays loaded for the rest of this session:
+
+```r
+devtools::load_all(quiet = TRUE)
+```
 
 ---
 
 ## Step 2 — Download the monitoring database
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/sina-chen/paperboy-pulse/main/data/paperboy_monitor.sqlite -o /tmp/paperboy_monitor.sqlite && echo "downloaded $(stat -c%s /tmp/paperboy_monitor.sqlite) bytes"
+Run via `run_r`. `tempfile()` is portable; the connection `con` persists in the session:
+
+```r
+db_path <- tempfile(fileext = ".sqlite")
+download.file(
+  "https://raw.githubusercontent.com/sina-chen/paperboy-pulse/main/data/paperboy_monitor.sqlite",
+  db_path, mode = "wb", quiet = TRUE
+)
+con <- DBI::dbConnect(RSQLite::SQLite(), db_path)
+cat("downloaded", file.size(db_path), "bytes\n")
 ```
 
 If the download fails, stop and report it — the rest of the command depends on this file.
@@ -52,28 +85,28 @@ extraction success rate (0–1) for the last run; `error_msg` explains hard fail
 ## Step 3 — Choose the target domain
 
 **If `$ARGUMENTS` is non-empty**, set `{domain}` to it (strip any leading `www.` and any URL path —
-you want the bare registrable domain, e.g. `faz.net`). Confirm it appears in the latest run:
+you want the bare registrable domain, e.g. `faz.net`). Confirm it appears in the latest run via
+`run_r`:
 
-```bash
-sqlite3 /tmp/paperboy_monitor.sqlite "
-SELECT domain, n_http_success, pct_datetime, pct_author, pct_headline, pct_text, health, error_msg
-FROM domain_results
-WHERE run_id = (SELECT run_id FROM test_runs WHERE status='completed' ORDER BY started_at DESC LIMIT 1)
-  AND domain = '$ARGUMENTS';
-"
+```r
+DBI::dbGetQuery(con, "
+  SELECT domain, n_http_success, pct_datetime, pct_author, pct_headline, pct_text, health, error_msg
+  FROM domain_results
+  WHERE run_id = (SELECT run_id FROM test_runs WHERE status='completed' ORDER BY started_at DESC LIMIT 1)
+    AND domain = ?",
+  params = list("$ARGUMENTS"))
 ```
 
 **If `$ARGUMENTS` is empty**, take the first broken/degraded parser, ordered by domain:
 
-```bash
-sqlite3 -header -column /tmp/paperboy_monitor.sqlite "
-SELECT domain, n_http_success, pct_datetime, pct_author, pct_headline, pct_text, health, error_msg
-FROM domain_results
-WHERE run_id = (SELECT run_id FROM test_runs WHERE status='completed' ORDER BY started_at DESC LIMIT 1)
-  AND health IN ('broken','degraded')
-ORDER BY domain
-LIMIT 1;
-"
+```r
+DBI::dbGetQuery(con, "
+  SELECT domain, n_http_success, pct_datetime, pct_author, pct_headline, pct_text, health, error_msg
+  FROM domain_results
+  WHERE run_id = (SELECT run_id FROM test_runs WHERE status='completed' ORDER BY started_at DESC LIMIT 1)
+    AND health IN ('broken','degraded')
+  ORDER BY domain
+  LIMIT 1")
 ```
 
 Set `{domain}` to that single row and **commit to it** — this is the one parser you will work on for
@@ -112,49 +145,41 @@ wait for the user's decision. Continuing to another domain on your own is never 
 
 ## Step 5 — Locate the existing parser file
 
-```bash
-Rscript -e "devtools::load_all(quiet = TRUE); cat(paperboy:::classify('{domain}'), '\n')"
+Run via `run_r`:
+
+```r
+paperboy:::classify("{domain}")
 ```
 
 Record this as `{domain_class}` (e.g. `faz_net`). The parser is `R/deliver_{domain_class}.R` and the
-function is `pb_deliver_paper.{domain_class}`. Confirm the file exists:
+function is `pb_deliver_paper.{domain_class}`. Open it with the `Read` tool.
 
-```bash
-ls -l R/deliver_{domain_class}.R
-```
-
-If it does not exist, this is not an existing parser — stop and suggest running `new-parser` for this
-domain instead. Otherwise read the current parser so you know what to change:
-
-```bash
-cat R/deliver_{domain_class}.R
-```
+If the file does not exist, this is not an existing parser — stop and suggest running `new-parser` for
+this domain instead. Otherwise read the current parser so you know what to change.
 
 ---
 
 ## Step 6 — Re-collect fresh test articles
 
-Get the recorded feed from `status.csv`:
+Get the recorded feed from `status.csv` via `run_r`:
 
-```bash
-Rscript -e "s <- read.csv('inst/status.csv', stringsAsFactors = FALSE); cat(s\$rss[s\$domain == '{domain}'], '\n')"
+```r
+s <- read.csv("inst/status.csv", stringsAsFactors = FALSE)
+s$rss[s$domain == "{domain}"]
 ```
 
-Record it as `{rss_url}` and collect:
+Record it as `{rss_url}` and collect into a session variable (it stays in memory — no need to save it):
 
-```bash
-Rscript -e "
-devtools::load_all(quiet = TRUE)
-test_data <- pb_collect('{rss_url}')
-saveRDS(test_data, '/tmp/pb_fix_data.rds')
-cat('Collected', nrow(test_data), 'articles\n')
-"
+```r
+test_data <- pb_collect("{rss_url}")
+nrow(test_data)
 ```
 
 If the feed is empty/dead (the `No article URLs found` case) or no feed is recorded, find a working
-feed with `pb_find_rss('{domain}')`, or by appending `/feed`, `/rss`, or `/index.xml` to the root
+feed with `pb_find_rss("{domain}")`, or by appending `/feed`, `/rss`, or `/index.xml` to the root
 domain and testing each with `pb_collect()`, or via a web search. Record the working feed as
-`{rss_url}` for Step 11. If only specific article URLs are obtainable, collect those instead.
+`{rss_url}` for Step 11. If only specific article URLs are obtainable, collect those into `test_data`
+instead.
 
 If collection fails entirely (HTTP-block case), stop and report per Step 4.
 
@@ -162,14 +187,10 @@ If collection fails entirely (HTTP-block case), stop and report per Step 4.
 
 ## Step 7 — Analyse the current HTML structure
 
-The site's markup has changed since the parser was written — find what it looks like now:
+The site's markup has changed since the parser was written — find what it looks like now, via `run_r`:
 
-```bash
-Rscript -e "
-devtools::load_all(quiet = TRUE)
-test_data <- readRDS('/tmp/pb_fix_data.rds')
+```r
 pb_html_context(test_data, n = 3L)
-"
 ```
 
 Read the output carefully and identify replacement selectors **for the failing fields only**, using the
@@ -187,8 +208,8 @@ Prefer `html_search()` with a fallback list — it keeps the parser robust acros
 
 ## Step 8 — Edit the parser file
 
-Edit `R/deliver_{domain_class}.R`, replacing only the selectors for the fields you identified as broken.
-Leave working fields untouched. Keep the existing conventions:
+Use the `Edit` tool on `R/deliver_{domain_class}.R`, replacing only the selectors for the fields you
+identified as broken. Leave working fields untouched. Keep the existing conventions:
 
 - All four fields (`datetime`, `author`, `headline`, `text`) must still be extracted.
 - `datetime` passed through `lubridate::as_datetime()`.
@@ -201,26 +222,27 @@ Leave working fields untouched. Keep the existing conventions:
 
 ## Step 9 — Test and iterate (up to 3 rounds)
 
-```bash
-Rscript -e "
+After editing, reload the package and re-run the parser on the test data — all via `run_r`. Because the
+session is persistent, `test_data` is still in memory:
+
+```r
 devtools::load_all(quiet = TRUE)
-result <- pb_deliver(readRDS('/tmp/pb_fix_data.rds'))
+result <- pb_deliver(test_data)
 total  <- nrow(result)
 rates  <- c(
-  datetime = sum(is.na(result\$datetime)) / total,
-  author   = (sum(result\$author == 'NA', na.rm = TRUE) + sum(is.na(result\$author))) / total,
-  headline = (sum(result\$headline == '', na.rm = TRUE) + sum(is.na(result\$headline))) / total,
-  text     = sum(result\$text == '', na.rm = TRUE) / total
+  datetime = sum(is.na(result$datetime)) / total,
+  author   = (sum(result$author == "NA", na.rm = TRUE) + sum(is.na(result$author))) / total,
+  headline = (sum(result$headline == "", na.rm = TRUE) + sum(is.na(result$headline))) / total,
+  text     = sum(result$text == "", na.rm = TRUE) / total
 )
-cat(paste0(names(rates), ': ', round(rates * 100, 1), '%'), sep = '\n')
-"
+cat(paste0(names(rates), ": ", round(rates * 100, 1), "%"), sep = "\n")
 ```
 
 A field **passes** when its failure rate is below 5 %. If any field still fails:
 
 1. Re-read the HTML context from Step 7.
-2. Adjust the failing selector.
-3. Re-run this test step.
+2. Adjust the failing selector with the `Edit` tool.
+3. Re-run this test step (the `devtools::load_all()` picks up your edits).
 
 Repeat up to 3 times. If the parser still fails after 3 rounds, stop, report the per-field failure rates,
 and do **not** commit.
@@ -229,20 +251,18 @@ and do **not** commit.
 
 ## Step 10 — Manual field review
 
-```bash
-Rscript -e "
-devtools::load_all(quiet = TRUE)
-test_data <- readRDS('/tmp/pb_fix_data.rds')
-result    <- pb_deliver(test_data[1, ])
-cat('URL:\n', test_data\$url[1], '\n\n')
-cat('datetime: ', format(result\$datetime), '\n\n')
-cat('author:   ', result\$author, '\n\n')
-cat('headline: ', result\$headline, '\n\n')
-cat('text:\n', result\$text, '\n')
-"
+Run via `run_r`:
+
+```r
+result <- pb_deliver(test_data[1, ])
+cat("URL:\n", test_data$url[1], "\n\n")
+cat("datetime: ", format(result$datetime), "\n\n")
+cat("author:   ", result$author, "\n\n")
+cat("headline: ", result$headline, "\n\n")
+cat("text:\n", result$text, "\n")
 ```
 
-Show this output to the user and ask them to open the URL and verify each field matches the page. 
+Show this output to the user and ask them to open the URL and verify each field matches the page.
 Never abbreviate the text. Show it in full length, so the user can assess if everything was captured.
 
 **If the user reports problems:** ask which fields are wrong and what the correct values should be,
@@ -254,25 +274,25 @@ the user explicitly confirms the fields look correct.
 
 ## Step 11 — Update `inst/status.csv`
 
-Set the badge back to gold, and update the `rss` feed if you found a new one in Step 6:
+Set the badge back to gold, and update the `rss` feed if you found a new one in Step 6. Run via `run_r`:
 
-```bash
-Rscript -e "
-status <- read.csv('inst/status.csv', stringsAsFactors = FALSE)
-domain <- '{domain}'
-rss    <- '{rss_url}'
-badge  <- '![](https://img.shields.io/badge/status-gold-%23ffd700.svg)'
-status[status\$domain == domain, 'status'] <- badge
-if (nzchar(rss) && !is.na(rss)) status[status\$domain == domain, 'rss'] <- rss
-status <- status[order(status\$domain), ]
-write.csv(status, 'inst/status.csv', row.names = FALSE)
-cat('status.csv updated\n')
-"
+```r
+status <- read.csv("inst/status.csv", stringsAsFactors = FALSE)
+domain <- "{domain}"
+rss    <- "{rss_url}"
+badge  <- "![](https://img.shields.io/badge/status-gold-%23ffd700.svg)"
+status[status$domain == domain, "status"] <- badge
+if (nzchar(rss) && !is.na(rss)) status[status$domain == domain, "rss"] <- rss
+status <- status[order(status$domain), ]
+write.csv(status, "inst/status.csv", row.names = FALSE)
+cat("status.csv updated\n")
 ```
 
 ---
 
 ## Step 12 — Commit (do not push)
+
+Use the `Bash` tool:
 
 ```bash
 git add R/deliver_{domain_class}.R inst/status.csv

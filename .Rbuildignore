@@ -12,3 +12,5 @@
 ^docs$
 ^pkgdown$
 ^\.claude$
+^AGENTS.md$
+^plan.md$
