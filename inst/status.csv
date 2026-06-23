@@ -12,6 +12,7 @@
 "bbc.co.uk","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://feeds.bbci.co.uk/news/rss.xml"
 "berliner-kurier.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)",NA
 "berliner-zeitung.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.berliner-zeitung.de/feed.xml"
+"bernama.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","LLM agent","","https://bernama.com/en/rssfeed.php"
 "bild.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","http://www.bild.de/rssfeeds/rss3-20745882,feed=alles.bild.html"
 "blesk.cz","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.blesk.cz/rss"
 "bnn.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://bnn.de/feed"
@@ -83,6 +84,7 @@
 "latimes.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.latimes.com/politics/rss2.0.xml"
 "lidovky.cz","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://servis.lidovky.cz/rss.aspx"
 "lvz.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.lvz.de/arc/outboundfeeds/rss/"
+"malaymail.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","LLM agent","","https://www.malaymail.com/feed/rss"
 "manager-magazin.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.manager-magazin.de/news/index.rss"
 "marketwatch.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines"
 "maz-online.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.maz-online.de/arc/outboundfeeds/rss/"
