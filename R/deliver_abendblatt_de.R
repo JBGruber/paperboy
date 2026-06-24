@@ -17,7 +17,7 @@ pb_deliver_paper.abendblatt_de <- function(x, verbose = NULL, pb, ...) {
             break
         }
     }
-    if (is.null(json_df)) {
+    if (is.null(json_df) || is.null(json_df$articleBody)) {
         return(s_n_list())
     }
 
