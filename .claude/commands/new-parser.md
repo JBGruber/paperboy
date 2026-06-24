@@ -199,7 +199,7 @@ cat("text:\n", result$text, "\n")
 ```
 
 Show this output to the user and ask them to open the URL in their browser and verify that each field matches what they see on the page.
-Never abbreviate the text. Show it in full length, so the user can assess if everything was captured.
+Copy the text field verbatim and in full into your reply — do not summarize, truncate, or paraphrase it. The user needs the complete text to assess whether everything was captured correctly.
 
 **If the user reports problems:**
 - Ask which fields are wrong and (if they can tell) what the correct values should be.
