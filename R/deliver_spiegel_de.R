@@ -21,9 +21,15 @@ pb_deliver_paper.spiegel_de <- function(x, verbose = NULL, pb, ...) {
 
     # text
     text <- html %>%
-        rvest::html_elements("div[data-area = \"text\"]") %>%
+        rvest::html_elements("div.RichText p") %>%
         rvest::html_text2() %>%
         paste(collapse = "\n")
+    if (!nzchar(text)) {
+        text <- html %>%
+            rvest::html_elements("meta[name=\"description\"]") %>%
+            rvest::html_attr("content") %>%
+            paste(collapse = "\n")
+    }
 
     # the helper function safely creates a named list from objects
     s_n_list(
