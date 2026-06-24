@@ -15,10 +15,10 @@ pb_deliver_paper.srf_ch <- function(x, verbose = NULL, pb, ...) {
         rvest::html_elements("h1 .article-title__text") %>%
         rvest::html_text()
 
-    author <- "" # no article with author info founds
+    author <- "SRF"
 
     text <- html %>%
-        rvest::html_elements(".article-content p, .article-content h2") %>%
+        rvest::html_elements(xpath = "//section[contains(@class,'articlepage__article-content')]//p[not(ancestor::*[contains(@class,'expandable-box')]) and not(ancestor::*[contains(@class,'related-item')])]") %>%
         rvest::html_text2() %>%
         paste(collapse = "\n")
 
