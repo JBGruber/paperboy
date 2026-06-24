@@ -31,7 +31,7 @@ pb_deliver_paper.independent_ie <- function(x, verbose = NULL, pb, ...) {
   
   # text
   text <- html %>%
-    rvest::html_elements("article p") %>%
+    rvest::html_elements("section[class*='story-section'] p") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 

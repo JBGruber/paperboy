@@ -1,15 +1,19 @@
 if (!file.exists("tests/local-files/bench_data.rds")) {
   library(mediacloud)
-  bench_data <- search_stories(title = "*",
-                               media_id = c(1, 2, 4),
-                               after_date = "2022-10-01",
-                               n = 1000L)
+  bench_data <- search_stories(
+    title = "*",
+    media_id = c(1, 2, 4),
+    after_date = "2022-10-01",
+    n = 1000L
+  )
   while (nrow(bench_data) < 15000) {
-    temp <- search_stories(title = "*",
-                           media_id = c(1, 2, 4),
-                           after_date = "2022-10-01",
-                           n = 1000L,
-                           last_processed_stories_id = max(bench_data$processed_stories_id))
+    temp <- search_stories(
+      title = "*",
+      media_id = c(1, 2, 4),
+      after_date = "2022-10-01",
+      n = 1000L,
+      last_processed_stories_id = max(bench_data$processed_stories_id)
+    )
     bench_data <- rbind(bench_data, temp)
     message("Date:", max(bench_data$publish_date))
   }
@@ -19,23 +23,30 @@ if (!file.exists("tests/local-files/bench_data.rds")) {
 library(tidyverse)
 library(paperboy)
 if (!file.exists("tests/local-files/bench_data_collected.rds")) {
-  bench_data_collected <- readRDS("tests/local-files/bench_data.rds") |>
-    pull(url) |>
+  bench_data_collected <- readRDS("tests/local-files/bench_data.rds") %>%
+    pull(url) %>%
     pb_collect(ignore_fails = TRUE)
 
   saveRDS(bench_data_collected, "tests/local-files/bench_data_collected.rds")
 }
 
 set.seed(1)
-bench_data_collected <- readRDS("tests/local-files/bench_data_collected.rds") |>
+bench_data_collected <- readRDS(
+  "tests/local-files/bench_data_collected.rds"
+) %>%
   sample_n(5000)
 nrow(bench_data_collected)
 
-bench_data_collected <- bench_data_collected |>
-  filter(domain %in% c("www.nytimes.com",
-                       "www.washingtonpost.com",
-                       "usatodayhss.com",
-                       "eu.usatoday.com"))
+bench_data_collected <- bench_data_collected %>%
+  filter(
+    domain %in%
+      c(
+        "www.nytimes.com",
+        "www.washingtonpost.com",
+        "usatodayhss.com",
+        "eu.usatoday.com"
+      )
+  )
 
 #x <- pb_deliver(x = sample_n(bench_data_collected, 200))
 res <- bench::mark(
@@ -47,7 +58,7 @@ res$expression <- paste0("pb_deliver:", packageVersion("paperboy"))
 res$comment <- ""
 
 if (file.exists("tests/local-files/pb_deliver_bench.rds")) {
-  res_all <- readRDS("tests/local-files/pb_deliver_bench.rds") |>
+  res_all <- readRDS("tests/local-files/pb_deliver_bench.rds") %>%
     bind_rows(res)
 } else {
   res_all <- res

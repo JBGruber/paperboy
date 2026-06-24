@@ -9,20 +9,24 @@
 #'   shows the content.
 #'
 #' @export
-pb_inspect <- function(x,
-                       i = 1L,
-                       host_ip = "127.0.0.1",
-                       port = httpuv::randomPort()) {
-
+pb_inspect <- function(
+  x,
+  i = 1L,
+  host_ip = "127.0.0.1",
+  port = httpuv::randomPort()
+) {
   content_raw <- NULL
   rlang::check_installed("httpuv")
 
-  if (!"content_raw" %in% names(x))
+  if (!"content_raw" %in% names(x)) {
     stop("Only works with output from pb_collect()")
+  }
 
-  if (!is.null(paperboy.env$server)) paperboy.env$server$stop()
+  if (!is.null(paperboy.env$server)) {
+    paperboy.env$server$stop()
+  }
 
-  if (grepl("<|>", x$content_raw[i])) {
+  if (grepl("<%>%", x$content_raw[i])) {
     paperboy.env$server <- httpuv::startServer(
       host = host_ip,
       port = port,
@@ -40,6 +44,4 @@ pb_inspect <- function(x,
   } else {
     utils::browseURL(x$content_raw[i])
   }
-
-
 }

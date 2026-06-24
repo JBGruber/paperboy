@@ -18,143 +18,220 @@ knitr::opts_chunk$set(
 This vignette shows you how to write your own parser for a new site.
 Feel free to either use your parser locally or (preferably) contribute it back to the package via a [pull request](https://github.com/JBGruber/paperboy/pulls).
 
-If you want to contribute, your first steps should be to check if the parser you are looking for is already available (you can use `pb_available()` for that), or if someone has already committed to working on it in [an issue](https://github.com/JBGruber/paperboy/issues) and if this is not the case, you should [open a new issue](https://github.com/JBGruber/paperboy/issues/new) to let others know you want to do it.
+Before starting, check if the parser you need is already available with `pb_available()`, or if someone has already committed to working on it in [an issue](https://github.com/JBGruber/paperboy/issues).
+If not, [open a new issue](https://github.com/JBGruber/paperboy/issues/new) to let others know you want to do it.
 
-The next step is to get some test data, that means URLs from the page you want to scrape.
-I like to use Media Cloud for that, which has an excellent R package we can employ here (the code below assumes you've already set `MEDIACLOUD_API_KEY`).
-So let's walk through the process with huffpost.com as an example.
-We first need the internal ID of the site on Media cloud and then ask for 500 articles dating back a week from today
+## Starting a New Parser
 
-```{r}
-library(mediacloud)
-search_media("huffpost")
-test_data <- search_stories(title = "*",
-                            media_id = 27502,
-                            after_date = Sys.Date() - 7,
-                            n = 500)
-```
-
-Next, you can collect the raw data of a few of these URLs to investigate the needed html identifiers:
+The entry point is `use_new_parser()`, which guides you through each step.
+Just pass a URL from the target site and your GitHub author info:
 
 ```{r}
 library(paperboy)
-articles_raw <- pb_collect(test_data$url[1:20])
+use_new_parser(
+  x = "https://www.denverpost.com/2025/06/13/example/",
+  author = "[@yourname](https://github.com/yourname/)",
+  rss = "https://denverpost.com/feed" # optional; auto-detected if omitted
+)
 ```
 
-This pulls the entire sites of each article from the net.
-If it doesn't, you probably need to set some cookies first (vignette on cookies coming soon).
-In most cases, it does not make much sense though to look at the data with e.g., `View()`, since the html data is relatively big and the viewer might crash.
-Instead, `paperboy` comes with a function to inspect the code in your browser:
+`use_new_parser()` is designed to be run multiple times:
+
+- **First run** — creates the parser file from the template and opens it for editing, then exits.
+- **Subsequent runs** — sources the edited file, tests it against live articles from the RSS feed, and updates `inst/status.csv` on success.
+
+If `rss` is omitted in `use_new_parser`, the function below runs automatically and tries to identify an RSS feed.
+This is used for testing the parser and is an important part of the infrastructure.
+You can run it on its own if you need more control:
 
 ```{r}
-pb_inspect(articles_raw, 1L)
+pb_find_rss("https://www.denverpost.com")
+```
+
+If this does not retrieve and URLs, you might try a web search like "Denver Post RSS".
+
+## Getting Test Data
+
+The fastest way to get test articles is directly from the RSS feed:
+
+```{r}
+test_data <- pb_collect("https://denverpost.com/feed")
+```
+
+For broader coverage you can pull a larger set of URLs from the Media Cloud API (requires `MC_TOKEN` to be set):
+
+```{r}
+library(httr2)
+test_data <- request("https://search.mediacloud.org/api/") %>%
+  req_url_path_append("search/story-list") %>%
+  req_headers(
+    Authorization = paste("Token", Sys.getenv("MC_TOKEN")),
+    Accept = "application/json"
+  ) %>%
+  req_url_query(
+    q = "*",
+    start = format(Sys.Date() - 7, "%Y-%m-%d"),
+    ss = 107736L # source ID — look it up via the Media Cloud search UI
+  ) %>%
+  req_perform() %>%
+  resp_body_json() %>%
+  purrr::pluck("stories") %>%
+  dplyr::bind_rows()
+```
+
+## Inspecting the HTML
+
+Before writing selectors you need to see the raw HTML.
+`paperboy` ships with `pb_inspect()`, which opens any collected page in your browser:
+
+```{r}
+pb_inspect(test_data, 1L)
 ```
 
 ![view of a collected site with pb_inspect](inspect.png)
 
-From here we want to identify at least the headline, article text, publication date and time, and the author(s).
-Use the tools you are most comfortable with, I usually just right-click and `Inspect` in Chromium and then look for a suitable CSS tag.
-To get better with tags, I recommend the cool game [CSS Diner](https://flukeout.github.io/).
+Right-click the elements you care about and choose *Inspect* in your browser to see the CSS classes and attributes.
+To get better with CSS selectors I recommend the game [CSS Diner](https://flukeout.github.io/).
 
-Once you know roughly how the site publishes articles, you can start a new parser which pulls the relevant information from the html code.
-The best way to start is from the built-in template using the un-exported function `pb_new()`.
-Just enter the domain of the site (or an entire URL) to create the correct function (the new file will be placed in your working directory or the /R directory if you work in the package folder):
+## Writing the Parser
+
+The template created by `use_new_parser()` looks like this:
 
 ```{r}
-paperboy:::pb_new(np = "http://huffpost.com/")
+pb_deliver_paper.www_denverpost_com <- function(x, verbose = NULL, pb, ...) {
+  pb_tick(x, verbose, pb)
+  html <- rvest::read_html(x$content_raw)
+
+  datetime <- html %>%
+    rvest::html_element("") %>%
+    rvest::html_attr("") %>%
+    lubridate::as_datetime()
+
+  headline <- html %>%
+    rvest::html_element("") %>%
+    rvest::html_attr("")
+
+  author <- html %>%
+    rvest::html_element("") %>%
+    rvest::html_text2() %>%
+    toString()
+
+  text <- html %>%
+    rvest::html_elements("") %>%
+    rvest::html_text2() %>%
+    paste(collapse = "\n")
+
+  s_n_list(datetime, author, headline, text)
+}
 ```
 
-If you are familiar with `rvest`, you should have no problem making the parser work in minutes.
-Feel free to look at the available parsers for inspiration.
-To make the process even easier, `paperboy` adds the function `html_search` which can search through multiple CSS identifiers and node attributes at once.
-As an example, have a look at the default parser, which is designed to grab data from many different sites:
+Fill in the empty strings with the CSS selectors and attributes you identified.
+If you are familiar with `rvest`, this usually takes only a few minutes.
+Feel free to look at the [existing parsers](https://github.com/JBGruber/paperboy/tree/main/R) for inspiration.
+Some of them contains tricks that get around strange HTML structures or apply shortcuts that get clean data faster.
 
-```{r eval=FALSE}
-html %>%
-  html_search(selectors = c(
-      "[property=\"sailthru.title\"]",
+## Choosing CSS Selectors
+
+### `html_search()` for robust fallbacks
+
+The helper `html_search()` tries a list of selectors in order and returns the first non-empty result.
+This is useful when a site uses different templates for different article types.
+For example, the headline could live in different places depending on article type:
+
+```{r}
+headline <- html %>%
+  html_search(
+    selectors = c(
       "[property=\"og:title\"]",
       ".headline__title",
-      ".headline__subtitle",
-      ".js-headline",
       ".headline",
-      ".pg-headline",
-      ".headline>h1",
-      ".headline__text",
-      "[property =\"mol:headline\"]",
-      "[id*=\"video-headline\"]",
       "title"
-    ), attributes = c("content", "text"))
+    ),
+    attributes = c("content", "text")
+  )
 ```
 
-It looks through all the listed selectors and retrieves the attribute content or the text of the node if anything is found (note you can set `all = FALSE` to only collect the first non empty node).
-
-The most difficult decision for most parsers is which CSS tags to choose.
-There is usually a tradeoff between a more specific parser that provides clean data and a more general parser that causes fewer problems when it comes to maintaining different formats on the same website.
-A good example is the text column, which you can produce almost always like this:
+Set `all = FALSE` (the default) to return only the first non-empty match.
+For multi-value fields like article paragraphs, set `n = Inf` to collect all nodes:
 
 ```{r}
-text <- html  %>%
-  rvest::html_elements("p") %>%
-  rvest::html_text2() %>%
+text <- html %>%
+  html_search(
+    selectors = c(".article-body>p", "p"),
+    attributes = "text",
+    all = FALSE,
+    n = Inf
+  ) %>%
   paste(collapse = "\n")
 ```
 
-This selects all paragraphs on a site, which often also includes irrelevant data, such as infos for subscribers, ads, readers' comments or even meta data that is usually hidden from view.
-So it is usually better to do something like this instead:
+### Targeting the article body
+
+Prefer a specific container selector over bare `p` to avoid picking up ads, reader comments, and subscriber notices:
 
 ```{r}
-text <- html  %>%
+# Too broad — catches everything on the page
+text <- html %>%
+  rvest::html_elements("p") %>%
+  rvest::html_text2() %>%
+  paste(collapse = "\n")
+
+# Better — only paragraphs inside the article body class
+text <- html %>%
   rvest::html_elements(".article-body>p") %>%
   rvest::html_text2() %>%
   paste(collapse = "\n")
 ```
 
-This code will only select paragraphs from the article-body class, which works well for most washingtonpost.com articles, for example.
-However, not all articles on the website have this class, for which case you want to create a fallback.
-`html_search()` can do this like shown below:
+There is always a trade-off: a specific selector gives cleaner text but may miss articles that use a different template; `html_search()` with a fallback chain gives you both.
 
-```{r}
-text <- html %>%
-  html_search(selectors = c(".article-body>p", "p"), # select paragraphs in .article-body or just all paragraphs
-              attributes = "text",                   # retrieve the text from selected nodes
-              all = FALSE,                           # only the first non-empty match is used
-              n = Inf) %>%                           # default is to return the first attribute, we want all paragraphs
-  paste(collapse = "\n")
-```
+### `s_n_list()` for safe returns
 
-Another notable helper function is `s_n_list` (for safe named list), which combines multiple R objects into a named list in which all elements have the length 1.
-The returned value of `s_n_list` should be the output of all parsers:
+All parsers return a named list via `s_n_list()`, which ensures every element has length 1 and turns `NULL` values into `NA`:
 
 ```{r eval=TRUE}
-a <- 1:10 # longer objects are put in a list
-b <- NULL # NULL is turned into NA
+a <- 1:10 # longer objects are stored in a list column
+b <- NULL # NULL becomes NA
 c <- NA
 paperboy:::s_n_list(a, b, c)
 ```
 
-Combining the data in this way makes sure the data can be neatly placed in a tibble later.
-You should still make sure though that the objects *headline*, *article*, *datetime*, and *author* have length 1 (with `toString()` and `head(x, 1L)` respectively).
-You can also include additional fields in your parser if this makes sense in a specific case.
-The huffpost, for example, also distributes videos, so the *type* field is constructed and will be moved to the `misc` column automatically.
+You can include extra fields beyond the four required ones (`datetime`, `author`, `headline`, `text`); they are moved to the `misc` column automatically.
 
-Once you think the parser is ready for a test drive, use the raw html data from above and turn on debugging mode (with `verbose = 2L`) to see where the parser might still fail.
-To run the function through `pb_deliver` you just load your new function into the global environment and it should be picked up (since the template uses unexported functions, you should also run `devtools::load_all()`, so `R` can find them):
+## Testing
+
+After editing the parser, pass your collected test data to `use_new_parser()` — it will source the file, run `pb_deliver()` across all collected articles, and report failure rates for each required field:
 
 ```{r}
-articles <- pb_deliver(x = articles_raw, verbose = 2L)
+use_new_parser(
+  x = "https://www.denverpost.com/2025/06/13/example/",
+  author = "[@yourname](https://github.com/yourname/)",
+  rss = "https://denverpost.com/feed",
+  test_data = test_data
+)
 ```
 
-Look through the articles to see if anything is missing that should be there.
-For the huffpost data, for example, the author was missing around half the time until I discovered that the html class is either `.author-card__name` *or* `.entry-wirepartner__byline` depending on if the author was a huffpost writer.
+A field must parse successfully for ≥ 95 % of articles to pass.
+If the parser fails, `use_new_parser()` offers to load `test_data` and the parsed results into your global environment so you can inspect which articles failed and why.
 
-Finally, you should check the new parser against the entire test data from above:
+Once the parser passes, `use_new_parser()` updates `inst/status.csv` with a gold badge.
+Open a pull request and you are done.
 
-```{r}
-articles <- pb_deliver(x = test_data$url)
+## Automated Testing
+
+Every parser in the package is tested daily against its RSS feed in a [separate repository](https://sina-chen.github.io/paperboy-pulse/).
+Results are visible on the [Dashboard](https://jbgruber.github.io/paperboy/articles/dashboard.html).
+The RSS URL used for daily testing comes from the `rss` column in `inst/status.csv`, which `use_new_parser()` populates automatically.
+
+## Contributing via LLM
+
+LLM agents (such as Claude Code) can contribute parsers using the same workflow described above.
+The main difference is that instead of `pb_inspect()`, the agent reads the raw HTML directly or calls `pb_html_context()` to get a compact text summary of the page structure — meta tags, unique element/class combinations, `<time>` elements, paragraph container paths, and JSON-LD blocks — without needing a browser.
+
+If you are using Claude Code inside the `paperboy` repository, the `/new-parser` custom command automates the full workflow:
+
+```
+/new-parser https://www.denverpost.com/2025/06/13/example/
 ```
 
-If it works well here too, the parser is ready for serious duty :)
-
-<!-- TODO: add description how to write tests -->
-<!-- registerS3method("pb_deliver", "www_huffpost_com", pb_deliver_paper.www_huffpost_com) -->
+This runs each step — RSS discovery, data collection, HTML analysis, parser writing, iterative testing, and `status.csv` update — and creates a local commit ready for your review before you push.

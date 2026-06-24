@@ -14,7 +14,7 @@ pb_deliver_paper.n_tv_de <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_elements(".article__text") %>%
+            rvest::html_elements("div.wrapper-article p:not([class*='footer_source']), div.GridArticle_article__i2FJK p:not([class*='footer_source'])") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 

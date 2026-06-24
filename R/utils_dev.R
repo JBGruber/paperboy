@@ -38,12 +38,13 @@
 #'                rss = "https://www.buzzfeed.com/rss")
 #' }
 #' @md
-use_new_parser <- function(x,
-                           author = "",
-                           issue = "",
-                           rss = NULL,
-                           test_data = NULL) {
-
+use_new_parser <- function(
+  x,
+  author = "",
+  issue = "",
+  rss = NULL,
+  test_data = NULL
+) {
   x <- utils::head(adaR::ada_get_domain(x), 1)
 
   cli::cli_progress_step(
@@ -79,11 +80,13 @@ use_new_parser <- function(x,
       if (!gsub("^www.", "", x) %in% status$domain) {
         domain <- NULL
         status <- status %>%
-          rbind(list(domain = sub("^www.", "", x),
-                     status = "![](https://img.shields.io/badge/status-requested-lightgrey)",
-                     author = author,
-                     issues = issue,
-                     rss    = rss)) %>%
+          rbind(list(
+            domain = sub("^www.", "", x),
+            status = "![](https://img.shields.io/badge/status-requested-lightgrey)",
+            author = author,
+            issues = issue,
+            rss = rss
+          )) %>%
           dplyr::arrange(domain)
         utils::write.csv(status, "inst/status.csv", row.names = FALSE)
       } else if (rss == "") {
@@ -95,7 +98,6 @@ use_new_parser <- function(x,
     } else {
       cli::cli_progress_done(result = "failed")
     }
-
   } else {
     cli::cli_alert_info(
       "Editing of status.csv skipped as you are not in the package folder"
@@ -160,15 +162,163 @@ use_new_parser <- function(x,
     status <- utils::read.csv("inst/status.csv")
     status[status$domain == gsub("^www.", "", x), "status"] <-
       "![](https://img.shields.io/badge/status-gold-%23ffd700.svg)"
-    cli::cli_alert_info("Check the entry manually. Press quit when you're happy.")
+    cli::cli_alert_info(
+      "Check the entry manually. Press quit when you're happy."
+    )
     status[status$domain == gsub("^www.", "", x), ] <-
       utils::edit(status[status$domain == gsub("^www.", "", x), ])
     utils::write.csv(status, "inst/status.csv", row.names = FALSE)
-
   }
 
   cli::cli_alert_success("All done! {praise::praise()}")
 }
+
+
+#' Get HTML context for LLM-assisted parser development
+#'
+#' A text-output alternative to \link{pb_inspect} for non-interactive
+#' environments such as LLM agents. Prints a compact structured summary of page
+#' HTML — meta tags, JSON-LD blocks, \code{<time>} elements, most common
+#' paragraph-parent selectors, and elements with keyword-bearing class names —
+#' to help identify CSS selectors for the four required parser fields without
+#' needing a browser.
+#'
+#' @param x A data frame from \link{pb_collect}.
+#' @param n Integer; number of articles to summarise (default \code{1L}).
+#'
+#' @return Invisibly returns a character vector of summaries (one per article).
+#'   Prints to the console as a side effect.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' test_data <- pb_collect("https://denverpost.com/feed")
+#' pb_html_context(test_data, n = 3L)
+#' }
+pb_html_context <- function(x, n = 1L) {
+  if (!is.data.frame(x) || !"content_raw" %in% names(x)) {
+    cli::cli_abort("{.arg x} must be a data frame from {.fn pb_collect}")
+  }
+
+  x <- utils::head(x, n)
+
+  url_col <- intersect(c("url", "link", "id"), names(x))
+  url_col <- if (length(url_col) > 0L) url_col[1L] else NA_character_
+
+  out <- vapply(
+    seq_len(nrow(x)),
+    function(i) {
+      html <- rvest::read_html(x$content_raw[[i]])
+      label <- if (!is.na(url_col)) x[[url_col]][[i]] else paste("article", i)
+
+      # Meta tags
+      meta_nodes <- rvest::html_elements(html, "meta")
+      meta_key <- dplyr::coalesce(
+        rvest::html_attr(meta_nodes, "name"),
+        rvest::html_attr(meta_nodes, "property")
+      )
+      meta_content <- rvest::html_attr(meta_nodes, "content")
+      keep <- !is.na(meta_key) & !is.na(meta_content) & nzchar(meta_content)
+      meta_lines <- paste0(meta_key[keep], ": ", meta_content[keep])
+
+      # JSON-LD structured data blocks
+      jsonld_raw <- rvest::html_elements(
+        html,
+        "script[type='application/ld+json']"
+      ) %>%
+        rvest::html_text()
+      jsonld <- if (length(jsonld_raw) > 0L) {
+        paste(jsonld_raw, collapse = "\n---\n")
+      } else {
+        ""
+      }
+
+      # Time elements (first 3)
+      time_nodes <- rvest::html_elements(html, "time")
+      time_lines <- vapply(
+        seq_len(min(3L, length(time_nodes))),
+        function(j) {
+          t <- time_nodes[[j]]
+          dt <- rvest::html_attr(t, "datetime")
+          cl <- rvest::html_attr(t, "class")
+          tx <- rvest::html_text2(t)
+          parts <- c(
+            if (!is.na(dt) && nzchar(dt)) paste0("datetime=\"", dt, "\""),
+            if (!is.na(cl) && nzchar(cl)) paste0("class=\"", cl, "\"")
+          )
+          paste0("<time ", paste(parts, collapse = " "), ">", tx, "</time>")
+        },
+        character(1)
+      )
+
+      # Most frequent <p> parents (top 5 candidates for article body selector)
+      p_nodes <- rvest::html_elements(html, "p")
+      p_parent_sels <- vapply(
+        p_nodes,
+        function(p) {
+          parent <- xml2::xml_parent(p)
+          parent_tag <- xml2::xml_name(parent)
+          parent_class <- xml2::xml_attr(parent, "class")
+          if (!is.na(parent_class) && nzchar(parent_class)) {
+            first_class <- strsplit(parent_class, "\\s+")[[1L]][1L]
+            paste0(parent_tag, ".", first_class)
+          } else {
+            parent_tag
+          }
+        },
+        character(1)
+      )
+      freq <- sort(table(p_parent_sels), decreasing = TRUE)
+      parent_lines <- utils::head(
+        paste0(names(freq), ": ", as.integer(freq), " <p>"),
+        5L
+      )
+
+      # Elements whose class names suggest parser-relevant content
+      kw_pattern <- "author|byline|writer|headline|title|datetime|publish|date"
+      all_nodes <- rvest::html_elements(html, "[class]")
+      all_classes <- rvest::html_attr(all_nodes, "class")
+      kw_match <- grepl(kw_pattern, all_classes, ignore.case = TRUE)
+      kw_nodes <- all_nodes[kw_match]
+      kw_classes <- all_classes[kw_match]
+      kw_tags <- rvest::html_name(kw_nodes)
+      kw_text <- gsub("\\s+", " ", rvest::html_text2(kw_nodes))
+      kw_text <- substr(kw_text, 1L, 80L)
+      unique_sel <- !duplicated(paste(kw_tags, kw_classes))
+      kw_lines <- paste0(
+        kw_tags[unique_sel],
+        ".",
+        gsub("\\s+", ".", kw_classes[unique_sel]),
+        ": \"",
+        kw_text[unique_sel],
+        "\""
+      )
+
+      sections <- c(
+        paste0("=== ", label, " ==="),
+        "",
+        "--- Meta Tags ---",
+        meta_lines,
+        "",
+        if (nzchar(jsonld)) c("--- JSON-LD ---", jsonld, ""),
+        if (length(time_lines) > 0L) c("--- Time Elements ---", time_lines, ""),
+        "--- Most Common <p> Parents (article body candidates) ---",
+        parent_lines,
+        "",
+        if (length(kw_lines) > 0L) {
+          c("--- Elements with Keyword Classes ---", kw_lines, "")
+        }
+      )
+
+      paste(sections, collapse = "\n")
+    },
+    character(1)
+  )
+
+  cat(paste(out, collapse = "\n\n"))
+  invisible(out)
+}
+
 
 #' Create new scraper
 #'
@@ -185,11 +335,12 @@ use_new_parser <- function(x,
 #' paperboy:::pb_new_done()
 #' }
 pb_new <- function(np, author = "", issue = "") {
-
   np <- utils::head(url_get_domain(np), 1)
   np_ <- classify(np)
 
-  if (is.na(np)) cli::cli_abort("invalid domain name: {np}")
+  if (is.na(np)) {
+    cli::cli_abort("invalid domain name: {np}")
+  }
 
   template <- system.file("templates", "deliver_.R", package = "paperboy") %>%
     readLines() %>%
@@ -197,7 +348,9 @@ pb_new <- function(np, author = "", issue = "") {
 
   p <- ifelse(is_pb(), "./R", ".")
   f <- file.path(p, paste0("deliver_", np_, ".R"))
-  if (!file.exists(f)) writeLines(template, f)
+  if (!file.exists(f)) {
+    writeLines(template, f)
+  }
 
   return(f)
 }
@@ -210,9 +363,9 @@ pb_new <- function(np, author = "", issue = "") {
 #' @param test_data A data frame of raw content.
 #' @return A success or failure message.
 test_parser <- function(test_data) {
-
-  if (!"content_raw" %in% names(test_data))
+  if (!"content_raw" %in% names(test_data)) {
     cli::cli_abort("Only works with output from {.fnc pb_collect}")
+  }
 
   cli::cli_alert_info("Trying to parse raw data")
   test_df_parsed <- pb_deliver(test_data)
@@ -227,12 +380,16 @@ test_parser <- function(test_data) {
   if (fails == 0) {
     the$test_status <- "passed"
     cli::cli_progress_done(
-      praise::praise("${Exclamation}! Test passed ${adverb}! This parser is ${adjective}!")
+      praise::praise(
+        "${Exclamation}! Test passed ${adverb}! This parser is ${adjective}!"
+      )
     )
   } else {
     the$test_status <- "fail"
     cli::cli_alert_danger(
-      praise::praise("Some tests failed. But you will get there! Don't stop ${creating} now!")
+      praise::praise(
+        "Some tests failed. But you will get there! Don't stop ${creating} now!"
+      )
     )
   }
   invisible(test_df_parsed)
@@ -247,19 +404,21 @@ pct <- function(x) {
 
 
 check_fails <- function(df, what, total) {
-
   switch(
     what,
     "datetime" = fails <- sum(is.na(df[[what]])) / total,
     "author" = fails <- (sum(df[[what]] == "NA", na.rm = TRUE) +
-                           sum(is.na(df[[what]]))) / total,
+      sum(is.na(df[[what]]))) /
+      total,
     "headline" = fails <- (sum(df[[what]] == "", na.rm = TRUE) +
-      sum(is.na(df[[what]]))) / total,
+      sum(is.na(df[[what]]))) /
+      total,
     "text" = fails <- sum(df[[what]] == "") / total
   )
 
-  if (fails > 0.01 & fails < 0.05)
+  if (fails > 0.01 & fails < 0.05) {
     cli::cli_alert_warning("{pct(fails)} of {what} values failed to parse")
+  }
 
   if (fails >= 0.05) {
     cli::cli_alert_danger("{pct(fails)} of {what} values failed to parse")
@@ -273,7 +432,9 @@ is_pb <- function() {
   n <- basename(getwd()) == "paperboy"
   d <- file.exists("DESCRIPTION")
   v <- FALSE
-  if (d) v <- any(grepl("Package: paperboy", readLines("DESCRIPTION"), fixed = TRUE))
+  if (d) {
+    v <- any(grepl("Package: paperboy", readLines("DESCRIPTION"), fixed = TRUE))
+  }
   n + d + v == 3L
 }
 
