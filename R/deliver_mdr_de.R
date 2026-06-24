@@ -14,9 +14,10 @@ pb_deliver_paper.mdr_de <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_elements(".einleitung,.paragraph") %>%
+            rvest::html_elements(xpath = "//article[contains(@class,'articlepage')]//p[not(ancestor::header) and not(ancestor::div[contains(@class,'teasertext')]) and not(ancestor::div[contains(@class,'relatedbroadcast')]) and not(contains(@class,'textauthor'))]") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
+        if (!nzchar(text)) text <- if (!is.null(json_df$description)) json_df$description else ""
 
         s_n_list(
             datetime,
