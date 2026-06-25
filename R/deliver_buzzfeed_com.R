@@ -5,27 +5,33 @@ pb_deliver_paper.buzzfeed_com <- function(x, verbose = NULL, pb, ...) {
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
 
+  json_ld <- html %>% 
+    rvest::html_element('script[type="application/ld+json"]') %>% 
+    rvest::html_text() %>% 
+    jsonlite::fromJSON()
+  
+  if(!is.null(purrr::pluck(json_ld, "@graph"))){
+    json_ld <- json_ld$`@graph`[1,] 
+  }
+  
   # datetime
-  datetime <- html %>%
-    rvest::html_element("time") %>%
-    rvest::html_attr("datetime") %>%
+  datetime <- json_ld$datePublished %>%
     lubridate::as_datetime()
 
   # headline
-  headline <- html %>%
-    rvest::html_element("[class^=\"headline_title\"]") %>%
-    rvest::html_text()
+  headline <- json_ld$headline
 
   # author
-  author <- html %>%
-    rvest::html_element("[class*=\"headline-byline_bylineName\"]")  %>%
-    rvest::html_text2() %>%
-    toString()
+  author <- json_ld$author$name
+  if(is.null(author)) {
+    author <- json_ld$author[[1]]$name
+  }
 
   # text
-  text <- html %>%
-    rvest::html_elements(".subbuzz-text>p") %>%
-    rvest::html_text2() %>%
+  text <- html |>
+    rvest::html_elements(".embed-post p, .embed-post h2") |>
+    rvest::html_text2() |>
+    trimws() |>
     paste(collapse = "\n")
 
   # in-text links
@@ -34,6 +40,13 @@ pb_deliver_paper.buzzfeed_com <- function(x, verbose = NULL, pb, ...) {
     rvest::html_elements("a") %>%
     rvest::html_attr("href") %>%
     as.list()
+  
+  if(length(text_links) == 0) {
+    text <- NA_character_
+  }
+  
+  # date and time URL was accessed
+  accessed <- Sys.time()
 
   # the helper function safely creates a named list from objects
   s_n_list(
@@ -41,7 +54,8 @@ pb_deliver_paper.buzzfeed_com <- function(x, verbose = NULL, pb, ...) {
     author,
     headline,
     text,
-    text_links
+    text_links,
+    accessed
   )
 
 }
