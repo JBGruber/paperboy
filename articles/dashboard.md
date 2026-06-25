@@ -8,15 +8,15 @@
 
 Total Scrapers
 
-186
+187
 
 OK
 
-80
+78
 
 Degraded
 
-10
+13
 
 Broken
 
@@ -33,7 +33,7 @@ Access Denied
 Expand
 ![](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdib3g9IjAgMCAyNCAyNCIgc3R5bGU9ImhlaWdodDoxZW07d2lkdGg6MWVtOyIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9ImltZyI+PHBhdGggZD0iTTIwIDVDMjAgNC40IDE5LjYgNCAxOSA0SDEzQzEyLjQgNCAxMiAzLjYgMTIgM0MxMiAyLjQgMTIuNCAyIDEzIDJIMjFDMjEuNiAyIDIyIDIuNCAyMiAzVjExQzIyIDExLjYgMjEuNiAxMiAyMSAxMkMyMC40IDEyIDIwIDExLjYgMjAgMTFWNVpNNCAxOUM0IDE5LjYgNC40IDIwIDUgMjBIMTFDMTEuNiAyMCAxMiAyMC40IDEyIDIxQzEyIDIxLjYgMTEuNiAyMiAxMSAyMkgzQzIuNCAyMiAyIDIxLjYgMiAyMVYxM0MyIDEyLjQgMi40IDEyIDMgMTJDMy42IDEyIDQgMTIuNCA0IDEzVjE5WiIgLz48L3N2Zz4=)
 
-Last run: 2026-06-24 11:29 UTC
+Last run: 2026-06-25 11:17 UTC
 
 Expand
 ![](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdib3g9IjAgMCAyNCAyNCIgc3R5bGU9ImhlaWdodDoxZW07d2lkdGg6MWVtOyIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9ImltZyI+PHBhdGggZD0iTTIwIDVDMjAgNC40IDE5LjYgNCAxOSA0SDEzQzEyLjQgNCAxMiAzLjYgMTIgM0MxMiAyLjQgMTIuNCAyIDEzIDJIMjFDMjEuNiAyIDIyIDIuNCAyMiAzVjExQzIyIDExLjYgMjEuNiAxMiAyMSAxMkMyMC40IDEyIDIwIDExLjYgMjAgMTFWNVpNNCAxOUM0IDE5LjYgNC40IDIwIDUgMjBIMTFDMTEuNiAyMCAxMiAyMC40IDEyIDIxQzEyIDIxLjYgMTEuNiAyMiAxMSAyMkgzQzIuNCAyMiAyIDIxLjYgMiAyMVYxM0MyIDEyLjQgMi40IDEyIDMgMTJDMy42IDEyIDQgMTIuNCA0IDEzVjE5WiIgLz48L3N2Zz4=)
@@ -55,9 +55,9 @@ heidelberg24.de heise.de hn.cz hna.de huffingtonpost.co.uk huffpost.com
 idnes.cz independent.co.uk independent.ie infranken.de irishexaminer.com
 irishmirror.ie irishtimes.com irozhlas.cz joe.ie jungefreiheit.de
 kabeleins.de karlsruhe-insider.de kreiszeitung.de ksta.de kurier.at
-latimes.com lidovky.cz lvz.de malaymail.com manager-magazin.de
-marketwatch.com maz-online.de mdr.de mediacourant.nl merkur.de
-metronieuws.nl mopo.de morgenpost.de msnbc.com n-tv.de ndr.de
+latimes.com lidovky.cz lvz.de malaymail.com malaysiakini.com
+manager-magazin.de marketwatch.com maz-online.de mdr.de mediacourant.nl
+merkur.de metronieuws.nl mopo.de morgenpost.de msnbc.com n-tv.de ndr.de
 news-und-nachrichten.de news.de newsflash24.de newstatesman.com
 newsweek.com nordkurier.de nos.nl novinky.cz noz.de nrc.nl nu.nl nw.de
 nypost.com nytimes.com nzz.ch orf.at ostsee-zeitung.de pagesix.com
@@ -77,16 +77,16 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:21
+**Last tested:** 2026-06-25 11:11
 
 **RSS:**
 [https://www.3sat.de/rss/zdf/gesellschaft](https://www.3sat.de/rss/zdf/gesellschaft)
 
 ![](assets/plots/3sat-de.png)
 
-**Status:** OK
+**Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:21
+**Last tested:** 2026-06-25 11:11
 
 **RSS:** [https://www.abendblatt.de/rss](https://www.abendblatt.de/rss)
 
@@ -94,7 +94,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:**
 [https://www.abendzeitung-muenchen.de/storage/rss/rss/alle-artikel-abendzeitung.xml](https://www.abendzeitung-muenchen.de/storage/rss/rss/alle-artikel-abendzeitung.xml)
@@ -103,7 +103,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:** [https://www.ac24.cz/feed/](https://www.ac24.cz/feed/)
 
@@ -111,7 +111,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:**
 [https://www.ad.nl/home/rss.xml](https://www.ad.nl/home/rss.xml)
@@ -120,7 +120,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:** [https://aftenposten.no/rss](https://aftenposten.no/rss)
 
@@ -128,7 +128,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:** [https://www.aktualne.cz/rss](https://www.aktualne.cz/rss)
 
@@ -144,7 +144,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:**
 [http://www.augsburger-allgemeine.de/augsburg/rss](http://www.augsburger-allgemeine.de/augsburg/rss)
@@ -153,7 +153,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:**
 [http://fudder.de/freiburg/stadtgespraech.rss](http://fudder.de/freiburg/stadtgespraech.rss)
@@ -162,7 +162,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:**
 [https://feeds.bbci.co.uk/news/rss.xml](https://feeds.bbci.co.uk/news/rss.xml)
@@ -179,7 +179,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:**
 [https://www.berliner-zeitung.de/feed.xml](https://www.berliner-zeitung.de/feed.xml)
@@ -188,16 +188,16 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:**
 [https://bernama.com/en/rssfeed.php](https://bernama.com/en/rssfeed.php)
 
 ![](assets/plots/bernama-com.png)
 
-**Status:** OK
+**Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:**
 [http://www.bild.de/rssfeeds/rss3-20745882,feed=alles.bild.html](http://www.bild.de/rssfeeds/rss3-20745882,feed=alles.bild.html)
@@ -206,7 +206,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:** [https://www.blesk.cz/rss](https://www.blesk.cz/rss)
 
@@ -214,7 +214,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:** [https://bnn.de/feed](https://bnn.de/feed)
 
@@ -222,7 +222,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:** [https://www.boston.com/feed/](https://www.boston.com/feed/)
 
@@ -238,7 +238,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:**
 [https://nachrichtenfeeds.br.de/rss/nachrichten/seiten/QXAPwyN](https://nachrichtenfeeds.br.de/rss/nachrichten/seiten/QXAPwyN)
@@ -247,7 +247,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ERROR
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:11
 
 **RSS:**
 [https://www.breakingnews.ie/feed/all.rss](https://www.breakingnews.ie/feed/all.rss)
@@ -256,7 +256,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:22
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [http://feeds.feedburner.com/BreitbartFeed](http://feeds.feedburner.com/BreitbartFeed)
@@ -265,7 +265,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://www.businessinsider.de/feed/businessinsider-alle-artikel](https://www.businessinsider.de/feed/businessinsider-alle-artikel)
@@ -274,7 +274,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://www.buzzfeed.com/index.xml](https://www.buzzfeed.com/index.xml)
@@ -283,7 +283,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:** [https://capetownetc.com/feed](https://capetownetc.com/feed)
 
@@ -291,7 +291,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ERROR
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://www.cbsnews.com/latest/rss/evening-news](https://www.cbsnews.com/latest/rss/evening-news)
@@ -300,16 +300,16 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://ct24.ceskatelevize.cz/rss](https://ct24.ceskatelevize.cz/rss)
 
 ![](assets/plots/ceskatelevize-cz.png)
 
-**Status:** DEGRADED
+**Status:** OK
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://www.cnet.com/rss/news/](https://www.cnet.com/rss/news/)
@@ -318,7 +318,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ERROR
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [http://rss.cnn.com/rss/edition.rss](http://rss.cnn.com/rss/edition.rss)
@@ -335,7 +335,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://www.dailymail.co.uk/news/index.rss](https://www.dailymail.co.uk/news/index.rss)
@@ -344,7 +344,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:** [https://decider.com/?feed=rss](https://decider.com/?feed=rss)
 
@@ -360,7 +360,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:** [https://denikn.cz/rss](https://denikn.cz/rss)
 
@@ -368,7 +368,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://www.denverpost.com/rss](https://www.denverpost.com/rss)
@@ -377,7 +377,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://der-postillon.com/rss.xml](https://der-postillon.com/rss.xml)
@@ -386,7 +386,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://www.derstandard.at/rss](https://www.derstandard.at/rss)
@@ -395,7 +395,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:** [https://www.derwesten.de/feed](https://www.derwesten.de/feed)
 
@@ -403,7 +403,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://www.deutschlandfunk.de/nachrichten-100.rss](https://www.deutschlandfunk.de/nachrichten-100.rss)
@@ -412,7 +412,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://www.deutschlandfunkkultur.de/politik-114.rss](https://www.deutschlandfunkkultur.de/politik-114.rss)
@@ -421,7 +421,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:**
 [https://www.dnn.de/arc/outboundfeeds/rss/](https://www.dnn.de/arc/outboundfeeds/rss/)
@@ -438,7 +438,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:12
 
 **RSS:** [https://epochtimes.de/feed](https://epochtimes.de/feed)
 
@@ -454,7 +454,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://evolvepolitics.com/feed](https://evolvepolitics.com/feed)
@@ -471,7 +471,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:23
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.faz.net/rss/aktuell/](https://www.faz.net/rss/aktuell/)
@@ -480,7 +480,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.finanzen.net/rss/news](https://www.finanzen.net/rss/news)
@@ -497,7 +497,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [http://rss.focus.de/fol/XML/rss_folnews.xml](http://rss.focus.de/fol/XML/rss_folnews.xml)
@@ -514,7 +514,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:** [https://fortune.com/feed](https://fortune.com/feed)
 
@@ -522,7 +522,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://moxie.foxbusiness.com/google-publisher/latest.xml](https://moxie.foxbusiness.com/google-publisher/latest.xml)
@@ -531,7 +531,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:** [https://foxnews.com/rss](https://foxnews.com/rss)
 
@@ -539,7 +539,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:** [http://www.fr.de/rssfeed.rdf](http://www.fr.de/rssfeed.rdf)
 
@@ -547,7 +547,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.frankenpost.de/topmeldung.rss2.feed](https://www.frankenpost.de/topmeldung.rss2.feed)
@@ -556,7 +556,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.freiepresse.de/rss/rss_regional.php](https://www.freiepresse.de/rss/rss_regional.php)
@@ -573,7 +573,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.geenstijl.nl/feeds/recent.atom](https://www.geenstijl.nl/feeds/recent.atom)
@@ -582,7 +582,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.handelsblatt.com/contentexport/feed/schlagzeilen](https://www.handelsblatt.com/contentexport/feed/schlagzeilen)
@@ -591,7 +591,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.haz.de/arc/outboundfeeds/rss/](https://www.haz.de/arc/outboundfeeds/rss/)
@@ -608,7 +608,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.heise.de/rss/heise.rdf](https://www.heise.de/rss/heise.rdf)
@@ -617,7 +617,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:** [https://domaci.hn.cz/?m=rss](https://domaci.hn.cz/?m=rss)
 
@@ -625,7 +625,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [http://www.hna.de/politik/rssfeed.xml](http://www.hna.de/politik/rssfeed.xml)
@@ -634,7 +634,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.huffingtonpost.co.uk/feeds/index.xml](https://www.huffingtonpost.co.uk/feeds/index.xml)
@@ -643,7 +643,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://chaski.huffpost.com/us/auto/vertical/politics](https://chaski.huffpost.com/us/auto/vertical/politics)
@@ -652,7 +652,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://servis.idnes.cz/rss.aspx?c=zpravodaj](https://servis.idnes.cz/rss.aspx?c=zpravodaj)
@@ -661,7 +661,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.independent.co.uk/news/rss](https://www.independent.co.uk/news/rss)
@@ -670,7 +670,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:** [https://independent.ie/rss](https://independent.ie/rss)
 
@@ -678,7 +678,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.infranken.de/storage/rss/rss/2.0/startseite.xml](https://www.infranken.de/storage/rss/rss/2.0/startseite.xml)
@@ -687,7 +687,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://feeds.feedburner.com/ieireland](https://feeds.feedburner.com/ieireland)
@@ -696,7 +696,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:24
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.irishmirror.ie/?service=rss](https://www.irishmirror.ie/?service=rss)
@@ -705,7 +705,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.irishtimes.com/arc/outboundfeeds/feed-irish-news/](https://www.irishtimes.com/arc/outboundfeeds/feed-irish-news/)
@@ -714,7 +714,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:13
 
 **RSS:**
 [https://www.irozhlas.cz/rss/irozhlas](https://www.irozhlas.cz/rss/irozhlas)
@@ -723,15 +723,15 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:13
 
 **RSS:** [https://www.joe.ie/feed](https://www.joe.ie/feed)
 
 ![](assets/plots/joe-ie.png)
 
-**Status:** OK
+**Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://jungefreiheit.de/?feed=rss2](https://jungefreiheit.de/?feed=rss2)
@@ -748,7 +748,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://karlsruhe-insider.de/?feed=rss2](https://karlsruhe-insider.de/?feed=rss2)
@@ -757,7 +757,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://www.kreiszeitung.de/rssfeed.rdf](https://www.kreiszeitung.de/rssfeed.rdf)
@@ -766,7 +766,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://feed.ksta.de/feed/rss/politik/index.rss](https://feed.ksta.de/feed/rss/politik/index.rss)
@@ -775,7 +775,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:** [https://kurier.at/xml/rssd](https://kurier.at/xml/rssd)
 
@@ -783,7 +783,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://www.latimes.com/politics/rss2.0.xml](https://www.latimes.com/politics/rss2.0.xml)
@@ -792,7 +792,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://servis.lidovky.cz/rss.aspx](https://servis.lidovky.cz/rss.aspx)
@@ -801,7 +801,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://www.lvz.de/arc/outboundfeeds/rss/](https://www.lvz.de/arc/outboundfeeds/rss/)
@@ -810,7 +810,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://www.malaymail.com/feed/rss](https://www.malaymail.com/feed/rss)
@@ -819,7 +819,16 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
+
+**RSS:**
+[https://www.malaysiakini.com/rss/en/news](https://www.malaysiakini.com/rss/en/news)
+
+![](assets/plots/malaysiakini-com.png)
+
+**Status:** OK
+
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://www.manager-magazin.de/news/index.rss](https://www.manager-magazin.de/news/index.rss)
@@ -828,7 +837,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines](https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines)
@@ -837,7 +846,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://www.maz-online.de/arc/outboundfeeds/rss/](https://www.maz-online.de/arc/outboundfeeds/rss/)
@@ -846,7 +855,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:** [https://mopo.de/?feed=rss2](https://mopo.de/?feed=rss2)
 
@@ -854,7 +863,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://www.mediacourant.nl/feed/](https://www.mediacourant.nl/feed/)
@@ -863,7 +872,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [http://www.merkur.de/rssfeed.rdf](http://www.merkur.de/rssfeed.rdf)
@@ -872,7 +881,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://www.metronieuws.nl/feed/](https://www.metronieuws.nl/feed/)
@@ -889,7 +898,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:** [https://morgenpost.de/rss](https://morgenpost.de/rss)
 
@@ -897,7 +906,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ERROR
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:** [https://msnbc.com/feed](https://msnbc.com/feed)
 
@@ -905,7 +914,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:** [https://www.n-tv.de/rss](https://www.n-tv.de/rss)
 
@@ -913,7 +922,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [http://www.ndr.de/home/index-rss.xml](http://www.ndr.de/home/index-rss.xml)
@@ -922,7 +931,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:25
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://news-und-nachrichten.de/?feed=rss2](https://news-und-nachrichten.de/?feed=rss2)
@@ -931,7 +940,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://www.news.de/rss/364367598/politik/](https://www.news.de/rss/364367598/politik/)
@@ -940,7 +949,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://newsflash24.de/?feed=rss2](https://newsflash24.de/?feed=rss2)
@@ -949,7 +958,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:14
 
 **RSS:**
 [https://www.newstatesman.com/feed/](https://www.newstatesman.com/feed/)
@@ -958,7 +967,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:** [https://newsweek.com/rss](https://newsweek.com/rss)
 
@@ -974,7 +983,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://feeds.nos.nl/nosnieuwsalgemeen](https://feeds.nos.nl/nosnieuwsalgemeen)
@@ -983,7 +992,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:** [https://www.novinky.cz/rss](https://www.novinky.cz/rss)
 
@@ -991,7 +1000,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:** [https://noz.de/rss](https://noz.de/rss)
 
@@ -999,7 +1008,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:** [https://nrc.nl/rss](https://nrc.nl/rss)
 
@@ -1007,7 +1016,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:** [https://www.nu.nl/rss](https://www.nu.nl/rss)
 
@@ -1015,7 +1024,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:** [https://nw.de/index.rss](https://nw.de/index.rss)
 
@@ -1023,7 +1032,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:** [https://nypost.com/?feed=rss2](https://nypost.com/?feed=rss2)
 
@@ -1031,16 +1040,16 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml](https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml)
 
 ![](assets/plots/nytimes-com.png)
 
-**Status:** DEGRADED
+**Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:** [https://www.nzz.ch/recent.rss](https://www.nzz.ch/recent.rss)
 
@@ -1048,7 +1057,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:** [https://rss.orf.at/news.xml](https://rss.orf.at/news.xml)
 
@@ -1056,7 +1065,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://www.ostsee-zeitung.de/arc/outboundfeeds/rss/](https://www.ostsee-zeitung.de/arc/outboundfeeds/rss/)
@@ -1065,7 +1074,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://pagesix.com/?feed=rss2](https://pagesix.com/?feed=rss2)
@@ -1074,7 +1083,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [http://www.parlamentnilisty.cz/export/rss.aspx](http://www.parlamentnilisty.cz/export/rss.aspx)
@@ -1083,7 +1092,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://www.presseportal.de/rss/presseportal.rss2](https://www.presseportal.de/rss/presseportal.rss2)
@@ -1100,7 +1109,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://www.rbb24.de/aktuell/index.xml/feed=rss.xml](https://www.rbb24.de/aktuell/index.xml/feed=rss.xml)
@@ -1109,7 +1118,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://www.rnd.de/arc/outboundfeeds/rss/](https://www.rnd.de/arc/outboundfeeds/rss/)
@@ -1118,7 +1127,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://rollingstone.de/?feed=rss2](https://rollingstone.de/?feed=rss2)
@@ -1127,15 +1136,15 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:26
+**Last tested:** 2026-06-25 11:15
 
 **RSS:** [https://rp-online.de/feed.rss](https://rp-online.de/feed.rss)
 
 ![](assets/plots/rp-online-de.png)
 
-**Status:** OK
+**Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://www.rte.ie/feeds/rss/?index=/news/](https://www.rte.ie/feeds/rss/?index=/news/)
@@ -1144,7 +1153,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://www.rtl.de/rss/feed/news](https://www.rtl.de/rss/feed/news)
@@ -1153,7 +1162,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://www.rtlnieuws.nl/rss.xml](https://www.rtlnieuws.nl/rss.xml)
@@ -1162,7 +1171,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://www.rtlnieuws.nl/rss.xml](https://www.rtlnieuws.nl/rss.xml)
@@ -1171,15 +1180,15 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:15
 
 **RSS:** [https://ruhr24.de/feed](https://ruhr24.de/feed)
 
 ![](assets/plots/ruhr24-de.png)
 
-**Status:** OK
+**Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://ruhrnachrichten.de/?feed=rss2](https://ruhrnachrichten.de/?feed=rss2)
@@ -1188,7 +1197,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://www.saechsische.de/arc/outboundfeeds/rss/](https://www.saechsische.de/arc/outboundfeeds/rss/)
@@ -1205,7 +1214,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:15
 
 **RSS:**
 [https://www.seznamzpravy.cz/rss](https://www.seznamzpravy.cz/rss)
@@ -1214,16 +1223,16 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.sfgate.com/bayarea/feed/bay-area-news-429.php](https://www.sfgate.com/bayarea/feed/bay-area-news-429.php)
 
 ![](assets/plots/sfgate-com.png)
 
-**Status:** OK
+**Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:** [https://shz.de/rss](https://shz.de/rss)
 
@@ -1239,16 +1248,16 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://feeds.skynews.com/feeds/rss/home.xml](https://feeds.skynews.com/feeds/rss/home.xml)
 
 ![](assets/plots/sky-com.png)
 
-**Status:** BROKEN
+**Status:** OK
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.spiegel.de/schlagzeilen/index.rss](https://www.spiegel.de/schlagzeilen/index.rss)
@@ -1257,7 +1266,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.srf.ch/news/bnf/rss/1922](https://www.srf.ch/news/bnf/rss/1922)
@@ -1266,7 +1275,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.stern.de/feed/standard/all/](https://www.stern.de/feed/standard/all/)
@@ -1275,7 +1284,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://stuttgarter-zeitung.de/index.rss](https://stuttgarter-zeitung.de/index.rss)
@@ -1284,7 +1293,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://rss.sueddeutsche.de/alles](https://rss.sueddeutsche.de/alles)
@@ -1293,7 +1302,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.suedkurier.de/storage/rss/rss/sbh.xml](https://www.suedkurier.de/storage/rss/rss/sbh.xml)
@@ -1310,7 +1319,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.swr.de/~rss/index.xml](https://www.swr.de/~rss/index.xml)
@@ -1319,7 +1328,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.swr3.de/~rss/index.xml](https://www.swr3.de/~rss/index.xml)
@@ -1328,7 +1337,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.swrfernsehen.de/~rss/index.xml](https://www.swrfernsehen.de/~rss/index.xml)
@@ -1337,7 +1346,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.t-online.de/nachrichten/feed.rss](https://www.t-online.de/nachrichten/feed.rss)
@@ -1346,7 +1355,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:** [https://t3n.de/rss.xml](https://t3n.de/rss.xml)
 
@@ -1362,7 +1371,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://partner-feeds.publishing.tamedia.ch/rss/tagesanzeiger](https://partner-feeds.publishing.tamedia.ch/rss/tagesanzeiger)
@@ -1371,7 +1380,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:27
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml](https://www.tagesschau.de/infoservices/alle-meldungen-100~rss2.xml)
@@ -1380,7 +1389,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [http://www.tagesspiegel.de/contentexport/feed/home](http://www.tagesspiegel.de/contentexport/feed/home)
@@ -1389,7 +1398,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:** [https://taz.de/rss.xml](https://taz.de/rss.xml)
 
@@ -1397,7 +1406,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://techrepublic.com/?feed=rss2](https://techrepublic.com/?feed=rss2)
@@ -1406,7 +1415,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.telegraaf.nl/rss.xml](https://www.telegraaf.nl/rss.xml)
@@ -1415,7 +1424,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.telegraph.co.uk/rss.xml](https://www.telegraph.co.uk/rss.xml)
@@ -1432,7 +1441,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://thecanary.co/?feed=rss](https://thecanary.co/?feed=rss)
@@ -1441,7 +1450,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://theguardian.com/data/rss](https://theguardian.com/data/rss)
@@ -1450,7 +1459,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.thejournal.ie/feed/](https://www.thejournal.ie/feed/)
@@ -1467,7 +1476,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://news.yahoo.com/rss.xml](https://news.yahoo.com/rss.xml)
@@ -1476,15 +1485,15 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:** [https://www.thesun.ie/feed/](https://www.thesun.ie/feed/)
 
 ![](assets/plots/thesun-ie.png)
 
-**Status:** BROKEN
+**Status:** OK
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.thueringer-allgemeine.de/rss](https://www.thueringer-allgemeine.de/rss)
@@ -1493,7 +1502,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:** [https://time.com/data/rss](https://time.com/data/rss)
 
@@ -1501,7 +1510,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:** [https://tribpub.com/rss](https://tribpub.com/rss)
 
@@ -1509,7 +1518,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [https://www.tz.de/welt/rssfeed.rdf](https://www.tz.de/welt/rssfeed.rdf)
@@ -1518,7 +1527,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ERROR
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:16
 
 **RSS:**
 [http://rss.cnn.com/rss/cnn_allpolitics.rss](http://rss.cnn.com/rss/cnn_allpolitics.rss)
@@ -1535,7 +1544,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:17
 
 **RSS:** [https://vice.com/?feed=rss](https://vice.com/?feed=rss)
 
@@ -1543,7 +1552,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ACCESS_DENIED
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:17
 
 **RSS:**
 [https://www.volkskrant.nl/rss.xml](https://www.volkskrant.nl/rss.xml)
@@ -1568,7 +1577,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:17
 
 **RSS:** [https://www.wa.de/rssfeed.rdf](https://www.wa.de/rssfeed.rdf)
 
@@ -1576,16 +1585,16 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ERROR
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:17
 
 **RSS:**
 [https://feeds.washingtonpost.com/rss/world](https://feeds.washingtonpost.com/rss/world)
 
 ![](assets/plots/washingtonpost-com.png)
 
-**Status:** OK
+**Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:17
 
 **RSS:**
 [https://www.watson.ch/api/2.0/rss/index.xml](https://www.watson.ch/api/2.0/rss/index.xml)
@@ -1594,7 +1603,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:28
+**Last tested:** 2026-06-25 11:17
 
 **RSS:**
 [https://www.watson.de/api/2.0/rss/index.xml](https://www.watson.de/api/2.0/rss/index.xml)
@@ -1603,7 +1612,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:29
+**Last tested:** 2026-06-25 11:17
 
 **RSS:** [https://www.waz.de/rss](https://www.waz.de/rss)
 
@@ -1611,7 +1620,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:29
+**Last tested:** 2026-06-25 11:17
 
 **RSS:**
 [https://www1.wdr.de/wissen/uebersicht-nachrichten-100.feed](https://www1.wdr.de/wissen/uebersicht-nachrichten-100.feed)
@@ -1620,7 +1629,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:29
+**Last tested:** 2026-06-25 11:17
 
 **RSS:**
 [https://www.welt.de/feeds/latest.rss](https://www.welt.de/feeds/latest.rss)
@@ -1629,7 +1638,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** OK
 
-**Last tested:** 2026-06-24 11:29
+**Last tested:** 2026-06-25 11:17
 
 **RSS:**
 [https://www.wiwo.de/contentexport/feed/rss/schlagzeilen](https://www.wiwo.de/contentexport/feed/rss/schlagzeilen)
@@ -1638,7 +1647,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:29
+**Last tested:** 2026-06-25 11:17
 
 **RSS:**
 [https://feeds.a.dj.com/rss/RSSWorldNews.xml](https://feeds.a.dj.com/rss/RSSWorldNews.xml)
@@ -1647,7 +1656,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** ERROR
 
-**Last tested:** 2026-06-24 11:29
+**Last tested:** 2026-06-25 11:17
 
 **RSS:** [https://www.wz.de/feed.rss](https://www.wz.de/feed.rss)
 
@@ -1655,16 +1664,16 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:29
+**Last tested:** 2026-06-25 11:17
 
 **RSS:**
 [https://news.yahoo.com/rss.xml](https://news.yahoo.com/rss.xml)
 
 ![](assets/plots/yahoo-com.png)
 
-**Status:** BROKEN
+**Status:** DEGRADED
 
-**Last tested:** 2026-06-24 11:29
+**Last tested:** 2026-06-25 11:17
 
 **RSS:**
 [https://www.zdf.de/rss/zdf/nachrichten](https://www.zdf.de/rss/zdf/nachrichten)
@@ -1673,7 +1682,7 @@ wsj.com wz.de yahoo.com zdf.de zeit.de
 
 **Status:** BROKEN
 
-**Last tested:** 2026-06-24 11:29
+**Last tested:** 2026-06-25 11:17
 
 **RSS:** [https://www.zeit.de/index](https://www.zeit.de/index)
 
