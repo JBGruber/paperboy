@@ -25,10 +25,21 @@ pb_deliver_paper.cnn_com <- function(x, verbose = NULL, pb, ...) {
     gsub("^By\\s", "", .)
 
   # text
-  text <- html %>%
-    rvest::html_elements(".article__content p:not(.editor-note),.zn-body-text,article,.article__main,BasicArticle__paragraph,[class^=\"Paragraph\"]") %>%
-    rvest::html_text2() %>%
-    paste(collapse = "\n")
+  text <- tryCatch({
+    json <- html %>%
+      rvest::html_element('script[type="application/ld+json"]') %>%
+      rvest::html_text() %>%
+      jsonlite::fromJSON()
+    body <- json$articleBody
+    body <- body[nzchar(body)][1]
+    if (is.null(body) || is.na(body) || !nzchar(body)) stop("no articleBody")
+    body
+  }, error = function(e) {
+    html %>%
+      rvest::html_elements(".article__content p:not(.editor-note),.zn-body-text,article,.article__main") %>%
+      rvest::html_text2() %>%
+      paste(collapse = "\n")
+  })
 
   # type
   content_type <- html %>%
