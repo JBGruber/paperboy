@@ -13,9 +13,21 @@ pb_deliver_paper.cnn_com <- function(x, verbose = NULL, pb, ...) {
     utils::head(1L)
 
   # headline
-  headline <- html %>%
-    rvest::html_elements(".pg-headline,.headline>h1,[id*=\"video-headline\"],.headline__text,.PageHead__title,.Article__title") %>%
-    rvest::html_text2()
+  headline <- tryCatch({
+    json <- html %>%
+      rvest::html_element('script[type="application/ld+json"]') %>%
+      rvest::html_text() %>%
+      jsonlite::fromJSON()
+    h <- json$headline
+    h <- h[nzchar(h)][1]
+    if (is.null(h) || is.na(h) || !nzchar(h)) stop("no headline")
+    h
+  }, error = function(e) {
+    html %>%
+      html_search(c("h1.headline__text", ".pg-headline", ".headline__text"),
+                  "text") %>%
+      utils::head(1L)
+  })
 
   # author
   author <- html %>%
