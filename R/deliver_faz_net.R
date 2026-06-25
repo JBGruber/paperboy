@@ -41,20 +41,36 @@ pb_deliver_paper.faz_net <- function(x, verbose = NULL, pb, ...) {
 
   # headline
   headline <- html %>%
-    rvest::html_elements("title") %>%
-    rvest::html_text()
+    rvest::html_element('[property="og:title"]') %>%
+    rvest::html_attr("content")
 
   # author
-  author <- html %>%
-    rvest::html_elements("a .header-detail--bold,.atc-MetaAuthorLink,.entry-author")  %>%
-    rvest::html_text() %>%
+  author <- tryCatch({
+    jsons <- html %>%
+      rvest::html_elements('script[type="application/ld+json"]') %>%
+      rvest::html_text() %>%
+      lapply(jsonlite::fromJSON)
+    art <- Filter(function(x) identical(x[["@type"]], "NewsArticle"), jsons)[[1]]
+    paste(art$author$name, collapse = ", ")
+  }, error = function(e) NA_character_) %>%
     toString()
 
   # text
-  text <- html %>%
-    rvest::html_elements(".body-elements__paragraph,.atc-IntroText,.atc-TextParagraph,.single-entry-content") %>%
-    rvest::html_text2() %>%
-    paste(collapse = "\n")
+  text <- tryCatch({
+    jsons <- html %>%
+      rvest::html_elements('script[type="application/ld+json"]') %>%
+      rvest::html_text() %>%
+      lapply(jsonlite::fromJSON)
+    art <- Filter(function(x) identical(x[["@type"]], "NewsArticle"), jsons)[[1]]
+    body <- art$articleBody
+    if (is.null(body) || !nzchar(body)) stop("no articleBody")
+    gsub("&nbsp;", " ", body, fixed = TRUE)
+  }, error = function(e) {
+    html %>%
+      rvest::html_elements("p") %>%
+      rvest::html_text2() %>%
+      paste(collapse = "\n")
+  })
 
   # the helper function safely creates a named list from objects
   s_n_list(
