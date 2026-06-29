@@ -39,6 +39,5 @@ pb_deliver_paper.nypost_com <- function(x, verbose = NULL, pb, ...) {
 
 }
 
-pb_deliver_paper.decider_com <-
-  pb_deliver_paper.pagesix_com <-
+pb_deliver_paper.pagesix_com <-
   pb_deliver_paper.nypost_com

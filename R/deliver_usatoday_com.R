@@ -1,22 +1,26 @@
 #' @export
 pb_deliver_paper.usatoday_com <- function(x, verbose, pb, ...) {
-
   pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
 
   # datetime
   datetime <- html %>%
-    html_search(selectors = c(
-      "lit-timestamp",
-      "story-timestamp",
-      "[property=\"article:published_time\"]"
-    ), attributes = c("content", "publishdate")) %>%
+    html_search(
+      selectors = c(
+        "lit-timestamp",
+        "story-timestamp",
+        "[property=\"article:published_time\"]"
+      ),
+      attributes = c("content", "publishdate")
+    ) %>%
     lubridate::as_datetime()
 
   # author
   author <- html %>%
-    rvest::html_elements(".authors,[itemprop=\"author\"],.gnt_ar_by_a,.gnt_ar_by,.topper__byline")  %>%
+    rvest::html_elements(
+      ".authors,[itemprop=\"author\"],.gnt_ar_by_a,.gnt_ar_by,.topper__byline"
+    ) %>%
     rvest::html_text2() %>%
     unique() %>%
     toString()
@@ -38,7 +42,9 @@ pb_deliver_paper.usatoday_com <- function(x, verbose, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_elements("article>p,.articleBody>p,.gnt_ar_b>p,.exclude-from-newsgate,.detail-text") %>%
+    rvest::html_elements(
+      "article>p,.articleBody>p,.gnt_ar_b>p,.exclude-from-newsgate,.detail-text"
+    ) %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
@@ -49,17 +55,18 @@ pb_deliver_paper.usatoday_com <- function(x, verbose, pb, ...) {
     headline,
     text
   )
-
 }
 
 # define aliases for pages using the same layout
 pb_deliver_paper.mmajunkie_usatoday_com <-
   pb_deliver_paper.golfweek_usatoday_com <-
-  pb_deliver_paper.democratandchronicle_com <-
-  pb_deliver_paper.usatoday_com <-
-  pb_deliver_paper.eu_democratandchronicle_com <-
-  pb_deliver_paper.eu_courier_journal_com <-
-  pb_deliver_paper.eu_usatoday_com <-
-  pb_deliver_paper.ftw_usatoday_com <-
-  pb_deliver_paper.eu_tennessean_com <-
-  pb_deliver_paper.usatoday_com
+    pb_deliver_paper.democratandchronicle_com <-
+      pb_deliver_paper.usatoday_com <-
+        pb_deliver_paper.eu_democratandchronicle_com <-
+          pb_deliver_paper.eu_courier_journal_com <-
+            pb_deliver_paper.courier_journal_com <-
+              pb_deliver_paper.eu_usatoday_com <-
+                pb_deliver_paper.ftw_usatoday_com <-
+                  pb_deliver_paper.eu_tennessean_com <-
+                    pb_deliver_paper.tennessean_com <-
+                      pb_deliver_paper.usatoday_com
