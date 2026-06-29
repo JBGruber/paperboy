@@ -21,11 +21,12 @@ pb_deliver_paper.br_de <- function(x, verbose = NULL, pb, ...) {
   text <- html %>%
     rvest::html_elements("div[class*='richText'] p") %>%
     rvest::html_text2() %>%
+    .[!grepl("^\"Hier ist Bayern\"|^Das ist die Europ", .)] %>%
     paste(collapse = "\n")
   
   accessed <- Sys.time()
   
-  domain <- adaR::ada_get_domain(x$content_raw)
+  domain <- x$domain
   
   if(domain == "ardsounds.de"){
     content_type <- "podcast"
