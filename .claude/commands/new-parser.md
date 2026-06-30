@@ -187,19 +187,23 @@ Repeat up to 3 times. If the parser still fails after 3 rounds, stop, report the
 
 ## Step 9 — Manual field review
 
-Run the parser on the first test article and display what was extracted, via `run_r`:
+Run via `run_r`:
 
 ```r
 result <- pb_deliver(test_data[1, ])
-cat("URL:\n", test_data$url[1], "\n\n")
-cat("datetime: ", format(result$datetime), "\n\n")
-cat("author:   ", result$author, "\n\n")
-cat("headline: ", result$headline, "\n\n")
-cat("text:\n", result$text, "\n")
+report_file <- paste0(result$domain, ".txt")
+c(
+  "URL:\n", result$url, "\n\n",
+  "datetime: ", format(result$datetime), "\n\n",
+  "author:   ", result$author, "\n\n",
+  "headline: ", result$headline, "\n\n",
+  "text:\n", result$text, "\n"
+) |> 
+  writeLines(report_file)
+cat("Result written to ", report_file)
 ```
 
-Show this output to the user and ask them to open the URL in their browser and verify that each field matches what they see on the page.
-Copy the text field verbatim and in full into your reply — do not summarize, truncate, or paraphrase it. The user needs the complete text to assess whether everything was captured correctly.
+Show the file with the output (`report_file`) to the user and ask them to open the URL and verify each field matches the page.
 
 **If the user reports problems:**
 - Ask which fields are wrong and (if they can tell) what the correct values should be.

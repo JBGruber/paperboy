@@ -255,20 +255,26 @@ Run via `run_r`:
 
 ```r
 result <- pb_deliver(test_data[1, ])
-cat("URL:\n", test_data$url[1], "\n\n")
-cat("datetime: ", format(result$datetime), "\n\n")
-cat("author:   ", result$author, "\n\n")
-cat("headline: ", result$headline, "\n\n")
-cat("text:\n", result$text, "\n")
+report_file <- paste0(result$domain, ".txt")
+c(
+  "URL:\n", result$url, "\n\n",
+  "datetime: ", format(result$datetime), "\n\n",
+  "author:   ", result$author, "\n\n",
+  "headline: ", result$headline, "\n\n",
+  "text:\n", result$text, "\n"
+) |> 
+  writeLines(report_file)
+cat("Result written to ", report_file)
 ```
 
-Show this output to the user and ask them to open the URL and verify each field matches the page.
-Copy the text field verbatim and in full into your reply — do not summarize, truncate, or paraphrase it. The user needs the complete text to assess whether everything was captured correctly.
+Show the file with the output (`report_file`) to the user and ask them to open the URL and verify each field matches the page.
 
 **If the user reports problems:** ask which fields are wrong and what the correct values should be,
 identify better selectors from the Step 7 context (check for sub-headlines, sidebars, related-article
 blocks, or nested ad content), fix the file, re-run Step 9, then repeat this review. Only proceed once
 the user explicitly confirms the fields look correct.
+
+Remove `report_file` before you proceed.
 
 ---
 
