@@ -2,13 +2,7 @@
 pb_deliver_paper.der_postillon_com <- function(x, verbose = NULL, pb, ...) {
   pb_tick(x, verbose, pb)
 
-  # get final url
-  final_url <- x$content_raw %>%
-    rvest::read_html() %>%
-    rvest::html_element("body a") %>%
-    rvest::html_attr("href")
-
-  html <- rvest::read_html(final_url)
+  html <- rvest::read_html(x$content_raw)
 
   # author
   author <- html %>%
@@ -43,7 +37,7 @@ pb_deliver_paper.der_postillon_com <- function(x, verbose = NULL, pb, ...) {
       rvest::html_text() %>%
       sub("; Erstver.*$", "", .) %>%
       stringr::str_remove("(?i);\\s*foto.*$")
-    if (author_tmp != "") {
+    if (!is.na(author_tmp) && author_tmp != "") {
       author <- author_tmp
     }
   }
