@@ -18,10 +18,14 @@ pb_deliver_paper.focus_de <- function(x, verbose = NULL, pb, ...) {
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
         author <- toString(json_df$author$name)
-        text <- html %>%
-            rvest::html_elements(".leadIn,.textBlock") %>%
-            rvest::html_text2() %>%
-            paste(collapse = "\n")
+        text <- if (!is.null(json_df$articleBody) && nzchar(json_df$articleBody)) {
+            json_df$articleBody
+        } else {
+            html %>%
+                rvest::html_elements("div.Html-Block > p") %>%
+                rvest::html_text2() %>%
+                paste(collapse = "\n")
+        }
 
 
         s_n_list(
