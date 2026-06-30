@@ -38,6 +38,13 @@ pb_deliver_paper.abendblatt_de <- function(x, verbose = NULL, pb, ...) {
             rvest::html_text2() %>%
             paste(collapse = "\n")
     }
+    if (!nzchar(text)) {
+        text <- html %>%
+            rvest::html_elements("article figcaption") %>%
+            rvest::html_text2() %>%
+            unique() %>%
+            paste(collapse = "\n")
+    }
 
     # paywalled articles do not include the body text in the html
     paywall <- !is.null(json_df$isAccessibleForFree) &&
