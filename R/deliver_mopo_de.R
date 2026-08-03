@@ -34,3 +34,6 @@ pb_deliver_paper.mopo_de <- function(x, verbose = NULL, pb, ...) {
         )
     }
 }
+# rss feed includes non-article pages (puzzles, marketplace, shop) that cannot be parsed
+# rss feed also includes "Liveticker" entries whose URLs render a generic live-blog
+# homepage instead of the specific article, so their fields cannot be reliably extracted
