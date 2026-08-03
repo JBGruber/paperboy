@@ -1,6 +1,5 @@
 #' @export
 pb_deliver_paper.huffpost_com <- function(x, verbose = NULL, pb, ...) {
-
   pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
@@ -13,33 +12,31 @@ pb_deliver_paper.huffpost_com <- function(x, verbose = NULL, pb, ...) {
 
   # headline
   headline <- html %>%
-    rvest::html_elements(".headline__title,.headline__subtitle,.js-headline,.headline") %>%
+    rvest::html_elements(
+      ".headline__title,.headline__subtitle,.js-headline,.headline"
+    ) %>%
     rvest::html_text() %>%
     paste0(collapse = ". ")
 
   # author
   author <- html %>%
-    rvest::html_element(".author-card__name,.wire-byline,.entry-wirepartner__byline") %>%
-    rvest::html_text() %>%
-    gsub("^By\\b\\s+", "", .)
+    rvest::html_elements(
+      "div.entry__byline__author a[data-vars-item-type=\"text\"]"
+    ) %>%
+    rvest::html_attr("data-vars-item-name") %>%
+    toString()
 
   # text
   text <- html %>%
-    rvest::html_elements("p,.entry-video__content__description") %>%
+    rvest::html_elements(".cli-text>p,.entry-video__content__description") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
-  type <- html %>%
-    rvest::html_elements("article") %>%
-    rvest::html_attrs() %>%
-    .[[1]]
+  content_type <- html %>%
+    rvest::html_elements("[property=\"og:type\"]") %>%
+    rvest::html_attr("content")
 
-  content_type <- dplyr::case_when(
-    "article" %in% type ~ "article",
-    "entry-video" %in% type ~ "video",
-    TRUE ~ "unknown"
-  )
-
+  content_type <- c(content_type, "unknown")[1]
 
   # the helper function safely creates a named list from objects
   s_n_list(
@@ -49,11 +46,10 @@ pb_deliver_paper.huffpost_com <- function(x, verbose = NULL, pb, ...) {
     text,
     content_type
   )
-
 }
 
 
 # define aliases for pages using the same layout
 pb_deliver_paper.huffingtonpost_com <-
   pb_deliver_paper.huffingtonpost_co_uk <-
-  pb_deliver_paper.huffpost_com
+    pb_deliver_paper.huffpost_com
