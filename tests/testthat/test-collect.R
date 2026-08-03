@@ -36,10 +36,10 @@ test_that("send cookies", {
 
 test_that("store local", {
   tmp <- tempdir()
+  url <- "https://httpbingo.org/status/200"
   expect_true({
-    pb_collect(urls = "https://httpbingo.org/status/200",
-               save_dir = tmp)
-    file.exists(file.path(tmp, "4df64bb23db5ae25849e1aaac30ab69e.html"))
+    pb_collect(urls = url, save_dir = tmp)
+    file.exists(file.path(tmp, paste0(rlang::hash(url), ".html")))
   })
 })
 
