@@ -12,9 +12,9 @@ pb_deliver_paper.badische_zeitung_de <- function(x, verbose = NULL, pb, ...) {
 
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
-        author <- toString(json_df$author)
+        author <- toString(json_df$author$name)
         text <- html %>%
-            rvest::html_elements("section[role = \"article\"], .article-site__topic") %>%
+            rvest::html_elements("section[role = \"article\"] > p, .article-site__topic strong") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
 
