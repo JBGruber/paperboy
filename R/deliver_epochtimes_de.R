@@ -13,7 +13,15 @@ pb_deliver_paper.epochtimes_de <- function(x, verbose = NULL, pb, ...) {
         datetime <- lubridate::as_datetime(json_df$datePublished)
         headline <- json_df$headline
         author <- toString(json_df$author$name)
+
+        # text
         text <- json_df$articleBody
+        if (is.null(text) || !nzchar(text)) {
+            text <- html %>%
+                rvest::html_elements("#etd21-news-content > div") %>%
+                rvest::html_text2() %>%
+                paste(collapse = "\n")
+        }
 
         s_n_list(
             datetime,

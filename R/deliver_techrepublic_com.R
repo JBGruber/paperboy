@@ -26,8 +26,9 @@ pb_deliver_paper.techrepublic_com <- function(x, verbose = NULL, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_elements(".article-summary,section") %>%
-    rvest::html_text2() %>%
+    rvest::html_elements("div.prose p") %>%
+    rvest::html_text2()
+  text <- text[!grepl("^(Read more|Also read|Related):", text, ignore.case = TRUE)] %>%
     paste(collapse = "\n")
 
   # the helper function safely creates a named list from objects

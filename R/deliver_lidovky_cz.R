@@ -3,7 +3,7 @@ pb_deliver_paper.lidovky_cz <- function(x, verbose = NULL, pb, ...) {
 
   pb_tick(x, verbose, pb)
   # raw html is stored in column content_raw
-  html <- rvest::read_html(charToRaw(enc2utf8(x$content_raw)))
+  html <- rvest::read_html(iconv(x$content_raw, from = "windows-1250", to = "UTF-8"))
 
   # datetime
   datetime <- html %>%
@@ -13,13 +13,13 @@ pb_deliver_paper.lidovky_cz <- function(x, verbose = NULL, pb, ...) {
 
   # headline
   headline <- html %>%
-    rvest::html_element("[itemprop=\"name headline\"]") %>%
-    rvest::html_text2()
+    rvest::html_element("[property=\"og:title\"]") %>%
+    rvest::html_attr("content")
 
   # author
   author <- html %>%
-    rvest::html_element("[itemprop=\"author\"] span")  %>%
-    rvest::html_text2() %>%
+    rvest::html_element("[property=\"article:author\"]") %>%
+    rvest::html_attr("content") %>%
     toString()
 
   # text
@@ -30,7 +30,14 @@ pb_deliver_paper.lidovky_cz <- function(x, verbose = NULL, pb, ...) {
     paste(collapse = "\n")
 
   paywall <- FALSE
-  if (length(rvest::html_element(html, "#paywall"))) {
+  if (!nzchar(text)) {
+    text <- html %>%
+      rvest::html_element("[property=\"og:description\"]") %>%
+      rvest::html_attr("content")
+    text <- paste("[Paywall-Truncated]", text)
+    headline <- paste("[Paywall-Truncated]", headline)
+    paywall <- TRUE
+  } else if (length(rvest::html_element(html, "#paywall"))) {
     text <- paste("[Paywall-Truncated]", text)
     paywall <- TRUE
   }

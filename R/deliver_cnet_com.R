@@ -7,54 +7,24 @@ pb_deliver_paper.cnet_com <- function(x, verbose = NULL, pb, ...) {
 
   # datetime
   datetime <- html %>%
-    rvest::html_element("time") %>%
-    rvest::html_attr("datetime") %>%
+    rvest::html_element("[property=\"article:published_time\"]") %>%
+    rvest::html_attr("content") %>%
     lubridate::as_datetime()
 
-  if (is.na(datetime)) {
-    suppressWarnings(datetime <- html %>%
-                       rvest::html_element("time") %>%
-                       rvest::html_text2() %>%
-                       extract("[A-z.]+ \\d+,* \\d+") %>%
-                       lubridate::mdy() %>%
-                       as.POSIXct())
-  }
+  # headline
+  headline <- html %>%
+    rvest::html_element("[property=\"og:title\"]") %>%
+    rvest::html_attr("content")
 
-  if (is.na(datetime)) {
-    data <- html %>%
-      rvest::html_element("[type=\"application/ld+json\"]") %>%
-      rvest::html_text() %>%
-      jsonlite::fromJSON()
-
-    if (utils::hasName(data, "@graph")) {
-      data <- data$`@graph`[1, ]
-    }
-
-    datetime <- data$datePublished %>%
-      lubridate::as_datetime()
-
-    # headline
-    headline <- data$headline
-
-    # author
-    author <- data$author$name
-
-  } else {
-    # headline
-    headline <- html %>%
-      rvest::html_elements("[property=\"og:title\"]") %>%
-      rvest::html_attr("content")
-
-    # author
-    author <- html %>%
-      rvest::html_elements(".c-globalAuthor_link,.author")  %>%
-      rvest::html_text2() %>%
-      toString()
-  }
+  # author
+  author <- html %>%
+    rvest::html_elements("a.zd-author-card__name") %>%
+    rvest::html_text2() %>%
+    toString()
 
   # text
   text <- html %>%
-    rvest::html_elements(".c-CmsContent>p,.article-main-body>p,.c-pageArticle_body p") %>%
+    rvest::html_elements("div.entry-content > p") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 

@@ -23,7 +23,7 @@ pb_deliver_paper.novinky_cz <- function(x, verbose = NULL, pb, ...) {
 
   # text
   text <- html %>%
-    rvest::html_elements(".j_if .speakable") %>%
+    rvest::html_elements(".speakable:not(h1)") %>%
     rvest::html_text2() %>%
     paste(collapse = "\n")
 
