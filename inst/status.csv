@@ -98,7 +98,7 @@
 "msnbc.com","![](https://img.shields.io/badge/status-requested-lightgrey)","","[#1](https://github.com/JBGruber/paperboy/issues/1)","https://msnbc.com/feed"
 "n-tv.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.n-tv.de/rss"
 "ndr.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","http://www.ndr.de/home/index-rss.xml"
-"news-und-nachrichten.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://news-und-nachrichten.de/?feed=rss2"
+"news-und-nachrichten.de","![](https://img.shields.io/badge/status-shutdown-red.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://news-und-nachrichten.de/?feed=rss2"
 "news.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://www.news.de/rss/364367598/politik/"
 "newsflash24.de","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@schochastics](https://github.com/schochastics)","[#23](https://github.com/JBGruber/paperboy/issues/23)","https://newsflash24.de/?feed=rss2"
 "newstatesman.com","![](https://img.shields.io/badge/status-gold-%23ffd700.svg)","[@JBGruber](https://github.com/JBGruber/)","","https://www.newstatesman.com/feed/"
