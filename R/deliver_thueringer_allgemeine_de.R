@@ -17,6 +17,11 @@ pb_deliver_paper.thueringer_allgemeine_de <- function(x, verbose = NULL, pb, ...
             rvest::html_elements(".article-body p, .article-body h3") %>%
             rvest::html_text2() %>%
             paste(collapse = "\n")
+        if (!nzchar(text)) {
+            text <- html %>%
+                rvest::html_element("[property=\"og:description\"]") %>%
+                rvest::html_attr("content")
+        }
 
         s_n_list(
             datetime,

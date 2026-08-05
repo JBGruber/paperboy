@@ -7,32 +7,39 @@ pb_deliver_paper.joe_ie <- function(x, verbose = NULL, pb, ...) {
   # raw html is stored in column content_raw
   html <- rvest::read_html(x$content_raw)
 
-  data <- html %>%
-    rvest::html_element("[type=\"application/ld+json\"]") %>%
-    rvest::html_text2()
+  ld <- html %>%
+    rvest::html_elements("[type=\"application/ld+json\"]") %>%
+    rvest::html_text2() %>%
+    lapply(jsonlite::fromJSON)
 
-  if (!isTRUE(is.na(data))) {
-    data <- jsonlite::fromJSON(data)
+  graph <- purrr::detect(ld, function(d) {
+    "NewsArticle" %in% purrr::pluck(d, "@graph", "@type", .default = character(0))
+  })$`@graph`
+
+  if (!is.null(graph)) {
+    article <- graph[graph[["@type"]] == "NewsArticle", ][1, ]
+
     # datetime
-    datetime <- data$datePublished %>%
+    datetime <- article$datePublished %>%
       lubridate::as_datetime()
 
     # headline
-    headline <- data$headline
+    headline <- article$headline
 
     # author
-    author <- data$author$name %>%
+    author_id <- article$author$`@id`[1]
+    author <- graph[["name"]][graph[["@id"]] == author_id] %>%
       toString()
 
     # text
     text <- html %>%
-      rvest::html_elements("article p") %>%
-      rvest::html_text2() %>%
+      html_search(c(".custom-prose p", "p"), attributes = "text", all = FALSE, n = Inf) %>%
       paste(collapse = "\n")
 
-    cover_image_url <- utils::head(data$image$url, 1L)
+    image_id <- article$image$`@id`[1]
+    cover_image_url <- utils::head(graph[["url"]][graph[["@id"]] == image_id], 1L)
 
-    type <- data$`@type`
+    type <- article$`@type`
 
     s_n_list(
       datetime,
