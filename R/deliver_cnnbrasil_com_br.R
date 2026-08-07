@@ -12,9 +12,13 @@ pb_deliver_paper.cnnbrasil_com_br <- function(x, verbose = NULL, pb, ...) {
     rvest::html_text()
   if (length(json_txt) == 0) return(s_n_list())
 
+  # If there's a straightforward NewsArticle entry this is our best choice.
+  # Recently, articles have had their metadata embedded a layer deep in a graph
+  # data block instead.
   json_df <- jsonlite::fromJSON(json_txt[[1]])[["@graph"]] |>
     dplyr::filter(`@type` == "NewsArticle")
-  if (is.null(json_df) || nrow(json_df) != 1) return(s_n_list())
+
+  if (is.null(json_df)) return(s_n_list())
 
   datetime <- lubridate::as_datetime(json_df$datePublished)
   author <- toString(json_df$author$name)
