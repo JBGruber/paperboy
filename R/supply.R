@@ -55,8 +55,7 @@ pb_supply <- function(urls,
   # of pb_collect's current behaviour we would be rude to give them something
   # else (and bugs/crashes as a result of time format differences are all too
   # common).
-  if (length(collected_at) != 1 |
-      !("POSIXct" %in% class(collected_at))) {
+  if (length(collected_at) != 1 | !(inherits(collected_at, "POSIXct"))) {
     cli::cli_abort("Only a single POSIXct time is valid for collected_at.",
                    .envir = paperboy.env)
   }
