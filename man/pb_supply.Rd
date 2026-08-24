@@ -7,7 +7,8 @@
 pb_supply(
   data,
   url = "url",
-  content_raw = "content_raw",
+  content_raw = NULL,
+  content_filenames = NULL,
   expanded_url = NULL,
   domain = NULL,
   status = NULL,
@@ -20,8 +21,13 @@ a column of original urls and one of raw HTML data fetched from these URLs.}
 
 \item{url}{The column name containing the original URLs.}
 
-\item{content_raw}{The column name containing the raw HTML fetched from
-these URLs.}
+\item{content_raw}{A column name containing the raw HTML fetched from
+these URLs. Exactly one of \code{content_raw} and \code{content_filenames}
+must be provided.}
+
+\item{content_filenames}{A column name containing filenames for the raw HTML
+data fetched from these URLs. Exactly one of \code{content_raw} and
+\code{content_filenames} must be provided.}
 
 \item{expanded_url}{The column name containing final (normalized and/or
 redirected) URLs. If \code{NULL}, \link[curl]{curl_parse_url} is used to
@@ -46,6 +52,12 @@ This function lets you use \link{pb_deliver} to parse already-collected raw
 HTML by constructing a suitable data.frame. It is broadly equivalent to
 \link{pb_collect}, but collects no data.
 }
+\details{
+If \code{content_raw} is provided, content will be kept in memory, as with
+\code{pb_collect(save_dir = NULL)}. If \code{content_filenames} is provided
+then the output data.frame will contain links to the data files, as with
+\code{pb_collect(save_dir = 'some_directory')}.
+}
 \examples{
 df <- dplyr::tibble(
   url = c('bbc.co.uk/news/articles/cz7dlgejqylo',
@@ -53,7 +65,7 @@ df <- dplyr::tibble(
   html_data = c('<!DOCTYPE html><html lang="en-GB" class="no-js"><he...',
                 '<!DOCTYPE html><html lang="en-GB"><head><meta name=...'),
   expanded_url = c('https://www.bbc.co.uk/news/articles/cz7dlgejqylo',
-                   'https://www.bbc.co.uk/news/articles/c1l1r1zne1ro'),
+                   'https://www.bbc.co.uk/news/articles/c1l1r1zne1ro')
 )
 pb_supply(df,
           content_raw = 'html_data',

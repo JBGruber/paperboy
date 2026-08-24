@@ -4,11 +4,20 @@
 #' HTML by constructing a suitable data.frame. It is broadly equivalent to
 #' \link{pb_collect}, but collects no data.
 #'
+#' If \code{content_raw} is provided, content will be kept in memory, as with
+#' \code{pb_collect(save_dir = NULL)}. If \code{content_filenames} is provided
+#' then the output data.frame will contain links to the data files, as with
+#' \code{pb_collect(save_dir = 'some_directory')}.
+#'
 #' @param data A data.frame with input data. At a minimum this must contain
 #'   a column of original urls and one of raw HTML data fetched from these URLs.
 #' @param url The column name containing the original URLs.
-#' @param content_raw The column name containing the raw HTML fetched from
-#'   these URLs.
+#' @param content_raw A column name containing the raw HTML fetched from
+#'   these URLs. Exactly one of \code{content_raw} and \code{content_filenames}
+#'   must be provided.
+#' @param content_filenames A column name containing filenames for the raw HTML
+#'   data fetched from these URLs. Exactly one of \code{content_raw} and
+#'   \code{content_filenames} must be provided.
 #' @param expanded_url The column name containing final (normalized and/or
 #'   redirected) URLs. If \code{NULL}, \link[curl]{curl_parse_url} is used to
 #'   normalize the URLs in \code{data[[urls]]}.
@@ -16,14 +25,12 @@
 #'   parser by \link{pb_deliver}. If \code{NULL}, the correct domains are
 #'   calculated.
 #' @param status The column name containing HTTP response codes. If \code{NULL},
-#'   assume 200 ("OK") for for all pages.
+#'   200 ("OK") is assumed for for all pages.
 #' @param collected_at The \code{POSIXct} time when the data were collected.
 #'   Note that paperboy records a single time per data.frame, not per URL.
 #'
 #' @return A data.frame (tibble) equivalent to that returned from
 #'   \link{pb_collect}.
-#'
-#' @seealso \link{pb_collect}
 #'
 #' @examples
 #' df <- dplyr::tibble(
@@ -43,12 +50,30 @@
 #' @export
 pb_supply <- function(data,
                       url = "url",
-                      content_raw = "content_raw",
+                      content_raw = NULL,
+                      content_filenames = NULL,
                       expanded_url = NULL,
                       domain = NULL,
                       status = NULL,
                       collected_at = lubridate::now()) {
 
+  if ((is.null(content_raw) & is.null(content_filenames)) |
+      (!is.null(content_raw) & !is.null(content_filenames))) {
+        cli::cli_abort("Exactly one of content_raw and content_filenames must be provided.",
+                       .envir = paperboy.env
+        )
+  }
+  # Note that pb_deliver() doesn't actually use the encoded paperboy_data_loc
+  # attribute, relying on rvest::parse_html() being happy to accept either
+  # filenames or raw HTML in its character vector. Nevertheless, follow the
+  # implicit pb_collect() contract.
+  if (!is.null(content_raw)) {
+    loc <- "memory"
+    content <- content_raw
+  } else {
+    loc <- "disk"
+    content <- content_filenames
+  }
   if (is.null(expanded_url)) {
     expanded_url <- "expanded_url"
     # When curl is used to fetch web pages it does some normalization. We want
@@ -68,7 +93,7 @@ pb_supply <- function(data,
     data[[status]] <- 200L
   }
 
-  if (any(sapply(c(url, content_raw, expanded_url, domain, status, collected_at),
+  if (any(sapply(c(url, content, expanded_url, domain, status, collected_at),
                  length) != 1)) {
     cli::cli_abort("All parameters supplied to pb_supply() must be length 1.",
                   .envir = paperboy.env
@@ -107,12 +132,12 @@ pb_supply <- function(data,
                   expanded_url = expanded_url,
                   domain = domain,
                   status = status,
-                  content_raw = content_raw) %>%
+                  content_raw = content) %>%
     dplyr::select(url, expanded_url, domain, status, content_raw)
 
   class(data$content_raw) <- "html_content"
   attr(data, "paperboy_collected_at") <- collected_at
-  attr(data, "paperboy_data_loc") <- "memory"
+  attr(data, "paperboy_data_loc") <- loc
 
   data
 }
