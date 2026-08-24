@@ -10,6 +10,9 @@
 - **David Schoch**. Contributor.
   [](https://orcid.org/0000-0003-2952-4812)
 
+- **Tom Nicholls**. Contributor.
+  [](https://orcid.org/0000-0002-6971-8614)
+
 ## Citation
 
 Source:
