@@ -5,24 +5,34 @@
 \title{Supply paperboy with existing crawl data}
 \usage{
 pb_supply(
-  urls,
-  contents_raw,
-  expanded_urls = NULL,
-  statuses = rep(200L, length(urls)),
+  data,
+  url = "url",
+  content_raw = "content_raw",
+  expanded_url = NULL,
+  domain = NULL,
+  status = NULL,
   collected_at = lubridate::now()
 )
 }
 \arguments{
-\item{urls}{Character vector with original URLs.}
+\item{data}{A data.frame with input data. At a minimum this must contain
+a column of original urls and one of raw HTML data fetched from these URLs.}
 
-\item{contents_raw}{Character vector with raw HTML fetched from these URLs.}
+\item{url}{The column name containing the original URLs.}
 
-\item{expanded_urls}{Character vector with final (normalized and/or
+\item{content_raw}{The column name containing the raw HTML fetched from
+these URLs.}
+
+\item{expanded_url}{The column name containing final (normalized and/or
 redirected) URLs. If \code{NULL}, \link[curl]{curl_parse_url} is used to
-normalize the URLs in \code{urls}.}
+normalize the URLs in \code{data[[urls]]}.}
 
-\item{statuses}{Integer vector with the HTTP response codes. The default
-assumption is 200 ("OK") for for all pages.}
+\item{domain}{The column name containing the domain to be used to select a
+parser by \link{pb_deliver}. If \code{NULL}, the correct domains are
+calculated.}
+
+\item{status}{The column name containing HTTP response codes. If \code{NULL},
+assume 200 ("OK") for for all pages.}
 
 \item{collected_at}{The \code{POSIXct} time when the data were collected.
 Note that paperboy records a single time per data.frame, not per URL.}
@@ -37,14 +47,18 @@ HTML by constructing a suitable data.frame. It is broadly equivalent to
 \link{pb_collect}, but collects no data.
 }
 \examples{
-pb_supply(
-  urls = c('bbc.co.uk/news/articles/cz7dlgejqylo',
-           'bbc.co.uk/news/articles/c1l1r1zne1ro'),
-  contents_raw = c('<!DOCTYPE html><html lang="en-GB" class="no-js"><he...',
-                   '<!DOCTYPE html><html lang="en-GB"><head><meta name=...'),
-  expanded_urls = c('https://www.bbc.co.uk/news/articles/cz7dlgejqylo',
-                    'https://www.bbc.co.uk/news/articles/c1l1r1zne1ro'),
-  collected_at = lubridate::ymd_hms('2026-08-20 11:14:05')
+df <- dplyr::tibble(
+  url = c('bbc.co.uk/news/articles/cz7dlgejqylo',
+          'bbc.co.uk/news/articles/c1l1r1zne1ro'),
+  html_data = c('<!DOCTYPE html><html lang="en-GB" class="no-js"><he...',
+                '<!DOCTYPE html><html lang="en-GB"><head><meta name=...'),
+  expanded_url = c('https://www.bbc.co.uk/news/articles/cz7dlgejqylo',
+                   'https://www.bbc.co.uk/news/articles/c1l1r1zne1ro'),
+)
+pb_supply(df,
+          content_raw = 'html_data',
+          expanded_url = 'expanded_url',
+          collected_at = lubridate::ymd_hms('2026-08-20 11:14:05')
 )
 
 }
