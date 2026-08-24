@@ -17,7 +17,12 @@ Authors@R:
              family = "Schoch",
              email = "david@schochastics.net",
              role = "ctb",
-             comment = c(ORCID = "0000-0003-2952-4812")))
+             comment = c(ORCID = "0000-0003-2952-4812")),
+      person(given = "Tom",
+             family = "Nicholls",
+             email = "T.E.Nicholls@liverpool.ac.uk",
+             role = "ctb",
+             comment = c(ORCID = "0000-0002-6971-8614")))
 Description: A comprehensive collection of webscraping scripts for news media sites.
 Depends:
     R (>= 3.5.0)
