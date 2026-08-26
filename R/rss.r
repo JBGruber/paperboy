@@ -47,7 +47,11 @@ parse_rss <- function(xml) {
     xml2::xml_find_all("//*[name()='item']") %>%
     xml2::as_list() %>%
     purrr::map(function(i) {
-      out <- lapply(i, function(e) paste(unlist(e), collapse = " "))
+      out <- lapply(i, function(e) {
+        unlist(e) %>%
+          stringr::str_trim(side="both") %>%
+          paste(collapse = " ")}
+      )
       out <- out[!duplicated(names(i))]
       out <- replace_names(out, lookup)
       return(out)
