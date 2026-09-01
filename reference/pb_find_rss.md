@@ -44,13 +44,13 @@ Approach inspired by <https://github.com/mediacloud/feed_seeker>
 ``` r
 pb_find_rss("https://www.buzzfeed.com/")
 #> ℹ Looking through links on the main page
-#> ✔ Looking through links on the main page [254ms]
+#> ✔ Looking through links on the main page [297ms]
 #> 
 #> ℹ Looking through common paths on the site
-#> ✔ Looking through common paths on the site [927ms]
+#> ✔ Looking through common paths on the site [751ms]
 #> 
 #> ℹ Querying feedly API
-#> ✔ Querying feedly API [259ms]
+#> ✔ Querying feedly API [269ms]
 #> 
 #> ℹ Discovered 7 URLsCheck manually to see which ones fit
 #> # A tibble: 7 × 2
@@ -62,5 +62,5 @@ pb_find_rss("https://www.buzzfeed.com/")
 #> 4 feedly API       https://www.buzzfeed.com/badge/lol
 #> 5 feedly API       https://www.buzzfeed.com/food     
 #> 6 feedly API       https://www.buzzfeed.com/badge/wtf
-#> 7 feedly API       https://www.buzzfeed.com/badge/omg
+#> 7 feedly API       https://www.buzzfeed.com/celebrity
 ```
