@@ -38,7 +38,7 @@ parser by \link{pb_deliver}. If \code{NULL}, the correct domains are
 calculated.}
 
 \item{status}{The column name containing HTTP response codes. If \code{NULL},
-assume 200 ("OK") for for all pages.}
+200 ("OK") is assumed for for all pages.}
 
 \item{collected_at}{The \code{POSIXct} time when the data were collected.
 Note that paperboy records a single time per data.frame, not per URL.}
@@ -73,7 +73,4 @@ pb_supply(df,
           collected_at = lubridate::ymd_hms('2026-08-20 11:14:05')
 )
 
-}
-\seealso{
-\link{pb_collect}
 }

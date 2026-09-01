@@ -74,6 +74,13 @@ pb_supply <- function(data,
     loc <- "disk"
     content <- content_filenames
   }
+  if (is.null(data[[content]])) {
+    cli::cli_abort("content_raw or content_filenames is not a valid column.",
+                   .envir = paperboy.env
+    )
+  }
+
+
   if (is.null(expanded_url)) {
     expanded_url <- "expanded_url"
     # When curl is used to fetch web pages it does some normalization. We want
@@ -81,16 +88,30 @@ pb_supply <- function(data,
     # cannot follow through redirects etc. as we would be able to when actually
     # fetching. If the user would prefer to use actually-final URLs then they
     # can supply their own column.
-    norm_url <- function(u) curl::curl_parse_url(u, default_scheme=TRUE)[[url]]
+    norm_url <- function(u) curl::curl_parse_url(u, default_scheme=TRUE)[["url"]]
     data[[expanded_url]] <- sapply(data[[url]], norm_url)
+  } else if (is.null(data[[expanded_url]])) {
+    cli::cli_abort("expanded_url is not a valid column.",
+                   .envir = paperboy.env
+    )
   }
+
   if (is.null(domain)) {
     domain <- "domain"
     data[[domain]] <- adaR::ada_get_domain(data[[expanded_url]])
+  } else if (is.null(data[[domain]])) {
+    cli::cli_abort("domain is not a valid column.",
+                   .envir = paperboy.env
+    )
   }
+
   if (is.null(status)) {
     status <- "status"
     data[[status]] <- 200L
+  } else if (is.null(data[[status]])) {
+    cli::cli_abort("status is not a valid column.",
+                   .envir = paperboy.env
+    )
   }
 
   if (any(sapply(c(url, content, expanded_url, domain, status, collected_at),
