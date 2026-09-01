@@ -56,3 +56,7 @@ A data.frame (tibble) with url status data and raw media text.
 \description{
 Collect data from supplied URLs
 }
+\seealso{
+\link{pb_supply} to construct a similar data.frame from
+  previously-downloaded content.
+}
