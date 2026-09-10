@@ -70,7 +70,7 @@ parse_atom <- function(xml) {
     xml2::xml_find_all("//*[name()='entry']") %>%
     xml2::as_list() %>%
     purrr::map(function(i) {
-      link <- attr(i[["link"]], "href")
+      link <- stringr::str_trim(attr(i[["link"]], "href"), side = "both")
       out <- lapply(i, unlist)
       # input contains multiple "link" items, delete them
       out[["link"]] <- NULL

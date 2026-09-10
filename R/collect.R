@@ -124,7 +124,13 @@ pb_collect <- function(urls,
         if (verbose) cli::cli_progress_step("Parsing RSS feeds")
         cont <- cont[rss]
         class(cont) <- "html_content"
-        rss_links <- pb_collect_rss(cont)$link
+        rss_parsed <- pb_collect_rss(cont)
+        # RSS feeds store the article link in `link`, atom feeds in `url`
+        rss_links <- dplyr::coalesce(
+          rss_parsed[["link"]] %||% NA_character_,
+          rss_parsed[["url"]] %||% NA_character_
+        )
+        rss_links <- rss_links[!is.na(rss_links)]
         rss_out <- pb_collect(
           rss_links,
           collect_rss = FALSE,
