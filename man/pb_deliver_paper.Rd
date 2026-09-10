@@ -8,7 +8,7 @@ pb_deliver_paper(x, verbose, pb, ...)
 }
 \arguments{
 \item{x}{Either a vector of URLs or a data.frame returned by
-\link{pb_collect}.}
+\link{pb_collect} or \link{pb_supply}.}
 
 \item{verbose}{\code{FALSE} turns deliver silent. \code{TRUE} prints status
 messages and a progress bar on the screen. \code{2L} turns on debug mode.

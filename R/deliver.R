@@ -4,7 +4,7 @@
 #'   and call the appropriate webscraper.
 #'
 #' @param x Either a vector of URLs or a data.frame returned by
-#'   \link{pb_collect}.
+#'   \link{pb_collect} or \link{pb_supply}.
 #' @param try_default if no parser is available, should a generic parser be used
 #'   \code{TRUE} or should the URL be skipped \code{FALSE}?
 #' @param ignore_fails normally the function errors raw content for a URL can't

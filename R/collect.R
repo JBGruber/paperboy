@@ -22,6 +22,9 @@
 #' @param ... Currently not used
 #'
 #' @return A data.frame (tibble) with url status data and raw media text.
+#'
+#' @seealso \link{pb_supply} to construct a similar data.frame from
+#'   previously-downloaded content.
 #' @export
 pb_collect <- function(urls,
                        collect_rss = TRUE,
