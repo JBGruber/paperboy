@@ -17,7 +17,17 @@ pb_deliver_paper.ruhrnachrichten_de <- function(x, verbose = NULL, pb, ...) {
         }
         json_df <- json_df[grepl("NewsArticle|Article", json_df$`@type`), ]
         datetime <- lubridate::as_datetime(json_df$datePublished)
+        # headline
         headline <- json_df$headline
+        headline <- headline[!is.na(headline) & nzchar(headline)]
+        if (length(headline) == 0L) {
+            headline <- html_search(
+                html,
+                c("h1", "[property=\"og:title\"]"),
+                c("text", "content"),
+                all = FALSE
+            )
+        }
         text <- html %>%
             rvest::html_elements("p.article__teaser-text,.article__content p, .article__content h2") %>%
             rvest::html_text2() %>%
