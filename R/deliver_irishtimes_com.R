@@ -45,7 +45,7 @@ pb_deliver_paper.irishtimes_com <- function(x, verbose = NULL, pb, ...) {
     headline <- data$headline[1]
 
     # author
-    author <- data$author[1]$name %>%
+    author <- data$author[[1]]$name %>%
       toString()
 
     # text

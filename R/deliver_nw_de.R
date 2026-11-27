@@ -14,7 +14,9 @@ pb_deliver_paper.nw_de <- function(x, verbose = NULL, pb, ...) {
         headline <- json_df$headline
         author <- xml2::xml_text(xml2::read_html(
           paste0("<x>", toString(json_df$author$name), "</x>")))
-        text <- json_df$articleBody
+        text <- json_df$articleBody %>%
+          gsub("\\\\n", "\n", .) %>%
+          gsub("\\\\/", "/", .)
         
         # date and time URL was accessed
         accessed <- Sys.time()
