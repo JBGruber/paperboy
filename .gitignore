@@ -14,3 +14,4 @@ test_data.rds
 /Meta/
 docs
 .positai
+claude-if-quota.sh
