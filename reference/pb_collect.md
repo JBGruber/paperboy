@@ -77,3 +77,8 @@ pb_collect(
 ## Value
 
 A data.frame (tibble) with url status data and raw media text.
+
+## See also
+
+[pb_supply](https://jbgruber.github.io/paperboy/reference/pb_supply.md)
+to construct a similar data.frame from previously-downloaded content.

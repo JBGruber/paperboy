@@ -13,7 +13,9 @@ pb_deliver_paper(x, verbose, pb, ...)
 - x:
 
   Either a vector of URLs or a data.frame returned by
-  [pb_collect](https://jbgruber.github.io/paperboy/reference/pb_collect.md).
+  [pb_collect](https://jbgruber.github.io/paperboy/reference/pb_collect.md)
+  or
+  [pb_supply](https://jbgruber.github.io/paperboy/reference/pb_supply.md).
 
 - verbose:
 

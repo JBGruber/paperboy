@@ -315,6 +315,8 @@ column was included so these can be retained.
   : Inspect content collected with pb_collect
 - [`pb_read_cookies()`](https://jbgruber.github.io/paperboy/reference/pb_read_cookies.md)
   : Read in cookie file
+- [`pb_supply()`](https://jbgruber.github.io/paperboy/reference/pb_supply.md)
+  : Supply paperboy with existing crawl data
 - [`test_parser()`](https://jbgruber.github.io/paperboy/reference/test_parser.md)
   : Test a Parser
 - [`use_new_parser()`](https://jbgruber.github.io/paperboy/reference/use_new_parser.md)
