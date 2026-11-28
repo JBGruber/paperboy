@@ -39,7 +39,7 @@ df
 
 | url | expanded_url | domain | status | datetime | author | headline | text | misc |
 |:---|:---|:---|---:|:---|:---|:---|:---|:---|
-| <https://tinyurl.com/386e98k5> | <https://www.theguardian.com/tv-and-radio/2021/jul/12/should-marge-divorce-homer> | theguardian.com | 200 | 2021-07-12 12:00:13 | <https://www.theguardian.com/profile/stuart-heritage> | ’A woman trapped in an… | In the Guide’s weekly Solved!… | news , <https://i.guim.co.uk/img/media/aa01cd463d4217fff7e6d7c00cd744fa3665b520/226_128_3198_1919/master/3198.jpg?width=465&dpr=1&s=none&crop=none> , ![Homer Simpson](https://i.guim.co.uk/img/media/aa01cd463d4217fff7e6d7c00cd744fa3665b520/226_128_3198_1919/master/3198.jpg?width=465&dpr=1&s=none&crop=none) |
+| <https://tinyurl.com/386e98k5> | <https://www.theguardian.com/tv-and-radio/2021/jul/12/should-marge-divorce-homer> | theguardian.com | 200 | 2021-07-12 12:00:13 | Stuart Heritage | ‘A woman trapped in an… | In the Guide’s weekly Solved!… | news , <https://i.guim.co.uk/img/media/aa01cd463d4217fff7e6d7c00cd744fa3665b520/226_128_3198_1919/master/3198.jpg?width=465&dpr=1&s=none&crop=none> , ![Homer Simpson](https://i.guim.co.uk/img/media/aa01cd463d4217fff7e6d7c00cd744fa3665b520/226_128_3198_1919/master/3198.jpg?width=465&dpr=1&s=none&crop=none), 1795854388.19315 |
 
 The returned `data.frame` contains important meta information about the
 news items and their full text. Notice, that the function had no problem
@@ -55,7 +55,7 @@ pb_deliver("google.com")
 
 | url | expanded_url | domain | status | datetime | author | headline | text | misc |
 |:---|:---|:---|---:|:---|:---|:---|:---|:---|
-| google.com | <http://www.google.com/> | google.com | 200 | NA | NA | Google | © 2024 - Datenschutzerklrung - Nutzungsbedingungen | NULL |
+| google.com | <http://www.google.com/> | google.com | 200 | NA | NA | Google | © 2026 - Datenschutzerklrung - Nutzungsbedingungen | NULL |
 
 The function still returns a data.frame, but important information is
 missing — in this case because it isn’t there. The other URLs will be
@@ -105,13 +105,29 @@ column was included so these can be retained.
 
 ## Available Scrapers
 
+If you want to know if an outlet is supported, you can use
+`pb_available`. For example:
+
+``` r
+
+pb_available(
+  "https://edition.cnn.com/",
+  "https://www.nytimes.com/",
+  "https://www.google.com/"
+)
+```
+
+Here is the full list of available scrapers:
+
 | domain | status | author | issues |
 |:---|:---|:---|:---|
 | 3sat.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | abendblatt.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
-| abendzeitung-muenchen.de.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
+| abendzeitung-muenchen.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
+| abs-cbn.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | LLM agent |  |
 | ac24.cz | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | ad.nl | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
+| aftenposten.no | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | aktualne.cz | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | anotherangryvoice.blogspot.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | augsburger-allgemeine.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
@@ -119,31 +135,37 @@ column was included so these can be retained.
 | bbc.co.uk | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | berliner-kurier.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | berliner-zeitung.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
+| bernama.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | LLM agent |  |
 | bild.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | blesk.cz | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | bnn.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
-| boston.com | ![](https://img.shields.io/badge/status-requested-lightgrey) | [@JBGruber](https://github.com/JBGruber/) | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
-| bostonglobe.com | ![](https://img.shields.io/badge/status-requested-lightgrey) | [@JBGruber](https://github.com/JBGruber/) | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
+| boston.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
+| bostonglobe.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 | br.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | breakingnews.ie | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | breitbart.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
+| brisbanetimes.com.au | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | LLM agent |  |
 | businessinsider.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | buzzfeed.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
+| capetownetc.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | LLM agent |  |
 | cbsnews.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | ceskatelevize.cz | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | cnet.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | cnn.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
+| cnnbrasil.com.br | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@pmyteh](https://github.com/pmyteh/) |  |
 | courier-journal.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | dailymail.co.uk | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
-| decider.com | ![](https://img.shields.io/badge/status-requested-lightgrey) |  | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
+| decider.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | LLM agent |  |
 | democratandchronicle.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | denikn.cz | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
+| denverpost.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | der-postillon.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | derstandard.at | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | derwesten.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | deutschlandfunk.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | deutschlandfunkkultur.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | dnn.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
+| dw.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | LLM agent |  |
 | echo24.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | epochtimes.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | eu.usatoday.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
@@ -154,7 +176,7 @@ column was included so these can be retained.
 | fnp.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | focus.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | forbes.com | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | [@JBGruber](https://github.com/JBGruber/) | [\#2](https://github.com/JBGruber/paperboy/issues/2) |
-| fortune.com | ![](https://img.shields.io/badge/status-requested-lightgrey) |  | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
+| fortune.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) |  | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 | foxbusiness.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | foxnews.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | fr.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
@@ -188,6 +210,8 @@ column was included so these can be retained.
 | latimes.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | lidovky.cz | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | lvz.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
+| malaymail.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | LLM agent |  |
+| malaysiakini.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | LLM agent |  |
 | manager-magazin.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | marketwatch.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | maz-online.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
@@ -200,7 +224,7 @@ column was included so these can be retained.
 | msnbc.com | ![](https://img.shields.io/badge/status-requested-lightgrey) |  | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 | n-tv.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | ndr.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
-| news-und-nachrichten.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
+| news-und-nachrichten.de | ![](https://img.shields.io/badge/status-shutdown-red.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | news.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | newsflash24.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | newstatesman.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
@@ -215,6 +239,7 @@ column was included so these can be retained.
 | nypost.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | nytimes.com | ![](https://img.shields.io/badge/status-silver-%23C0C0C0.svg) | [@JBGruber](https://github.com/JBGruber/) | [\#17](https://github.com/JBGruber/paperboy/issues/17) |
 | nzz.ch | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
+| op-online.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | LLM agent |  |
 | orf.at | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | ostsee-zeitung.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | pagesix.com | ![](https://img.shields.io/badge/status-requested-lightgrey) |  | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
@@ -222,6 +247,7 @@ column was included so these can be retained.
 | presseportal.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | prosieben.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | rbb24.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
+| relevanzreporter.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | LLM agent |  |
 | rnd.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | rollingstone.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | rp-online.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
@@ -251,6 +277,7 @@ column was included so these can be retained.
 | t-online.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | t3n.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | tag24.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
+| tagesanzeiger.ch | ![](https://img.shields.io/badge/status-requested-lightgrey) | [@sina-chen](https://github.com/sina-chen) | [\#41](https://github.com/JBGruber/paperboy/issues/41) |
 | tagesschau.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | tagesspiegel.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | taz.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
@@ -262,10 +289,9 @@ column was included so these can be retained.
 | theguardian.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | thejournal.ie | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | thelily.com | ![](https://img.shields.io/badge/status-requested-lightgrey) |  | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
-| thestreet.com | ![](https://img.shields.io/badge/status-requested-lightgrey) | [@JBGruber](https://github.com/JBGruber/) |  |
 | thesun.ie | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |
 | thueringer-allgemeine.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
-| time.com | ![](https://img.shields.io/badge/status-requested-lightgrey) |  | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
+| time.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) |  | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 | tribpub.com | ![](https://img.shields.io/badge/status-requested-lightgrey) |  | [\#1](https://github.com/JBGruber/paperboy/issues/1) |
 | tz.de | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@schochastics](https://github.com/schochastics) | [\#23](https://github.com/JBGruber/paperboy/issues/23) |
 | us.cnn.com | ![](https://img.shields.io/badge/status-gold-%23ffd700.svg) | [@JBGruber](https://github.com/JBGruber/) |  |

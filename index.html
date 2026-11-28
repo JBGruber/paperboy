@@ -105,11 +105,10 @@
 <td align="left">theguardian.com</td>
 <td align="right">200</td>
 <td align="left">2021-07-12 12:00:13</td>
-<td align="left"><a href="https://www.theguardian.com/profile/stuart-heritage" class="external-link uri">https://www.theguardian.com/profile/stuart-heritage</a></td>
-<td align="left">’A woman trapped in an…</td>
+<td align="left">Stuart Heritage</td>
+<td align="left">‘A woman trapped in an…</td>
 <td align="left">In the Guide’s weekly Solved!…</td>
-<td align="left">news , <a href="https://i.guim.co.uk/img/media/aa01cd463d4217fff7e6d7c00cd744fa3665b520/226_128_3198_1919/master/3198.jpg?width=465&amp;dpr=1&amp;s=none&amp;crop=none" class="external-link uri">https://i.guim.co.uk/img/media/aa01cd463d4217fff7e6d7c00cd744fa3665b520/226_128_3198_1919/master/3198.jpg?width=465&amp;dpr=1&amp;s=none&amp;crop=none</a> , <img alt="Homer Simpson" src="https://i.guim.co.uk/img/media/aa01cd463d4217fff7e6d7c00cd744fa3665b520/226_128_3198_1919/master/3198.jpg?width=465&amp;dpr=1&amp;s=none&amp;crop=none" width="465" height="279.0290806754221" loading="eager" class="dcr-evn1e9">
-</td>
+<td align="left">news , <a href="https://i.guim.co.uk/img/media/aa01cd463d4217fff7e6d7c00cd744fa3665b520/226_128_3198_1919/master/3198.jpg?width=465&amp;dpr=1&amp;s=none&amp;crop=none" class="external-link uri">https://i.guim.co.uk/img/media/aa01cd463d4217fff7e6d7c00cd744fa3665b520/226_128_3198_1919/master/3198.jpg?width=465&amp;dpr=1&amp;s=none&amp;crop=none</a> , <img alt="Homer Simpson" src="https://i.guim.co.uk/img/media/aa01cd463d4217fff7e6d7c00cd744fa3665b520/226_128_3198_1919/master/3198.jpg?width=465&amp;dpr=1&amp;s=none&amp;crop=none" width="465" height="279.0290806754221" loading="eager" class="dcr-up96pv">, 1795854388.19315</td>
 </tr></tbody>
 </table>
 <p>The returned <code>data.frame</code> contains important meta information about the news items and their full text. Notice, that the function had no problem reading the link, even though it was shortened. <strong><em><code>paperboy</code> is an unfinished and highly experimental package at the moment.</em></strong> You will therefore often encounter this warning:</p>
@@ -147,7 +146,7 @@
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">Google</td>
-<td align="left">© 2024 - Datenschutzerklrung - Nutzungsbedingungen</td>
+<td align="left">© 2026 - Datenschutzerklrung - Nutzungsbedingungen</td>
 <td align="left">NULL</td>
 </tr></tbody>
 </table>
@@ -238,6 +237,14 @@
 <div class="section level2">
 <h2 id="available-scrapers">Available Scrapers<a class="anchor" aria-label="anchor" href="#available-scrapers"></a>
 </h2>
+<p>If you want to know if an outlet is supported, you can use <code>pb_available</code>. For example:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/pb_available.html">pb_available</a></span><span class="op">(</span></span>
+<span>  <span class="st">"https://edition.cnn.com/"</span>,</span>
+<span>  <span class="st">"https://www.nytimes.com/"</span>,</span>
+<span>  <span class="st">"https://www.google.com/"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Here is the full list of available scrapers:</p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -265,10 +272,16 @@
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/23" class="external-link">#23</a></td>
 </tr>
 <tr>
-<td align="left">abendzeitung-muenchen.de.de</td>
+<td align="left">abendzeitung-muenchen.de</td>
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/schochastics" class="external-link">@schochastics</a></td>
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/23" class="external-link">#23</a></td>
+</tr>
+<tr>
+<td align="left">abs-cbn.com</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left">LLM agent</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left">ac24.cz</td>
@@ -278,6 +291,12 @@
 </tr>
 <tr>
 <td align="left">ad.nl</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left"><a href="https://github.com/JBGruber/" class="external-link">@JBGruber</a></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">aftenposten.no</td>
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/JBGruber/" class="external-link">@JBGruber</a></td>
 <td align="left"></td>
@@ -325,6 +344,12 @@
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/23" class="external-link">#23</a></td>
 </tr>
 <tr>
+<td align="left">bernama.com</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left">LLM agent</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="left">bild.de</td>
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/schochastics" class="external-link">@schochastics</a></td>
@@ -344,13 +369,13 @@
 </tr>
 <tr>
 <td align="left">boston.com</td>
-<td align="left"><img src="https://img.shields.io/badge/status-requested-lightgrey"></td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/JBGruber/" class="external-link">@JBGruber</a></td>
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/1" class="external-link">#1</a></td>
 </tr>
 <tr>
 <td align="left">bostonglobe.com</td>
-<td align="left"><img src="https://img.shields.io/badge/status-requested-lightgrey"></td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/JBGruber/" class="external-link">@JBGruber</a></td>
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/1" class="external-link">#1</a></td>
 </tr>
@@ -373,6 +398,12 @@
 <td align="left"></td>
 </tr>
 <tr>
+<td align="left">brisbanetimes.com.au</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left">LLM agent</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="left">businessinsider.de</td>
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/schochastics" class="external-link">@schochastics</a></td>
@@ -382,6 +413,12 @@
 <td align="left">buzzfeed.com</td>
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/JBGruber/" class="external-link">@JBGruber</a></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">capetownetc.com</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left">LLM agent</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -409,6 +446,12 @@
 <td align="left"></td>
 </tr>
 <tr>
+<td align="left">cnnbrasil.com.br</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left"><a href="https://github.com/pmyteh/" class="external-link">@pmyteh</a></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="left">courier-journal.com</td>
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/JBGruber/" class="external-link">@JBGruber</a></td>
@@ -422,9 +465,9 @@
 </tr>
 <tr>
 <td align="left">decider.com</td>
-<td align="left"><img src="https://img.shields.io/badge/status-requested-lightgrey"></td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left">LLM agent</td>
 <td align="left"></td>
-<td align="left"><a href="https://github.com/JBGruber/paperboy/issues/1" class="external-link">#1</a></td>
 </tr>
 <tr>
 <td align="left">democratandchronicle.com</td>
@@ -434,6 +477,12 @@
 </tr>
 <tr>
 <td align="left">denikn.cz</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left"><a href="https://github.com/JBGruber/" class="external-link">@JBGruber</a></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">denverpost.com</td>
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/JBGruber/" class="external-link">@JBGruber</a></td>
 <td align="left"></td>
@@ -473,6 +522,12 @@
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/schochastics" class="external-link">@schochastics</a></td>
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/23" class="external-link">#23</a></td>
+</tr>
+<tr>
+<td align="left">dw.com</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left">LLM agent</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left">echo24.de</td>
@@ -536,7 +591,7 @@
 </tr>
 <tr>
 <td align="left">fortune.com</td>
-<td align="left"><img src="https://img.shields.io/badge/status-requested-lightgrey"></td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"></td>
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/1" class="external-link">#1</a></td>
 </tr>
@@ -739,6 +794,18 @@
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/23" class="external-link">#23</a></td>
 </tr>
 <tr>
+<td align="left">malaymail.com</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left">LLM agent</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">malaysiakini.com</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left">LLM agent</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="left">manager-magazin.de</td>
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/schochastics" class="external-link">@schochastics</a></td>
@@ -812,7 +879,7 @@
 </tr>
 <tr>
 <td align="left">news-und-nachrichten.de</td>
-<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left"><img src="https://img.shields.io/badge/status-shutdown-red.svg"></td>
 <td align="left"><a href="https://github.com/schochastics" class="external-link">@schochastics</a></td>
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/23" class="external-link">#23</a></td>
 </tr>
@@ -901,6 +968,12 @@
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/23" class="external-link">#23</a></td>
 </tr>
 <tr>
+<td align="left">op-online.de</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left">LLM agent</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="left">orf.at</td>
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/schochastics" class="external-link">@schochastics</a></td>
@@ -941,6 +1014,12 @@
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/schochastics" class="external-link">@schochastics</a></td>
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/23" class="external-link">#23</a></td>
+</tr>
+<tr>
+<td align="left">relevanzreporter.de</td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
+<td align="left">LLM agent</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left">rnd.de</td>
@@ -1117,6 +1196,12 @@
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/23" class="external-link">#23</a></td>
 </tr>
 <tr>
+<td align="left">tagesanzeiger.ch</td>
+<td align="left"><img src="https://img.shields.io/badge/status-requested-lightgrey"></td>
+<td align="left"><a href="https://github.com/sina-chen" class="external-link">@sina-chen</a></td>
+<td align="left"><a href="https://github.com/JBGruber/paperboy/issues/41" class="external-link">#41</a></td>
+</tr>
+<tr>
 <td align="left">tagesschau.de</td>
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/schochastics" class="external-link">@schochastics</a></td>
@@ -1183,12 +1268,6 @@
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/1" class="external-link">#1</a></td>
 </tr>
 <tr>
-<td align="left">thestreet.com</td>
-<td align="left"><img src="https://img.shields.io/badge/status-requested-lightgrey"></td>
-<td align="left"><a href="https://github.com/JBGruber/" class="external-link">@JBGruber</a></td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="left">thesun.ie</td>
 <td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"><a href="https://github.com/JBGruber/" class="external-link">@JBGruber</a></td>
@@ -1202,7 +1281,7 @@
 </tr>
 <tr>
 <td align="left">time.com</td>
-<td align="left"><img src="https://img.shields.io/badge/status-requested-lightgrey"></td>
+<td align="left"><img src="https://img.shields.io/badge/status-gold-%23ffd700.svg"></td>
 <td align="left"></td>
 <td align="left"><a href="https://github.com/JBGruber/paperboy/issues/1" class="external-link">#1</a></td>
 </tr>
@@ -1380,8 +1459,8 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://github.com/JBGruber/paperboy/actions" class="external-link"><img src="https://github.com/JBGruber/paperboy/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/JBGruber/paperboy?branch=main" class="external-link"><img src="https://codecov.io/gh/JBGruber/paperboy/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/JBGruber/paperboy/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/JBGruber/paperboy/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/JBGruber/paperboy" class="external-link"><img src="https://codecov.io/gh/JBGruber/paperboy/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
