@@ -225,6 +225,7 @@ and the uncommitted parser file in place for the user to inspect (tell them so).
 Run via `run_r`:
 
 ```r
+devtools::document()
 status <- read.csv("inst/status.csv", stringsAsFactors = FALSE)
 domain <- "{domain}"
 rss    <- "{rss_url}"
