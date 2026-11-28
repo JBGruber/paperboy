@@ -10,28 +10,29 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 
-knitr::knit_hooks$set(document = function(x, options) 
-  gsub("[\\#", "[#", x, fixed = TRUE))
+knitr::knit_hooks$set(document = function(x, options) {
+  gsub("[\\#", "[#", x, fixed = TRUE)
+})
 
 options(paperboy_verbose = FALSE)
 
 trim <- function(x, n, e = "...") {
-  ifelse(nchar(x) > n,
-         paste0(gsub("\\s+$", "", 
-                     gsub("\\w+$", "", 
-                          strtrim(x, width = n)
-                     )),
-                e),
-         x)
+  ifelse(
+    nchar(x) > n,
+    paste0(gsub("\\s+$", "", gsub("\\w+$", "", strtrim(x, width = n))), e),
+    x
+  )
 }
 
-knit_print.tbl_df = function(x, ...) {
-  res = paste(c("", "", knitr::kable(x)), collapse = "\n")
+knit_print.tbl_df <- function(x, ...) {
+  res <- paste(c("", "", knitr::kable(x)), collapse = "\n")
   knitr::asis_output(res)
 }
 
 registerS3method(
-  "knit_print", "tbl_df", knit_print.tbl_df,
+  "knit_print",
+  "tbl_df",
+  knit_print.tbl_df,
   envir = asNamespace("knitr")
 )
 ```
@@ -40,8 +41,8 @@ registerS3method(
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![R-CMD-check](https://github.com/JBGruber/paperboy/workflows/R-CMD-check/badge.svg)](https://github.com/JBGruber/paperboy/actions)
-[![Codecov test coverage](https://codecov.io/gh/JBGruber/paperboy/branch/main/graph/badge.svg)](https://codecov.io/gh/JBGruber/paperboy?branch=main)
+[![R-CMD-check](https://github.com/JBGruber/paperboy/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JBGruber/paperboy/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/JBGruber/paperboy/graph/badge.svg)](https://app.codecov.io/gh/JBGruber/paperboy)
 <!-- badges: end -->
 
 The philosophy of `paperboy` is that the package is a comprehensive collection of webscraping scripts for news media sites.
@@ -75,7 +76,7 @@ df
 library(paperboy)
 library(dplyr)
 df <- pb_deliver("https://tinyurl.com/386e98k5")
-df %>% 
+df %>%
   mutate(across(headline:text, ~ trim(.x, 30)))
 ```
 
@@ -100,9 +101,11 @@ pb_collect("google.com")
 
 ```{r examplecollectback, echo=FALSE, message=FALSE}
 df <- pb_collect("google.com")
-df %>% 
-  mutate(across(expanded_url:status, ~ trim(.x, 30)),
-         content_raw = paste0(strtrim(content_raw, width = 30), "..."))
+df %>%
+  mutate(
+    across(expanded_url:status, ~ trim(.x, 30)),
+    content_raw = paste0(strtrim(content_raw, width = 30), "...")
+  )
 ```
 
 `pb_collect` uses concurrent requests to download many pages at the same time, making the function very quick to collect large amounts of data.
@@ -119,9 +122,9 @@ Every webscraper should retrieve a `tibble` with the following format:
 
 ```{r format, echo=FALSE}
 tibble::tribble(
-  ~url, ~expanded_url, ~domain, ~status, ~datetime, ~headline, ~author, ~text, ~misc,
-  "character", "character", "character", "integer", "as.POSIXct", "character", "character", "character", "list",
-  "the original url fed to the scraper", "the full url", "the domain", "http status code", "publication datetime", "the headline", "the author", "the full text", "all other information that can be consistently found on a specific outlet"
+  ~url                                  , ~expanded_url  , ~domain      , ~status            , ~datetime              , ~headline      , ~author      , ~text           , ~misc                                                                       ,
+  "character"                           , "character"    , "character"  , "integer"          , "as.POSIXct"           , "character"    , "character"  , "character"     , "list"                                                                      ,
+  "the original url fed to the scraper" , "the full url" , "the domain" , "http status code" , "publication datetime" , "the headline" , "the author" , "the full text" , "all other information that can be consistently found on a specific outlet"
 )
 ```
 
@@ -133,17 +136,19 @@ If you want to know if an outlet is supported, you can use `pb_available`.
 For example:
 
 ```{r exampleavailable, eval=FALSE}
-pb_available("https://edition.cnn.com/",
-             "https://www.nytimes.com/",
-             "https://www.google.com/")
+pb_available(
+  "https://edition.cnn.com/",
+  "https://www.nytimes.com/",
+  "https://www.google.com/"
+)
 ```
 
 Here is the full list of available scrapers:
 
 ```{r available, echo=FALSE}
-read.csv("./inst/status.csv") %>% 
+read.csv("./inst/status.csv") %>%
   arrange(domain) %>%
-  select(-rss) %>% 
+  select(-rss) %>%
   knitr::kable(escape = FALSE)
 ```
 
